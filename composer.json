@@ -1,0 +1,9 @@
+{
+    "require": {
+        "cboden/ratchet": "^0.4.4",
+        "react/socket": "^1.14",
+        "ratchet/rfc6455": "^0.3.1",
+        "guzzlehttp/psr7": "^2.6",
+         "phpoffice/phpspreadsheet": "^1.29"
+    }
+}
