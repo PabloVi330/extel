@@ -76,36 +76,62 @@
                     <div class="mail-list mt-4">
                         <form action="" class="form-control" id="formVentas">
 
-
                             <div class="mb-3">
                                 <label for="fecha_V" class="form-label">Fecha</label>
                                 <input type="date" class="form-control" id="fecha_V" name="fecha_V">
                             </div>
 
-                            <div class="mb-3">
-                                <div class="mb-3">
-                                    <label for="fk_id_usuario" class="form-label font-size-13 text-muted">Seleccionar
-                                        Cliente</label>
-                                    <select class="form-control" name="fk_id_cliente" id="fk_id_cliente" requerid>
-                                        <option value="">Seleccionar Cliente</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <label for="fk_id_usuario" class="form-label font-size-13 text-muted">Seleccionar
+                                Cliente</label>
+                            <select class="form-cont" name="fk_id_cliente" id="fk_id_cliente" requerid>
+                                <option value="">Seleccionar Cliente</option>
+                            </select>
 
                             <input type="hidden" id="clasificacionCliente" name="clasificacionCliente" value="">
+                            <!-- TIPOS DE VENTAS -->
+                            <div class="col-lg-12 col-md-12">
+                                <h5 class="font-size-14 mb-3"><i class="mdi mdi-arrow-right text-danger me-2"></i>Tipo venta</h5>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="tipo_V" id="venta" value="venta" checked>
+                                    <label class="form-check-label" for="formRadios1">
+                                        Venta:
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="tipo_V" id="pedido" value="pedido">
+                                    <label class="form-check-label" for="formRadios1">
+                                        Pedido:
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="tipo_V" id="cancelado" value="proforma">
+                                    <label class="form-check-label" for="formRadios2">
+                                        Proforma:
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- ESTADOS DE VENTA  -->
+                            <div class="col-lg-12 col-md-12">
+                                <h5 class="font-size-14 mb-3"><i class="mdi mdi-arrow-right text-success me-1"></i>Estado</h5>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="estado_V" id="cancelado" value="cancelado" checked>
+                                    <label class="form-check-label" for="formRadios1">
+                                        Cancelado:
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="estado_V" id="por_pagar" value="por pagar">
+                                    <label class="form-check-label" for="formRadios2">
+                                        Por Pagar:
+                                    </label>
+                                </div>
+                            </div>
+                            <br>
+                            <div><label for="switch3">Facturado:</label></div>
+                            <input type="hidden" id="facturado_V" name="facturado_V" value="">
+                            <input type="checkbox" id="switch3" switch="bool" name="switch3" />
+                            <label for="switch3" data-on-label="Si" data-off-label="No"></label>
 
-                            <div class="col-lg-4 col-md-6">
-                                <div><label for="switch4">Cancelado:</label></div>
-                                <input type="hidden" id="tipo_V" name="tipo_V" value="">
-                                <input type="checkbox" id="switch4" switch="bool" name="switch4" checked />
-                                <label for="switch4" data-on-label="Si" data-off-label="No"></label>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div><label for="switch3">Facturado:</label></div>
-                                <input type="hidden" id="facturado_V" name="facturado_V" value="">
-                                <input type="checkbox" id="switch3" switch="bool" name="switch3" />
-                                <label for="switch3" data-on-label="Si" data-off-label="No"></label>
-                            </div>
 
                             <div class="mb-3">
                                 <label for="total_E" class="form-label">Total</label>
@@ -115,6 +141,7 @@
                         </form>
                     </div>
                 </div>
+
 
                 <!-- DETALLE DE ENVIO-->
                 <div class="email-rightbar mb-3 compras">
@@ -185,6 +212,9 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
+                                                <tfoot>
+
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
@@ -305,6 +335,7 @@
                                     <th>Vendedor</th>
                                     <th>Fecha</th>
                                     <th>Precio</th>
+                                    <th>Facturado</th>
                                     <th>Tipo</th>
                                     <th>Estado</th>
                                     <th>Impreso</th>
@@ -328,6 +359,25 @@
     </div>
 
 </div>
+<style>
+    @keyframes parpadeo {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .parpadeo {
+        animation: parpadeo 1s infinite;
+    }
+</style>
 <script>
     $(document).ready(function() {
 
@@ -335,7 +385,7 @@
         var tableArticulos = $('#datatable-articulos').DataTable({
             lengthChange: false,
             ajax: {
-                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
+                url: './controllers/ArticulosControllers.php?action=obtenerAvrticulos',
                 dataSrc: ''
             },
             columnDefs: [{
@@ -373,23 +423,16 @@
                     data: null,
                     render: function(data, type, row) {
                         // Combina los valores de los cuatro campos en un solo string
-                        return ` <div class="row" >
-                                    <button type="button" class="btn btn-primary">
-                                        Notifications <span class="badge bg-success
-                                                            ms-4">${row.stock_sucursal_1}</span>
-                                    </button>
-                               
-                                
-                                <button type="button" class="btn btn-info">
-                                        Notifications <span class="badge bg-success
-                                                            ms-1">${row.stock_sucursal_1}</span>
-                                    </button>
+                        var uno = row.stock_sucursal_1
+                        var dos = row.stock_sucursal_2
+                        return ` <div class="row w-100" >
+                                  <div class=" ${uno < 5 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div>
 
+                                  <div class="${dos < 5 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+
+                                  <div class="badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
+                                  <div class="badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
                                
-                                <button type="button" class="btn btn-danger">
-                                        Notifications <span class="badge bg-success
-                                                            ms-1">${row.stock_sucursal_1}</span>
-                                    </button>
                             </div>`;
                     }
                 },
@@ -400,24 +443,32 @@
                     data: 'unimed_A'
                 },
                 {
-                    data: 'precio_neto_A'
+                    data: 'precio_neto_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
                 },
                 {
                     data: 'precio_distribucion_A',
                     render: function(data, type, row) {
-                        // Lógica para aplicar el color naranja si la condición se cumple
-                        var color = (data === 'condicion_especifica') ? 'orange' : '';
-
-                        // Devolver el contenido de la celda con el color aplicado
-                        return '<div style="background-color: orange;">' + data + '</div>';
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
                     }
                 },
-
                 {
-                    data: 'precio_tecnico_A'
+                    data: 'precio_tecnico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
                 },
                 {
-                    data: 'precio_publico_A'
+                    data: 'precio_publico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
                 },
 
                 {
@@ -431,6 +482,40 @@
                 }
             ]
         });
+
+        $.ajax({
+            type: "POST",
+            url: "./controllers/ArticulosControllers.php?action=obtenerArticulos",
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log("Respuesta del servidor:", JSON.stringify(response));
+                
+            },
+            error: function(error) {
+                console.log("Error en la petición AJAX:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Érror',
+                    text: 'error no se pudo hacer la petision AJAX:',
+                });
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //LINK - llamada a los clientes 
         var selectCliente = $('#fk_id_cliente');
@@ -507,6 +592,19 @@
                             return `<div class="badge badge-soft-info font-size-12"><i class="fas fa-money-bill"></i> Venta Fact</div>`;
                         } else {
                             return `<div class="badge badge-soft-success font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Venta sin</div>`
+                        }
+
+                    }
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        if (data.tipo_V == "venta") {
+                            return `<div class="badge badge-soft-primary font-size-12"><i class="fas fa-money-bill"></i> Venta</div>`;
+                        } else if (data.tipo_V == "pedido") {
+                            return `<div class="badge badge-soft-secondary font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Pedido</div>`
+                        } else {
+                            return `<div class="badge badge-soft-dark font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Proforma</div>`
                         }
 
                     }
@@ -638,8 +736,11 @@
                         }
                     </style>
                         <th scope="row">${carrito.length}</th>
+                        <td style="display: none;">
+                            <p class="font-size-13 text-muted mb-0 id" value="">${producto.id_articulo}</p>
+                        </td>
                         <td>
-                            <p class="font-size-13 text-muted mb-0 id" value="">${id}</p>
+                            <p class="font-size-13 text-muted mb-0 codigo" value="">${producto.codigo_A}</p>
                         </td>
                         <td class="descripcion-cell ">
                             <p class="font-size-13 text-muted mb-0" value="">${descripcion} </p>
@@ -649,7 +750,9 @@
                         <td class="text-end subtotal" value="">${facturado?producto.sub_total_facturado:producto.sub_total}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
-        $(nuevaFila).insertBefore('#tabla-ventas tbody tr:nth-child(1)');
+        $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
+
+
 
         calcularTotal();
     }
@@ -695,16 +798,17 @@
     // Escuchar cambios en los campos de precio y cantidad
     $('#tabla-ventas').on('input', '.price, .quantity', function() {
         var facturado = $('#switch3').prop("checked");
+        var tipo_V = $('input[name="tipo_V"]:checked').val();
+        console.log(tipo_V)
         let row = $(this).closest('tr');
         let id = parseInt(row.find('.id').text());
         let price = parseFloat(row.find('.price').val());
         let quantity = parseFloat(row.find('.quantity').val());
         var sub_total = quantity * price;
         sub_total = parseFloat(sub_total.toFixed(3));
-
         var productoExistente = carrito.find(item => item.id_articulo == id);
 
-        if (productoExistente && productoExistente.stock_A >= quantity) {
+        if (productoExistente && productoExistente.stock_A >= quantity || tipo_V == "proforma") {
             // Actualizar el producto existente
             productoExistente.precio_venta = facturado ? productoExistente.precio_venta : price;
             productoExistente.precio_facturado = facturado ? price : productoExistente.precio_facturado;
@@ -713,7 +817,7 @@
             productoExistente.sub_total_facturado = facturado ? sub_total : productoExistente.sub_total_facturado;
             row.find('.subtotal').text(sub_total);
         }
-        if (productoExistente.stock_A == quantity || productoExistente.stock_A < quantity) {
+        if (productoExistente.stock_A <= quantity) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Atencion',
@@ -721,14 +825,16 @@
                 confirmButtonText: 'Ok'
             });
             $(this).closest('tr');
-            productoExistente.cantidad_venta = parseInt(productoExistente.stock_A);
-            productoExistente.sub_total = parseFloat(productoExistente.cantidad_venta * productoExistente.sub_total)
-            productoExistente.sub_total_facturado = parseFloat(productoExistente.cantidad_venta * productoExistente.sub_total_venta)
-            row.find('.quantity').val(productoExistente.stock_A);
-            row.find('.subtotal').text(facturado ? productoExistente.sub_total_facturado : productoExistente.sub_total);
+            if (tipo_V == 'venta' || tipo_V == 'pedido') {
+                productoExistente.cantidad_venta = parseInt(productoExistente.stock_A);
+                productoExistente.sub_total = parseFloat(productoExistente.cantidad_venta * productoExistente.precio_venta)
+                productoExistente.sub_total_facturado = parseFloat(productoExistente.cantidad_venta * productoExistente.precio_facturado)
+                row.find('.quantity').val(productoExistente.stock_A);
+                row.find('.subtotal').text(facturado ? productoExistente.sub_total_facturado : productoExistente.sub_total);
+            }
 
         }
-        console.log(carrito);
+        //console.log(carrito);
         calcularTotal();
     });
 
@@ -755,12 +861,13 @@
         $('#facturado_V').val(tipo);
         $('#detalle_V').val(JSON.stringify(carrito));
         var formData = $('#formVentas').serialize();
-        console.log(formData);
+        var detalleVenta = $('#detalle_V').val();
         $.ajax({
             type: 'POST',
             url: './controllers/VentasControllers.php?action=crearVenta',
             data: formData,
             success: function(response) {
+
                 if (response == '"ok"') {
 
                     Swal.fire({

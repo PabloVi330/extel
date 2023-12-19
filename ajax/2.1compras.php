@@ -541,7 +541,7 @@
                 
                         <th scope="row">${carrito.length}</th>
                         <td>
-                            <p class="font-size-13 text-muted mb-0 id" value="">${id}</p>
+                            <p class="font-size-13 text-muted mb-0 id" value="">${producto.codigo}</p>
                         </td>
                         <td class="descripcion-cell">
                             <p class="font-size-13 text-muted mb-0" value="">${descripcion} </p>
@@ -555,8 +555,7 @@
                         <td class="text-end subtotal" value="">${precio_neto}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
-            $(nuevaFila).insertBefore('#tabla-ventas tbody tr:nth-child(1)');
-            console.log(carrito)
+                $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
             calcularTotal();
         }
 

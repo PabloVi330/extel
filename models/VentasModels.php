@@ -13,68 +13,27 @@ class VentaModel
 
     public  function crearVenta($data)
     {
+        try {
 
-        if (isset($data['fk_id_mantenimiento'])) {
-            try {
+            $monto_V = 0;
+            $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_usuario, fk_id_cliente, fecha_V, detalle_V, importe_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_usuario, :fk_id_cliente, :fecha_V, :detalle_V, :importe_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
 
-                $tipo_V = 1;
-                if ($data['tipo_V'] ==  1) {
-                    $estado_V = "CANCELADO";
-                } else {
-                    $estado_V = "POR PAGAR";
-                }
-                $monto_V = 0;
-                $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_mantenimiento, fk_id_usuario, fk_id_cliente, fecha_V, detalle_V, importe_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_mantenimiento, :fk_id_usuario, :fk_id_cliente, :fecha_V, :detalle_V, :importe_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':fk_id_sucursal', $_SESSION['fk_id_sucursal'], PDO::PARAM_INT);
+            $stmt->bindParam(':fk_id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
+            $stmt->bindParam(':fk_id_cliente', $data['fk_id_cliente'], PDO::PARAM_INT);
+            $stmt->bindParam(':fecha_V', $data['fecha_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':detalle_V', $data['detalle_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':importe_V', $data['importe_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':facturado_V', $data['facturado_V'], PDO::PARAM_INT);
+            $stmt->bindParam(':tipo_V', $data['tipo_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':estado_V', $data['estado_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':monto_V',  $monto_V, PDO::PARAM_INT);
 
-                $stmt = $this->conn->prepare($query);
-                $stmt->bindParam(':fk_id_sucursal', $_SESSION['fk_id_sucursal'], PDO::PARAM_INT);
-                $stmt->bindParam(':fk_id_mantenimiento', $data['fk_id_mantenimiento'], PDO::PARAM_INT);
-                $stmt->bindParam(':fk_id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
-                $stmt->bindParam(':fk_id_cliente', $data['fk_id_cliente1'], PDO::PARAM_INT);
-                $stmt->bindParam(':fecha_V', $data['fecha_V'], PDO::PARAM_STR);
-                $stmt->bindParam(':detalle_V', $data['detalle_V'], PDO::PARAM_STR);
-                $stmt->bindParam(':importe_V', $data['importe_V'], PDO::PARAM_STR);
-                $stmt->bindParam(':facturado_V', $data['facturado_V'], PDO::PARAM_INT);
-                $stmt->bindParam(':tipo_V', $tipo_V, PDO::PARAM_INT);
-                $stmt->bindParam(':estado_V', $estado_V, PDO::PARAM_STR);
-                $stmt->bindParam(':monto_V',  $monto_V, PDO::PARAM_INT);
-
-                $stmt->execute();
-                return  "ok";
-            } catch (PDOException $e) {
-                return $e->getMessage();
-            }
-        } else {
-            try {
-
-                $tipo_V = 1;
-                if ($data['tipo_V'] == 1) {
-                    $estado_V = "CANCELADO";
-                } else {
-                    $estado_V = "POR PAGAR";
-                }
-                $monto_V = 0;
-                $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_usuario, fk_id_cliente, fecha_V, detalle_V, importe_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_usuario, :fk_id_cliente, :fecha_V, :detalle_V, :importe_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
-
-                $stmt = $this->conn->prepare($query);
-                $stmt->bindParam(':fk_id_sucursal', $_SESSION['fk_id_sucursal'], PDO::PARAM_INT);
-                $stmt->bindParam(':fk_id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
-                $stmt->bindParam(':fk_id_cliente', $data['fk_id_cliente'], PDO::PARAM_INT);
-                $stmt->bindParam(':fecha_V', $data['fecha_V'], PDO::PARAM_STR);
-                $stmt->bindParam(':detalle_V', $data['detalle_V'], PDO::PARAM_STR);
-                $stmt->bindParam(':importe_V', $data['importe_V'], PDO::PARAM_STR);
-                $stmt->bindParam(':facturado_V', $data['facturado_V'], PDO::PARAM_INT);
-                $stmt->bindParam(':tipo_V', $tipo_V, PDO::PARAM_INT);
-                $stmt->bindParam(':estado_V', $estado_V, PDO::PARAM_STR);
-                $stmt->bindParam(':monto_V',  $monto_V, PDO::PARAM_INT);
-
-                if ($stmt->execute())
-                    return  true;
-                else
-                    return false;
-            } catch (PDOException $e) {
-                return $e->getMessage();
-            }
+            $stmt->execute();
+            return  "ok";
+        } catch (PDOException $e) {
+            return $e->getMessage();
         }
     }
 

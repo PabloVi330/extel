@@ -4,28 +4,31 @@ require_once('../models/VentasModels.php');
 require_once('../models/ArticulosModels.php');
 
 
-class imprimirFactura{
+class imprimirFactura
+{
 
 
 
-public function traerImpresionFactura(){
+	public function traerImpresionFactura()
+	{
 
-$id_venta = $_GET['id_venta'];
-$ventasModels = new VentaModel();
-$venta = $ventasModels->obtenerVentasPorId($id_venta);
-$ventasModels->imprimirVenta($id_venta);
-$detalle = json_decode($venta['detalle_V'],true);
-$costo = $venta['importe_V'];
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$id_venta = $_GET['id_venta'];
+		$ventasModels = new VentaModel();
+		$venta = $ventasModels->obtenerVentasPorId($id_venta);
+		$ventasModels->imprimirVenta($id_venta);
+		$detalle = json_decode($venta['detalle_V'], true);
+		$tipo_V = $venta['tipo_V'];
+		$costo = $venta['importe_V'];
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-$pdf->startPageGroup();
+		$pdf->startPageGroup();
 
-$pdf->AddPage();
+		$pdf->AddPage();
 
-// ---------------------------------------------------------
+		// ---------------------------------------------------------
 
-	
-$bloque1 = <<<EOF
+
+		$bloque1 = <<<EOF
 
 
 	<table  >
@@ -68,20 +71,36 @@ $bloque1 = <<<EOF
 
 EOF;
 
-$pdf->writeHTML($bloque1, false, false, false, false, '');
+		$pdf->writeHTML($bloque1, false, false, false, false, '');
 
-// ---------------------------------------------------------
-$bloque2 = null;
-if (is_array($venta)) {
+		// ---------------------------------------------------------
+		$bloque2 = null;
+		if (is_array($venta)) {
+			$titulo = '';
+			$validez = '';
+			if ($tipo_V == 'venta') {
+				$titulo = 'NOTA DE VENTA';
+				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"></td>';
+			}
+			if ($tipo_V == 'proforma') {
+				$titulo = 'PROFORMA';
+				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px">Validez: 15 dias Calendario</td>';
+			}
 
-$bloque2 = <<<EOF
+			if ($tipo_V == 'pedido') {
+				$titulo = 'PEDIDO';
+				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"></td>';
+			}
+
+
+			$bloque2 = <<<EOF
 
 	<table >
 		
 		<tr>
 		   
 			<td style="width:140px"><img src="images/back.jpg"></td>
-			<td style="width:340px; color:#153959; font-size: 30px; font-weight: bold;">NOTA DE VENTA</td>
+			<td style="width:340px; color:#153959; font-size: 30px; font-weight: bold;">$titulo</td>
 		
 		</tr>
 
@@ -107,9 +126,11 @@ $bloque2 = <<<EOF
 
 		<tr>
 		   
-			<td style="border: 1px solid #666; background-color:white; width:540px">Cliente: $venta[nombre_cliente]</td>
+			<td style="border: 1px solid #666; background-color:white; width:390px">Cliente: $venta[nombre_cliente]</td>
+			$validez
 
 		</tr>
+		
 
 		<tr>
 		
@@ -120,15 +141,15 @@ $bloque2 = <<<EOF
 	</table>
 
 EOF;
-}
+		}
 
 
 
-$pdf->writeHTML($bloque2, false, false, false, false, '');
+		$pdf->writeHTML($bloque2, false, false, false, false, '');
 
-// ---------------------------------------------------------
+		// ---------------------------------------------------------
 
-$bloque3 = <<<EOF
+		$bloque3 = <<<EOF
 
 	<table style="font-size:12px; padding:5px 10px;">
 
@@ -145,22 +166,22 @@ $bloque3 = <<<EOF
 
 EOF;
 
-$pdf->writeHTML($bloque3, false, false, false, false, '');
+		$pdf->writeHTML($bloque3, false, false, false, false, '');
 
-// ---------------------------------------------------------
+		// ---------------------------------------------------------
 
-foreach ($detalle as $key => $item) {
+		foreach ($detalle as $key => $item) {
 
-$c = new ArticuloModel();
-$cc = $c->obtenerArticuloPorId($item['id_articulo']);
-if($venta["facturado_V"] == 1){
-	$valorUnitario = number_format($item["precio_facturado"], 2);
-     $precioTotal = number_format($item["sub_total_facturado"], 2);
-}else{
-	$valorUnitario = number_format($item["precio_venta"], 2);
-	$precioTotal = number_format($item["sub_total"], 2);
-}
-$bloque4 = <<<EOF
+			$c = new ArticuloModel();
+			$cc = $c->obtenerArticuloPorId($item['id_articulo']);
+			if ($venta["facturado_V"] == 1) {
+				$valorUnitario = number_format($item["precio_facturado"], 2);
+				$precioTotal = number_format($item["sub_total_facturado"], 2);
+			} else {
+				$valorUnitario = number_format($item["precio_venta"], 2);
+				$precioTotal = number_format($item["sub_total"], 2);
+			}
+			$bloque4 = <<<EOF
 
 	<table style="font-size:11px; padding:5px 10px;">
 
@@ -193,13 +214,12 @@ $bloque4 = <<<EOF
 
 EOF;
 
-$pdf->writeHTML($bloque4, false, false, false, false, '');
+			$pdf->writeHTML($bloque4, false, false, false, false, '');
+		}
 
-}
+		// ---------------------------------------------------------
 
-// ---------------------------------------------------------
-
-$bloque5 = <<<EOF
+		$bloque5 = <<<EOF
 
 	<table style="font-size:13px; padding:5px 10px;">
 
@@ -279,18 +299,16 @@ $bloque5 = <<<EOF
 
 EOF;
 
- $pdf->writeHTML($bloque5, false, false, false, false, '');
+		$pdf->writeHTML($bloque5, false, false, false, false, '');
 
 
 
-// ---------------------------------------------------------
-//SALIDA DEL ARCHIVO 
+		// ---------------------------------------------------------
+		//SALIDA DEL ARCHIVO 
 
-$pdf->Output('Nota_Venta.pdf');
-
-}
-
+		$pdf->Output('Nota_Venta.pdf');
+	}
 }
 
 $factura = new imprimirFactura();
-$factura -> traerImpresionFactura();
+$factura->traerImpresionFactura();

@@ -14,7 +14,7 @@ class ArticulosController
     public function crearArticulo()
     {
         $data = $_POST;
- 
+
         $directorioDestino = 'uploads/products/';
 
         $nombresImagenes = [];
@@ -38,7 +38,7 @@ class ArticulosController
 
         // $response = $this->articuloModel->crearArticulo($_POST);
 
-    }  
+    }
 
     public function editarArticulo()
     {
@@ -59,7 +59,7 @@ class ArticulosController
     {
 
         $response = $this->articuloModel->obtenerArticulos();
-        echo json_encode($response);
+        echo json_encode ($response);
     }
 
 
@@ -77,10 +77,11 @@ class ArticulosController
         echo json_encode($response);
     }
 
-    public function obtenerArticuloPorDescripcion(){
-       //echo json_encode($_POST);
+    public function obtenerArticuloPorDescripcion()
+    {
+        //echo json_encode($_POST);
         $response = $this->articuloModel->obtenerArticuloPorDescripcion($_POST['descripcion_A']);
-       echo  json_encode($response);
+        echo  json_encode($response);
     }
     public function filtrarArticulos()
     {
@@ -124,5 +125,3 @@ if (isset($_GET['action']) && $_GET['action'] == 'obtenerArticuloPorDescripcion'
 if (isset($_GET['action']) && $_GET['action'] == 'filtrarArticulos') {
     $controller->filtrarArticulos();
 }
-
-

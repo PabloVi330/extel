@@ -19,22 +19,28 @@ class VentaController
       // echo '<pre>';
       // print_r($_POST);
       // echo '</pre>';
-      // exit();
+
       $detalle_V = json_decode($_POST['detalle_V'], true);
+      if($_POST['tipo_V'] == "pedido" || $_POST['tipo_V'] == "proforma"){
+         $_POST['estado_V'] = 'por pagar';
+      }
       $crearVenta = $this->venta->crearVenta($_POST);
 
       if ($crearVenta == "ok") {
-         for ($i = 0; $i < count($detalle_V); $i++) {
-            $reducirStock = $this->articulo->reducirStock($detalle_V[$i]['id_articulo'], $detalle_V[$i]['cantidad_venta']);
-            if ($reducirStock == "ok") {
-               echo json_encode($reducirStock);
-            }else{
-               echo json_encode($reducirStock);
+         if ($_POST['tipo_V'] == "venta") {
+            for ($i = 0; $i < count($detalle_V); $i++) {
+               $reducirStock = $this->articulo->reducirStock($detalle_V[$i]['id_articulo'], $detalle_V[$i]['cantidad_venta']);
+               if ($reducirStock == "ok") {
+                  echo json_encode($reducirStock);
+               } else {
+                  echo json_encode($reducirStock);
+               }
             }
          }
-      }else{
+      } else {
          echo json_encode($crearVenta);
       }
+      echo json_encode($crearVenta);
    }
    public function eliminarVenta()
    {
