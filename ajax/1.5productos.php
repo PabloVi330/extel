@@ -426,7 +426,7 @@
                     {
                         data: null,
                         render: function(data, type, row) {
-                            var descripcion_A = data.descripcion_A;
+                            var descripcion_A = JSON.parse(data.descripcion_A);
 
                             // Dividir la cadena en segmentos de 20 caracteres
                             var segmentos = [];
@@ -450,7 +450,21 @@
                         data: 'fecha_A'
                     },
                     {
-                        data: 'stock_A'
+                    data: null,
+                    render: function(data, type, row) {
+                            // Combina los valores de los cuatro campos en un solo string
+                            var uno = row.stock_sucursal_1
+                            var dos = row.stock_sucursal_2
+                            return ` <div class="row w-100" >
+                                      <div class=" ${uno < 5 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div>
+
+                                      <div class="${dos < 5 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+
+                                      <div class="badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
+                                      <div class="badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
+                                   
+                                </div>`;
+                        }
                     },
                     {
                         data: 'cantidad_A'

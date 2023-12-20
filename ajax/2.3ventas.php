@@ -379,13 +379,13 @@
     }
 </style>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function() { 
 
         //ANCHOR - data tables de articulos
         var tableArticulos = $('#datatable-articulos').DataTable({
             lengthChange: false,
             ajax: {
-                url: './controllers/ArticulosControllers.php?action=obtenerAvrticulos',
+                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
                 dataSrc: ''
             },
             columnDefs: [{
@@ -401,7 +401,7 @@
                 {
                     data: null,
                     render: function(data, type, row) {
-                        var descripcion_A = data.descripcion_A;
+                        var descripcion_A = JSON.parse(data.descripcion_A);
 
                         // Dividir la cadena en segmentos de 20 caracteres
                         var segmentos = [];

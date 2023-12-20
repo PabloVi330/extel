@@ -58,8 +58,24 @@ class ArticulosController
     public function obtenerArticulos()
     {
 
-        $response = $this->articuloModel->obtenerArticulos();
-        echo json_encode ($response);
+       
+       
+        try {
+             $response = $this->articuloModel->obtenerArticulos();
+            // Intenta convertir a JSON
+            $jsonResponse = json_encode($response);
+        
+            if ($jsonResponse === false) {
+                // Ha ocurrido un error durante la conversión a JSON
+                throw new Exception('Error al convertir a JSON');
+            }
+        
+            // Envía la respuesta JSON al cliente
+            echo $jsonResponse;
+        } catch (Exception $e) {
+            // Manejar la excepción, puedes imprimir el mensaje o hacer lo que necesites
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
 
