@@ -188,19 +188,14 @@
                                         <th>Codigo</th>
                                         <th>Descripcion</th>
                                         <th>Categoria</th>
-                                        <th>Fecha</th>
                                         <th>Stock</th>
-                                        <th>Cantidad</th>
                                         <th>Marca</th>
                                         <th>Umed.</th>
                                         <th>P. Neto</th>
                                         <th>P. Dis.</th>
                                         <th>P. Tec.</th>
                                         <th>P. Pub-</th>
-                                        <th>P. Fac.</th>
-                                        <th>Estado</th>
                                         <th>Accio.</th>
-
                                     </tr>
                                 </thead>
 
@@ -386,6 +381,25 @@
         </div>
     </div>
     <!-- End Page-content -->
+    <style>
+    @keyframes parpadeo {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .parpadeo {
+        animation: parpadeo 1s infinite;
+    }
+</style>
 
     <script>
         function resetForm() {
@@ -408,116 +422,120 @@
 
 
         $(document).ready(function() {
-            var table = $('#datatable-articulos').DataTable({
-                lengthChange: false,
-                buttons: [
+            //ANCHOR - data tables de articulos
+        var tableArticulos = $('#datatable-articulos').DataTable({
+            lengthChange: true,
+            buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
-                ],
-                ajax: {
-                    url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
-                    dataSrc: ''
+            ],
+            ajax: {
+                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
+                dataSrc: ''
+            },
+            columns: [{
+                    data: 'id_articulo'
                 },
-                columns: [{
-                        data: 'id_articulo'
-                    },
-                    {
-                        data: 'codigo_A'
-                    },
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            var descripcion_A = JSON.parse(data.descripcion_A);
-
+                {
+                    data: 'codigo_A'
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        if(data.descripcion_A !== null){
+                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
+                            console.log(data.descripcion_A)
+                             descripcion_A = data.descripcion_A.detalle
                             // Dividir la cadena en segmentos de 20 caracteres
                             var segmentos = [];
                             for (var i = 0; i < descripcion_A.length; i += 20) {
                                 segmentos.push(descripcion_A.substring(i, i + 20));
                             }
-
+    
                             // Crear un bloque de HTML con saltos de línea para cada segmento
                             var descripcionHtml = segmentos.map(function(segmento) {
                                 return `<div>${segmento}</div>`;
                             }).join('');
-
+    
                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
-                           <a href="#" class="text-body">${descripcionHtml}</a>`;
+                            <a href="#" class="text-body">${descripcionHtml}</a>`;
+                        }else{
+                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">SN</a>`;
                         }
-                    },
-                    {
-                        data: 'nombre_categoria'
-                    },
-                    {
-                        data: 'fecha_A'
-                    },
-                    {
+                    }
+                },
+                {
+                    data:'nombre_categoria'
+                },
+                {
                     data: null,
                     render: function(data, type, row) {
-                            // Combina los valores de los cuatro campos en un solo string
-                            var uno = row.stock_sucursal_1
-                            var dos = row.stock_sucursal_2
-                            return ` <div class="row w-100" >
-                                      <div class=" ${uno < 5 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div>
+                        // Combina los valores de los cuatro campos en un solo string
+                        var uno = row.stock_sucursal_1
+                        var dos = row.stock_sucursal_2
+                        var tres = row.stock_sucursal_3
+                        var cuatro = row.stock_sucursal_4
+                        return ` <div class="row w-100" >
+                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
 
-                                      <div class="${dos < 5 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
 
-                                      <div class="badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
-                                      <div class="badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
-                                   
-                                </div>`;
-                        }
-                    },
-                    {
-                        data: 'cantidad_A'
-                    },
-                    {
-                        data: 'nombre_marca'
-                    },
-                    {
-                        data: 'unimed_A'
-                    },
-                    {
-                        data: 'precio_neto_A'
-                    },
-                    {
-                        data: 'precio_distribucion_A'
-                    },
-                    {
-                        data: 'precio_tecnico_A'
-                    },
-                    {
-                        data: 'precio_publico_A'
-                    },
-                    {
-                        data: 'precio_fact_A'
-                    },
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            if (data.estado_A == 1) {
-                                return '<button type="button" class="btn btn-soft-success waves-effect waves-light"><i class="bx bx-check-double font-size-32 align-middle "></i></button>';
-                            } else {
-                                return '<button type="button" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-block font-size-16 align-middle"></i></button>';
-                            }
+                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${tres}</div>
+                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
+                               
+                            </div>`;
+                    }
+                },
+                {
+                    data: 'nombre_marca'
+                },
+                {
+                    data: 'unimed_A'
+                },
+                {
+                    data: 'precio_neto_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_distribucion_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_tecnico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_publico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
 
-
-                        }
-                    },
-                    {
+                {
                         data: null,
                         render: function(data, type, row) {
                             return '<button class="btn btn-sm btn-info btn-editar btn-lg" data-id="' + row.id_articulo + '"><i class="fas fa-edit fa-2x"></i></button>  <button class="btn btn-sm btn-danger btn-eliminar " data-id="' + row.id_articulo + '"><i class="fas fa-trash-alt fa-2x"></i></button>';
                         }
                     }
-                ]
-            });
-
-            new $.fn.dataTable.Buttons(table, {
+            ]
+        });
+            new $.fn.dataTable.Buttons(tableArticulos, {
                 buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
                 ]
             });
 
-            table.buttons().container()
+            tableArticulos.buttons().container()
                 .appendTo('#datatable-articulos_wrapper .col-md-6:eq(0)');
 
             $(".dataTables_length select").addClass('form-select form-select-sm');

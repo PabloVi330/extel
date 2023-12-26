@@ -398,24 +398,30 @@
                 {
                     data: 'codigo_A'
                 },
-                {
+                 {
                     data: null,
                     render: function(data, type, row) {
-                        var descripcion_A = JSON.parse(data.descripcion_A);
-
-                        // Dividir la cadena en segmentos de 20 caracteres
-                        var segmentos = [];
-                        for (var i = 0; i < descripcion_A.length; i += 20) {
-                            segmentos.push(descripcion_A.substring(i, i + 20));
+                        if(data.descripcion_A !== null){
+                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
+                            console.log(data.descripcion_A)
+                             descripcion_A = data.descripcion_A.detalle
+                            // Dividir la cadena en segmentos de 20 caracteres
+                            var segmentos = [];
+                            for (var i = 0; i < descripcion_A.length; i += 20) {
+                                segmentos.push(descripcion_A.substring(i, i + 20));
+                            }
+    
+                            // Crear un bloque de HTML con saltos de línea para cada segmento
+                            var descripcionHtml = segmentos.map(function(segmento) {
+                                return `<div>${segmento}</div>`;
+                            }).join('');
+    
+                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">${descripcionHtml}</a>`;
+                        }else{
+                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">SN</a>`;
                         }
-
-                        // Crear un bloque de HTML con saltos de línea para cada segmento
-                        var descripcionHtml = segmentos.map(function(segmento) {
-                            return `<div>${segmento}</div>`;
-                        }).join('');
-
-                        return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
-                        <a href="#" class="text-body">${descripcionHtml}</a>`;
                     }
                 },
 

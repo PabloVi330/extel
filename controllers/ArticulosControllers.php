@@ -58,18 +58,21 @@ class ArticulosController
     public function obtenerArticulos()
     {
 
-       
-       
+
+
         try {
-             $response = $this->articuloModel->obtenerArticulos();
+            $response = $this->articuloModel->obtenerArticulos();
             // Intenta convertir a JSON
+             //print_r($response);
+            foreach ($response as &$value) {
+                $value['descripcion_A'] = json_decode($value['descripcion_A'], true);
+            }
             $jsonResponse = json_encode($response);
-        
             if ($jsonResponse === false) {
                 // Ha ocurrido un error durante la conversión a JSON
                 throw new Exception('Error al convertir a JSON');
             }
-        
+
             // Envía la respuesta JSON al cliente
             echo $jsonResponse;
         } catch (Exception $e) {

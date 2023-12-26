@@ -203,16 +203,20 @@
                                         table-bordered dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Codigo</th>
-                                    <th>Descripcion</th>
-                                     <th>Stock</th>
-                                    <th>Marca</th>
-                                    <th>Umed.</th>
-                                    <th>P. Vta</th>
-                                    <th>Accio.</th>
+                                        <th>ID</th>
+                                        <th>Codigo</th>
+                                        <th>Descripcion</th>
+                                        <th>Categoria</th>
+                                        <th>Stock</th>
+                                        <th>Marca</th>
+                                        <th>Umed.</th>
+                                        <th>P. Neto</th>
+                                        <th>P. Dis.</th>
+                                        <th>P. Tec.</th>
+                                        <th>P. Pub-</th>
+                                        <th>Accio.</th>
 
-                                </tr>
+                                    </tr>
                             </thead>
                             <tbody>
 
@@ -311,7 +315,10 @@
     $(document).ready(function() {
         //ANCHOR -  llamada a los articulos
         var tableArticulos = $('#datatable-articulos').DataTable({
-            lengthChange: false,
+            lengthChange: true,
+            buttons: [
+                    'copy', 'excel', 'pdf', 'colvis'
+            ],
             ajax: {
                 url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
                 dataSrc: ''
@@ -325,25 +332,50 @@
                 {
                     data: null,
                     render: function(data, type, row) {
-                        var descripcion_A = data.descripcion_A;
-
-                        // Dividir la cadena en segmentos de 20 caracteres
-                        var segmentos = [];
-                        for (var i = 0; i < descripcion_A.length; i += 20) {
-                            segmentos.push(descripcion_A.substring(i, i + 20));
+                        if(data.descripcion_A !== null){
+                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
+                            console.log(data.descripcion_A)
+                             descripcion_A = data.descripcion_A.detalle
+                            // Dividir la cadena en segmentos de 20 caracteres
+                            var segmentos = [];
+                            for (var i = 0; i < descripcion_A.length; i += 20) {
+                                segmentos.push(descripcion_A.substring(i, i + 20));
+                            }
+    
+                            // Crear un bloque de HTML con saltos de línea para cada segmento
+                            var descripcionHtml = segmentos.map(function(segmento) {
+                                return `<div>${segmento}</div>`;
+                            }).join('');
+    
+                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">${descripcionHtml}</a>`;
+                        }else{
+                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">SN</a>`;
                         }
-
-                        // Crear un bloque de HTML con saltos de línea para cada segmento
-                        var descripcionHtml = segmentos.map(function(segmento) {
-                            return `<div>${segmento}</div>`;
-                        }).join('');
-
-                        return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
-                                <a href="#" class="text-body">${descripcionHtml}</a>`;
                     }
                 },
                 {
-                    data: 'stock_A'
+                    data:'nombre_categoria'
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        // Combina los valores de los cuatro campos en un solo string
+                        var uno = row.stock_sucursal_1
+                        var dos = row.stock_sucursal_2
+                        var tres = row.stock_sucursal_3
+                        var cuatro = row.stock_sucursal_4
+                        return ` <div class="row w-100" >
+                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
+
+                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+
+                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${tres}</div>
+                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
+                               
+                            </div>`;
+                    }
                 },
                 {
                     data: 'nombre_marca'
@@ -352,7 +384,32 @@
                     data: 'unimed_A'
                 },
                 {
-                    data: 'precio_neto_A'
+                    data: 'precio_neto_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_distribucion_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_tecnico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_publico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
                 },
                 {
                     data: null,
@@ -388,94 +445,103 @@
 
         //NOTE - llamada a los envios
         var tableEnvios = $('#datatable-envios').DataTable({
-            lengthChange: false,
-            order: [
-                [0, "desc"]
+             lengthChange: true,
+            buttons: [
+                    'copy', 'excel', 'pdf', 'colvis'
             ],
             ajax: {
-                url: './controllers/EnviosControllers.php?action=obtenerEnvios',
+                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
                 dataSrc: ''
             },
             columns: [{
-                    data: 'id_envio'
+                    data: 'id_articulo'
                 },
                 {
-                    data: 'nombre_sucursal'
-                },
-                {
-                    data: 'nombre_usuario'
-                },
-                {
-                    data: 'fecha_E'
-                },
-                {
-                    data: 'total_E'
+                    data: 'codigo_A'
                 },
                 {
                     data: null,
                     render: function(data, type, row) {
-                        if (data.tipo_E == 0) {
-                            return `<div class="badge badge-soft-info font-size-12">Sin Costo</div>`;
-                        } else {
-                            return `<div class="badge badge-soft-success ont-size-12">Costo</div>`
+                        if(data.descripcion_A !== null){
+                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
+                            console.log(data.descripcion_A)
+                             descripcion_A = data.descripcion_A.descripcion_A
+                            // Dividir la cadena en segmentos de 20 caracteres
+                            var segmentos = [];
+                            for (var i = 0; i < descripcion_A.length; i += 20) {
+                                segmentos.push(descripcion_A.substring(i, i + 20));
+                            }
+    
+                            // Crear un bloque de HTML con saltos de línea para cada segmento
+                            var descripcionHtml = segmentos.map(function(segmento) {
+                                return `<div>${segmento}</div>`;
+                            }).join('');
+    
+                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">${descripcionHtml}</a>`;
+                        }else{
+                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">SN</a>`;
                         }
-
                     }
+                },
+                {
+                    data:'nombre_categoria'
                 },
                 {
                     data: null,
                     render: function(data, type, row) {
-                        if (data.estado_E == 0) {
-                            return `<div class="badge badge-soft-warning font-size-12">Enviado</div>`;
-                        } else {
-                            return `<div class="badge badge-soft-success ont-size-12">Recibido</div>`
-                        }
+                        // Combina los valores de los cuatro campos en un solo string
+                        var uno = row.stock_sucursal_1
+                        var dos = row.stock_sucursal_2
+                        var tres = row.stock_sucursal_3
+                        var cuatro = row.stock_sucursal_4
+                        return ` <div class="row w-100" >
+                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
 
+                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+
+                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${tres}</div>
+                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
+                               
+                            </div>`;
                     }
                 },
                 {
-                    data: null,
+                    data: 'nombre_marca'
+                },
+                {
+                    data: 'unimed_A'
+                },
+                {
+                    data: 'precio_neto_A',
                     render: function(data, type, row) {
-                        return `<div>
-                                        <a >
-                                          <button type="button" class="btn recibir
-                                                    btn-soft-light btn-sm w-xs
-                                                    waves-effect btn-label
-                                                    waves-light" id="${data.id_envio}"><i class="fas fa-envelope-open label-icon"></i>
-                                                Recibir
-                                            </button>
-                                        </a>
-                                    </div>`;
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
                     }
                 },
                 {
-                    data: null,
+                    data: 'precio_distribucion_A',
                     render: function(data, type, row) {
-                        if (data.impreso_E == 0) {
-                            return `<div class="badge badge-soft-warning font-size-12">Pendiente</div>`;
-                        } else {
-                            return `<div class="badge badge-soft-success ont-size-12">Impreso ${data.impreso_E}</div>`
-                        }
-
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
                     }
                 },
                 {
-                    data: null,
+                    data: 'precio_tecnico_A',
                     render: function(data, type, row) {
-
-                        return `<div>
-                                        <a href="pdfs/nota_envio.php?id_envio=${data.id_envio}" target="_blank">
-                                          <button type="button" class="btn
-                                                    btn-soft-light btn-sm w-xs
-                                                    waves-effect btn-label
-                                                    waves-light"><i class="bx
-                                                        bx-download label-icon"></i>
-                                                Pdf
-                                            </button>
-                                        </a>
-                                    </div>`;
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
                     }
                 },
+                {
+                    data: 'precio_publico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+
 
                 {
                     data: null,
@@ -503,7 +569,7 @@
     function agregarFila(data) {
         var id = data.id_articulo;
         var codigo = data.codigo_A;
-        var descripcion = data.descripcion_A;
+        var descripcion = data.descripcion_A.detalle;
         var precio_neto = data.precio_neto_A;
         var precio_distribucion = data.precio_distribucion_A;
         var precio_tecnico = data.precio_tecnico_A;
@@ -542,13 +608,16 @@
                     </style>
                         <th scope="row">${carrito.length}</th>
                         <td>
-                            <p class="font-size-13 text-muted mb-0 id" value="">${producto.codigo}</p>
+                            <p class="font-size-13 text-muted mb-0 codigo" value="">${producto.codigo}</p>
+                        </td>
+                        <td style="display:none">
+                            <p class="font-size-13 text-muted mb-0 id" value="">${producto.id}</p>
                         </td>
                         <td class="descripcion-cell">
-                            <p class="font-size-13 text-muted mb-0" value="">${descripcion} </p>
+                            <p class="font-size-13 text-muted mb-0" value="">${producto.descripcion} </p>
                         </td>
                         <td > <input type="number" step="any" class="form-control price" value="${precio_neto}"></td>
-                        <td > <input type="number" class="form-control quantity" value="1" min="1" max="${cantidad_envio}">  </td>
+                        <td > <input type="number" class="form-control quantity" value="1" min="1" max="${producto.stock}">  </td>
                         <td class="text-end subtotal" value="">${precio_neto}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;

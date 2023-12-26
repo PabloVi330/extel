@@ -189,16 +189,18 @@
                                         table-bordered dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Codigo</th>
-                                    <th>Descripcion</th>
-                                    <th>Compatibilidad</th>
-                                    <th>Stock</th>
-                                    <th>Marca</th>
-                                    <th>Umed.</th>
-                                    <th>P. Vta</th>
-                                    <th>Accio.</th>
-
+                                        <th>ID</th>
+                                        <th>Codigo</th>
+                                        <th>Descripcion</th>
+                                        <th>Categoria</th>
+                                        <th>Stock</th>
+                                        <th>Marca</th>
+                                        <th>Umed.</th>
+                                        <th>P. Neto</th>
+                                        <th>P. Dis.</th>
+                                        <th>P. Tec.</th>
+                                        <th>P. Pub-</th>
+                                        <th>Accio.</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -357,53 +359,103 @@
         //ANCHOR - LLAMADA A ARTICULOS
         $(document).ready(function() {
             var table = $('#datatable-articulos').DataTable({
-                lengthChange: false,
-                ajax: {
-                    url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
-                    dataSrc: ''
+                 lengthChange: true,
+            buttons: [
+                    'copy', 'excel', 'pdf', 'colvis'
+            ],
+            ajax: {
+                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
+                dataSrc: ''
+            },
+            columns: [{
+                    data: 'id_articulo'
                 },
-                columns: [{
-                        data: 'id_articulo'
-                    },
-                    {
-                        data: 'codigo_A'
-                    },
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            var descripcion_A = data.descripcion_A;
-
+                {
+                    data: 'codigo_A'
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        if(data.descripcion_A !== null){
+                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
+                            console.log(data.descripcion_A)
+                             descripcion_A = data.descripcion_A.detalle
                             // Dividir la cadena en segmentos de 20 caracteres
                             var segmentos = [];
                             for (var i = 0; i < descripcion_A.length; i += 20) {
                                 segmentos.push(descripcion_A.substring(i, i + 20));
                             }
-
+    
                             // Crear un bloque de HTML con saltos de línea para cada segmento
                             var descripcionHtml = segmentos.map(function(segmento) {
                                 return `<div>${segmento}</div>`;
                             }).join('');
-
+    
                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
-                           <a href="#" class="text-body">${descripcionHtml}</a>`;
+                            <a href="#" class="text-body">${descripcionHtml}</a>`;
+                        }else{
+                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            <a href="#" class="text-body">SN</a>`;
                         }
-                    },
-                    {
-                        data: 'stock_A'
-                    },
-                    {
-                        data: 'nombre_marca'
-                    },
-                    {
-                        data: 'precio_distribucion_A'
-                    },
+                    }
+                },
+                {
+                    data:'nombre_categoria'
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        // Combina los valores de los cuatro campos en un solo string
+                        var uno = row.stock_sucursal_1
+                        var dos = row.stock_sucursal_2
+                        var tres = row.stock_sucursal_3
+                        var cuatro = row.stock_sucursal_4
+                        return ` <div class="row w-100" >
+                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
 
-                    {
-                        data: 'precio_tecnico_A'
-                    },
-                    {
-                        data: 'precio_publico_A'
-                    },
+                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+
+                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${tres}</div>
+                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
+                               
+                            </div>`;
+                    }
+                },
+                {
+                    data: 'nombre_marca'
+                },
+                {
+                    data: 'unimed_A'
+                },
+                {
+                    data: 'precio_neto_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_distribucion_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_tecnico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+                {
+                    data: 'precio_publico_A',
+                    render: function(data, type, row) {
+                        // Devolver el contenido de la celda con el color aplicado y estilos
+                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                    }
+                },
+
                     {
                         data: null,
                         render: function(data, type, row) {
@@ -421,7 +473,7 @@
         //FIXME - LLAMADA A COMPRAS
         $(document).ready(function() {
 
-            var table = $('#datatable-compras').DataTable({
+          var table = $('#datatable-compras').DataTable({
                 lengthChange: false,
                 order: [
                     [0, "desc"]
@@ -501,7 +553,7 @@
         function agregarFila(data) {
             var id = data.id_articulo;
             var codigo = data.codigo_A;
-            var descripcion = data.descripcion_A;
+            var descripcion = data.descripcion_A.detalle;
             var precio_neto = data.precio_neto_A;
             var precio_distribucion = data.precio_distribucion_A;
             var precio_tecnico = data.precio_tecnico_A;
@@ -541,7 +593,10 @@
                 
                         <th scope="row">${carrito.length}</th>
                         <td>
-                            <p class="font-size-13 text-muted mb-0 id" value="">${producto.codigo}</p>
+                            <p class="font-size-13 text-muted mb-0 codigo" value="">${producto.codigo}</p>
+                        </td>
+                         <td style="display:none">
+                            <p class="font-size-13 text-muted mb-0 id" value="">${producto.id}</p>
                         </td>
                         <td class="descripcion-cell">
                             <p class="font-size-13 text-muted mb-0" value="">${descripcion} </p>
@@ -556,6 +611,7 @@
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
                 $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
+                console.log(carrito)
             calcularTotal();
         }
 

@@ -39,7 +39,7 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 				
 					<br>
-					Dirección: 6 de octubre junin y ayacucho #555
+					Dirección: Cochabamba presidente montes y la plata
 
 				</div>
 
@@ -50,7 +50,7 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 					
 					<br>
-					Teléfono: 65420150
+					Teléfono: 63200201
 					
 					<br>
 					74624206
@@ -153,24 +153,25 @@ foreach ($detalle as $key => $item) {
 
 $c = new ArticuloModel();
 $cc = $c->obtenerArticuloPorId($item['id']);
+$descripcion =  json_decode($cc['descripcion_A'], true);
+$des = $descripcion['detalle'];
 $valorUnitario = number_format($item["precio_neto"], 2);
-
 $precioTotal = number_format($item["subtotal"], 2);
 
 $bloque4 = <<<EOF
 
-	<table style="font-size:13px; padding:5px 10px;">
+	<table style="font-size:13px; padding:5px 2px;">
 
 		<tr>
 			<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">
 				$cc[codigo_A]
 			</td>
 			<td style="border: 1px solid #666; background-color:white; width:240px; text-align:center">
-				$cc[descripcion_A]
+				$des
 			</td>
 
 			<td style="border: 1px solid #666;  background-color:white; width:80px; text-align:center">
-				$item[cantidad]
+				$item[cantidad_compra]
 			</td>
 
 			<td style="border: 1px solid #666;  background-color:white; width:80px; text-align:center">Bs
