@@ -28,7 +28,7 @@
                         <span data-key="t-apps">Grupos</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <?php if (true) { // Muestra solo si el nivel de usuario es 0 o 1 
+                        <?php if ($area == "administrador") { // Muestra solo si el nivel de usuario es 0 o 1 
                         ?>
                             <li>
                                 <a href="1.1sucursales.php">
@@ -39,7 +39,7 @@
                                 </a>
                             </li>
                         <?php } ?>
-                        <?php if (true) { // Muestra solo si el nivel de usuario es 0, 1 o 2 
+                        <?php if ($area == "administrador") { // Muestra solo si el nivel de usuario es 0, 1 o 2 
                         ?>
                             <li>
                                 <a href="1.2usuarios.php">
@@ -53,7 +53,7 @@
                                 <a href="1.3categorias.php">
                                     <span data-key="t-chat">
                                         <i class="fas fa-chart-line"></i>
-                                        Categorías
+                                        Grupos
                                     </span>
                                 </a>
                             </li>
@@ -95,6 +95,9 @@
                         <span data-key="t-apps">Movimientos</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <?php
+                         if($area == "administrador" || $area == "supervisor"){
+                        ?>
                         <li>
                             <a href="2.1compras.php">
                                 <span data-key="t-calendar">
@@ -111,6 +114,10 @@
                                     Envios</span>
                             </a>
                         </li>
+                         <?php
+                         }
+                        ?>
+                        
                         <li>
                             <a href="2.3ventas.php">
                                 <span data-key="t-chat">

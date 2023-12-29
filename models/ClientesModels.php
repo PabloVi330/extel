@@ -1,4 +1,7 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require_once 'db_conection.php';
 class ClienteModel
 {
@@ -39,7 +42,13 @@ class ClienteModel
     public function obtenerClientes()
     {
         try {
-            $query = "SELECT * FROM clientes";
+            $id_usuario = $_SESSION['id_usuario'];
+            if($_SESSION['area_U'] == 'administrador'){
+                $query = "SELECT * FROM clientes";
+            }else{
+                $query = "SELECT * FROM clientes WHERE fk_id_usuario = $id_usuario";
+            }
+            
             $statement = $this->conn->prepare($query);
             $statement->execute();
 

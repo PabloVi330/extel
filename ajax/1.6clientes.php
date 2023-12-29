@@ -72,7 +72,9 @@
                                                         <div class="mb-3">
                                                             <label for="clasificacion_Cl" class="form-label font-size-13 text-muted">Clasificacion</label>
                                                             <select class="form-control" name="clasificacion_Cl" id="clasificacion_Cl" requerid>
-                                                                <option value="">Seleccionar clasificacion</option>
+                                                                 <option value="DISTRIBUCION">Distribucion</option>
+                                                                  <option value="TECNICO">Tecnico</option>
+                                                                   <option value="PUBLICO">Publico</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -149,8 +151,8 @@
                                         <th>Nombre</th>
                                         <th>CI</th>
                                         <th>Clasificacion</th>
-                                        <th>Telefono</th>
                                         <th>Direccion</th>
+                                        <th>Telefono</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -397,40 +399,7 @@
         $(document).ready(function() {
             //llamada a las sucursales 
 
-            var selectCliente = $('#clasificacion_Cl');
-
-            // Inicializa Selectize en el elemento select
-            selectCliente.selectize({
-                valueField: 'clasificacion_Cl', // Campo que contiene el valor del cliente
-                labelField: 'clasificacion_Cl', // Campo que contiene el nombre del cliente
-                searchField: 'clasificacion_Cl', // Campo que se utilizará para la búsqueda
-                placeholder: 'Seleccionar una clasificación', // Texto de marcador de posición
-                create: function(input) {
-                    return {
-                        id_cliente: input, // Puedes asignar un valor único para la opción personalizada
-                        clasificacion_Cl: input // Utiliza el valor ingresado por el usuario
-                    };
-                },
-                load: function(query, callback) {
-                    // Realiza una solicitud AJAX para obtener la lista de clientes
-                    $.ajax({
-                        url: './controllers/ClientesControllers.php?action=obtenerClientes',
-                        dataType: 'json',
-                        data: {
-                            q: "query" // Término de búsqueda ingresado por el usuario
-                        },
-                        success: function(data) {
-                            console.log(data);
-                            // Filtra los resultados basados en el campo 'clasificacion_Cl'
-                            // var filteredData = data.filter(function(cliente) {
-                            //     return cliente.clasificacion_Cl.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-                            // });
-
-                            callback(data); // Devuelve los resultados filtrados a Selectize
-                        }
-                    });
-                }
-            });
+            
 
             $("#guardarCliente").on("click", function(e) {
                 e.preventDefault(); // Evita el comportamiento predeterminado del botón

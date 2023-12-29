@@ -87,8 +87,8 @@
                                                                 <option value="">Seleccionar Area</option>
                                                                 <option value="administrador">Administrador</option>
                                                                 <option value="supervisor">Supervisor</option>
-                                                                <option value="operador">Operador</option>
                                                                 <option value="tecnico">Tecnico</option>
+                                                                <option value="ventas">Ventas</option>
                                                             </select>
                                                         </div>
                                                     </div>

@@ -88,6 +88,7 @@
                             </select>
 
                             <input type="hidden" id="clasificacionCliente" name="clasificacionCliente" value="">
+
                             <!-- TIPOS DE VENTAS -->
                             <div class="col-lg-12 col-md-12">
                                 <h5 class="font-size-14 mb-3"><i class="mdi mdi-arrow-right text-danger me-2"></i>Tipo venta</h5>
@@ -160,25 +161,28 @@
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <div class="mb-4">
-                                                    <h4 class="float-end font-size-16">Invoice # 12345</h4>
+                                                    <h4 class="float-end font-size-16">Factura # <input type="text" class="form-control"></h4>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
+                                           <h5 class="font-size-15 mb-2">Actividad Economica:</h5>
+                                            <p class="mb-1 " id="actitivadEconomica"></p>
+                                            
+                                            <h5 class="font-size-15 mb-2">Fecha:</h5>
+                                            <p class="mb-1 " id="fechaNota"></p>
 
-                                            <p class="mb-1">1874 County Line Road City, FL 33566</p>
-                                            <p class="mb-1"><i class="mdi mdi-email align-middle me-1"></i> abc@123.com</p>
-                                            <p><i class="mdi mdi-phone align-middle me-1"></i> 012-345-6789</p>
-
+                                            <h5 class="font-size-15 mb-2">Nombre/Razon social:</h5>
+                                            <p class="mb-1" id="razonSocialNota"></p>
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <h5 class="font-size-15 mb-3">Billed To:</h5>
-                                            <h5 class="font-size-14 mb-2">Richard Saul</h5>
-                                            <p class="mb-1">1208 Sherwood Circle
-                                                Lafayette, LA 70506</p>
-                                            <p class="mb-1">RichardSaul@rhyta.com</p>
+                                            <h5 class="font-size-15 mb-2`">NI/CI/CEX:</h5>
+                                            <p class="mb-1" id="nitNota"></p>
+
+                                            <h5 class="font-size-14 mb-2">Cod. Cliente:</h5>
+                                            <p class="mb-1" id="codigoClienteNota"></p>
                                             <p>337-256-9134</p>
                                         </div>
                                     </div>
@@ -379,7 +383,7 @@
     }
 </style>
 <script>
-    $(document).ready(function() { 
+    $(document).ready(function() {
 
         //ANCHOR - data tables de articulos
         var tableArticulos = $('#datatable-articulos').DataTable({
@@ -398,28 +402,28 @@
                 {
                     data: 'codigo_A'
                 },
-                 {
+                {
                     data: null,
                     render: function(data, type, row) {
-                        if(data.descripcion_A !== null){
+                        if (data.descripcion_A !== null) {
                             //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
                             console.log(data.descripcion_A)
-                             descripcion_A = data.descripcion_A.detalle
+                            descripcion_A = data.descripcion_A.detalle
                             // Dividir la cadena en segmentos de 20 caracteres
                             var segmentos = [];
                             for (var i = 0; i < descripcion_A.length; i += 20) {
                                 segmentos.push(descripcion_A.substring(i, i + 20));
                             }
-    
+
                             // Crear un bloque de HTML con saltos de línea para cada segmento
                             var descripcionHtml = segmentos.map(function(segmento) {
                                 return `<div>${segmento}</div>`;
                             }).join('');
-    
+
                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">${descripcionHtml}</a>`;
-                        }else{
-                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                        } else {
+                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">SN</a>`;
                         }
                     }
@@ -496,7 +500,7 @@
             processData: false,
             success: function(response) {
                 console.log("Respuesta del servidor:", JSON.stringify(response));
-                
+
             },
             error: function(error) {
                 console.log("Error en la petición AJAX:", error);
@@ -523,9 +527,13 @@
 
 
 
+
         //LINK - llamada a los clientes 
         var selectCliente = $('#fk_id_cliente');
         var inputClasificacion = $('#clasificacionCliente');
+        var razonSocialCliente = $('#razonSocialNota');
+        var nitCliente = $('#nitNota');
+        var codigoCliente = $('#codigoClienteNota');
 
         selectCliente.selectize({
             valueField: 'id_cliente',
@@ -546,19 +554,34 @@
                 });
             },
             onChange: function(value) {
-                // Obtén el objeto del elemento seleccionado utilizando la API de Selectize
+                
                 var selectedClient = this.options[value];
-
-                // Accede a las propiedades del objeto
                 var idCliente = selectedClient.id_cliente;
                 var clasificacionCliente = selectedClient.clasificacion_Cl;
+                var razonSocialCliente1 = selectedClient.nombre_Cl;
+                var nitCliente1 = selectedClient.ci_Cl;
+                var codigoCliente1 = selectedClient.id_cliente;
 
-                // Haz lo que necesites con los valores obtenidos
-                console.log('ID del cliente seleccionado:', idCliente);
-                console.log('Clasificación del cliente seleccionado:', clasificacionCliente);
+                const fechaActual = new Date();
 
-                // Actualiza el valor del campo oculto
+              
+                const año = fechaActual.getFullYear();
+                const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); 
+                const dia = String(fechaActual.getDate()).padStart(2, '0');
+                const horas = String(fechaActual.getHours()).padStart(2, '0');
+                const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+                const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+                const fechaFormateada = `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+
+                
+                console.log(fechaFormateada);
+                $('#fechaNota').text(fechaFormateada);
+
                 inputClasificacion.val(clasificacionCliente);
+                razonSocialCliente.text(razonSocialCliente1);
+                nitCliente.text(nitCliente1);
+                codigoCliente.text(codigoCliente1);
+
             }
         });
 
