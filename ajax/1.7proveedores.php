@@ -17,12 +17,12 @@
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center
                     justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">Clientes</h4>
+                    <h4 class="mb-sm-0 font-size-18">Proveedores</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript:
-                                    void(0);">Clientes</a></li>
+                                    void(0);">Proveedores</a></li>
                             <li class="breadcrumb-item active">registros</li>
                         </ol>
                     </div>
@@ -35,19 +35,19 @@
         <!-- =================MODAL CREAR NUEVO USUARIO-->
 
         <button type="button" class="btn btn-primary
-                                waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
-            Nuevo Cliente</button>
+                                waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalCrearProveedor">
+            Nuevo Proveedor</button>
 
-        <div id="modalCrearCliente" class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
+        <div id="modalCrearProveedor" class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+            <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalFullscreenLabel">Registrar nuevo Cliente</h5>
+                        <h5 class="modal-title" id="exampleModalFullscreenLabel">Registrar Nuevo Proveedor</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
-                            <form action="#" id="formCrearCliente" class="dropzone p-0">
+                            <form action="#" id="formCrearProveedor" class="dropzone p-0">
 
                                 <!-- CARGA DE DATROS -->
                                 <div class="col-lg-12">
@@ -58,41 +58,21 @@
                                                 <h5 class="font-size-14 mb-3"></h5>
                                                 <div class="row">
 
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="ci_Cl" class="form-label">CI:</label>
-                                                        <input class="form-control" type="text" id="ci_Cl" name="ci_Cl" requerid>
+                                                    <div class="col-12">
+                                                        <label for="nombre_Pro" class="form-label">Nombre:</label>
+                                                        <input class="form-control" type="text" id="nombre_Pro" name="nombre_Pro" requerid>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="nit_Cl" class="form-label">NIT:</label>
-                                                        <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
+                                                    <div class="col-12">
+                                                        <label for="direccion_Pro" class="form-label">Direccion:</label>
+                                                        <input class="form-control" type="text" id="direccion_Pro" name="direccion_Pro" requerid>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="nombre_Cl" class="form-label">Nombre</label>
-                                                        <input class="form-control" type="text" id="nombre_Cl" name="nombre_Cl" requerid>
+                                                    <div class="col-12">
+                                                        <label for="telefono_Pro" class="form-label">Telefono</label>
+                                                        <input class="form-control" type="number" id="telefono_Pro" name="telefono_Pro" requerid>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="mb-3">
-                                                            <label for="clasificacion_Cl" class="form-label font-size-13 text-muted">Clasificacion</label>
-                                                            <select class="form-control" name="clasificacion_Cl" id="clasificacion_Cl" requerid>
-                                                                <option value="DISTRIBUCION">Distribucion</option>
-                                                                <option value="TECNICO">Tecnico</option>
-                                                                <option value="PUBLICO">Publico</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="direccion_Cl" class="form-label">Direccion</label>
-                                                        <input class="form-control" type="text" id="direccion_Cl" name="direccion_Cl">
-                                                    </div>
-
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="telefono_Cl" class="form-label">Telefono</label>
-                                                        <input class="form-control" type="number" id="telefono_Cl" name="telefono_Cl">
-                                                    </div>
                                                 </div>
                                                 <!-- end row -->
                                             </div>
@@ -134,7 +114,7 @@
                                                 btn-secondary waves-effect" data-bs-dismiss="modal" id="limpiar">Cerrar</button>
                             <button type="button" class="btn
                                                 btn-primary waves-effect
-                                                waves-light " id="guardarCliente">Guardar</button>
+                                                waves-light " id="guardarProveedor">Guardar</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -148,18 +128,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id='datatable-clientes' class="table
+                            <table id='datatable-Proveedores' class="table
                             table-bordered dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>NIT</th>
                                         <th>Nombre</th>
-                                        <th>CI</th>
-                                        <th>Clasificacion</th>
-                                        <th>Autorizado</th>
-                                        <th>Porsentaje</th>
-                                        <th>Limite</th>
                                         <th>Direccion</th>
                                         <th>Telefono</th>
                                         <th>Acciones</th>
@@ -180,7 +154,7 @@
         </div>
 
         <!-- ===============MODAL EDITAR SUCURSAL -->
-        <div id="modalEditarCliente" class="modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="modalEditarProveedor" class="modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -190,7 +164,7 @@
                     <div class="modal-body">
                         <div class="col-xl-12">
                             <div class="card">
-                                <form action="#" id="formEditarCliente" class="dropzone p-0">
+                                <form action="#" id="formEditarProveedor" class="dropzone p-0">
 
                                     <!-- CARGA DE DATROS -->
                                     <div class="col-lg-12">
@@ -200,51 +174,21 @@
                                                 <div>
                                                     <h5 class="font-size-14 mb-3"></h5>
                                                     <div class="row">
-                                                        <input type="hidden" name="Eid_cliente" id="Eid_cliente">
+                                                        <input type="hidden" name="Eid_Proveedor" id="Eid_Proveedor">
 
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Enit_Cl" class="form-label">NIT:</label>
-                                                            <input class="form-control" type="text" id="Enit_Cl" name="Enit_Cl" requerid>
+                                                        <div class="col-12">
+                                                            <label for="Enombre_Pro" class="form-label">Nombre:</label>
+                                                            <input class="form-control" type="text" id="Enombre_Pro" name="Enombre_Pro" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Eci_Cl" class="form-label">CI:</label>
-                                                            <input class="form-control" type="text" id="Eci_Cl" name="Eci_Cl" requerid>
+                                                        <div class="col-12">
+                                                            <label for="Edireccion_Pro" class="form-label">Direccion:</label>
+                                                            <input class="form-control" type="text" id="Edireccion_Pro" name="Edireccion_Pro" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Enombre_Cl" class="form-label">Nombre</label>
-                                                            <input class="form-control" type="text" id="Enombre_Cl" name="Enombre_Cl" requerid>
-                                                        </div>
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Eclasificacion_Cl" class="form-label">Clasificacion</label>
-                                                            <input class="form-control" type="text" id="Eclasificacion_Cl" name="Eclasificacion_Cl" requerid>
-                                                        </div>
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Edireccion_Cl" class="form-label">Direccion</label>
-                                                            <input class="form-control" type="text" id="Edireccion_Cl" name="Edireccion_Cl">
-                                                        </div>
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Etelefono_Cl" class="form-label">Telefono</label>
-                                                            <input class="form-control" type="number" id="Etelefono_Cl" name="Etelefono_Cl">
-                                                        </div>
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Eautorizacion_Cl" class="form-label">Autorizacion:</label>
-                                                            <input class="form-control" type="text" id="Eautorizacion_Cl" name="Eautorizacion_Cl">
-                                                        </div>
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Eporcentaje_Cl" class="form-label">Interes %</label>
-                                                            <input class="form-control" type="number" id="Eporcentaje_Cl" name="Eporcentaje_Cl">
-                                                        </div>
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Elimite_Cl" class="form-label">Limite de Credito</label>
-                                                            <input class="form-control" type="number" id="Elimite_Cl" name="Elimite_Cl">
+                                                        <div class="col-12">
+                                                            <label for="Etelefono_Pro" class="form-label">Telefono</label>
+                                                            <input class="form-control" type="number" id="Etelefono_Pro" name="Etelefono_Pro" requerid>
                                                         </div>
                                                     </div>
                                                     <!-- end row -->
@@ -290,7 +234,7 @@
                                                 btn-secondary waves-effect" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn
                                                 btn-primary waves-effect
-                                                waves-light" id="editarCliente">Guardar Cambios</button>
+                                                waves-light" id="editarProveedor">Guardar Cambios</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -345,14 +289,15 @@
 
     <script>
         function resetForm() {
-            var formulario = document.getElementById("formCrearCliente");
-            var dropzone = Dropzone.forElement("#formCrearCliente");
+            var formulario = document.getElementById("formCrearProveedor");
+            var dropzone = Dropzone.forElement("#formCrearProveedor");
             formulario.reset();
             dropzone.removeAllFiles();
-            var table = $('#datatable-clientes').DataTable();
+            var table = $('#datatable-Proveedores').DataTable();
             table.ajax.reload();
 
         }
+
         $(document).ready(function() {
             $("#limpiar").on("click", function(e) {
                 e.preventDefault();
@@ -364,73 +309,31 @@
 
         // ======== LLAMADA A LA TABLA 
         $(document).ready(function() {
-            var table = $('#datatable-clientes').DataTable({
+            var table = $('#datatable-Proveedores').DataTable({
                 lengthChange: true,
                 buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
                 ],
                 ajax: {
-                    url: './controllers/ClientesControllers.php?action=obtenerClientes',
+                    url: './controllers/ProveedoresControllers.php?action=obtenerProveedores',
                     dataSrc: ''
                 },
                 columns: [{
-                        data: 'id_cliente'
+                        data: 'id_proveedor'
                     },
                     {
-                        data: 'nit_Cl'
+                        data: 'nombre_Pro'
                     },
                     {
-                        data: null,
-                        render: function(data, type, row) {
-                            return `<i class="bx bxs-user-circle fa-2x"></i>
-                            <a href="#" class="text-body">${row.nombre_Cl} </a>`
-                        }
+                        data: 'direccion_Pro'
                     },
                     {
-                        data: 'ci_Cl'
-                    },
-                    {
-                        data: 'clasificacion_Cl'
+                        data: 'telefono_Pro'
                     },
                     {
                         data: null,
                         render: function(data, type, row) {
-                            if (data.autorizacion_Cl == "autorizado") {
-                                return `<div class="badge badge-soft-success font-size-12"><i class="fas fa-money-bill"></i> Autorizado</div>`;
-                            } else {
-                                return `<div class="badge badge-soft-danger secondary font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i> SIN/A</div>`
-                            }
-                        }
-                    },
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return `<div class="badge badge-soft-primary font-size-12"><i class="fas fa-money-bill"></i>${data.porcentaje_CL}</div>`;
-                        }
-                    },
-
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return `<div class="badge badge-soft-info font-size-12"><i class="fas fa-money-bill"></i>${data.limite_Cl}</div>`;
-                        }
-                    },
-                    {
-                        data: 'direccion_Cl'
-                    },
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-
-                            return '<a target="_blank" href="https://wa.me/591' + data.telefono_Cl + '"> <button type="button" class="btn btn-soft-success waves-effect waves-light"><i class="fab fa-whatsapp fa-2x"></i></button> </a>';
-
-                        }
-
-                    },
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return '<button class="btn btn-sm btn-info btn-editar  btn-lg" data-id="' + row.id_cliente + '"><i class="fas fa-edit fa-2x"></i></button>  <button class="btn btn-sm btn-danger btn-eliminar" data-id="' + row.id_cliente + '"><i class="fas fa-trash-alt fa-2x"></i></button>';
+                            return '<button class="btn btn-sm btn-info btn-editar  btn-lg" data-id="' + row.id_proveedor + '"><i class="fas fa-edit fa-2x"></i></button>  <button class="btn btn-sm btn-danger btn-eliminar" data-id="' + row.id_proveedor + '"><i class="fas fa-trash-alt fa-2x"></i></button>';
                         }
                     }
                 ]
@@ -443,21 +346,21 @@
             });
 
             table.buttons().container()
-                .appendTo('#datatable-clientes_wrapper .col-md-6:eq(0)');
+                .appendTo('#datatable-Proveedores_wrapper .col-md-6:eq(0)');
 
             $(".dataTables_length select").addClass('form-select form-select-sm');
         });
 
 
         /* ==============================
-        -------------GUARDAR--------------
+        -------------CREAR PROVEEDOR--------------
         =================================== */
 
 
-        $("#guardarCliente").on("click", function(e) {
+        $("#guardarProveedor").on("click", function(e) {
             e.preventDefault();
 
-            var formData = new FormData($("#formCrearCliente")[0]);
+            var formData = new FormData($("#formCrearProveedor")[0]);
             var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
             for (var i = 0; i < imageFiles.length; i++) {
                 formData.append("imagenes[]", imageFiles[i]);
@@ -465,34 +368,36 @@
 
             $.ajax({
                 type: "POST",
-                url: "./controllers/ClientesControllers.php?action=crearCliente",
+                url: "./controllers/ProveedoresControllers.php?action=crearProveedor",
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    if (response) {
-                        $('#modalCrearCliente').modal('hide');
+
+                    if (response == '"ok"') {
+                        $('#modalCrearProveedor').modal('hide');
                         resetForm();
                         Swal.fire({
                             icon: 'success',
                             title: 'Éxito',
-                            text: 'El cliente se ha creado correctamente.',
+                            text: 'El Proveedor se ha creado correctamente.',
                         });
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Érror',
-                            text: 'El cliente no se creo',
+                            text: 'El Proveedor no se ha creado correctamente.' + response,
                         });
-
                     }
+
+
                 },
                 error: function(error) {
                     console.log("Error en la petición AJAX:", error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Érror',
-                        text: 'El cliente se ha creado correctamente.' + error.message,
+                        text: 'El Proveedor se ha creado correctamente.' + error.message,
                     });
                 }
             });
@@ -500,54 +405,56 @@
 
 
         /*================================================================
-        -------------------EDITAR CLIENTE--------------------------
+        -------------------EDITAR Proveedor--------------------------
         =================================================================*/
 
-        $('#datatable-clientes').on('click', '.btn-editar', function() {
-            var idCliente = $(this).data('id');
-            console.log(idCliente);
+        $('#datatable-Proveedores').on('click', '.btn-editar', function() {
+            var idProveedor = $(this).data('id');
+            console.log(idProveedor);
             $.ajax({
                 type: 'POST',
-                url: './controllers/ClientesControllers.php?action=obtenerClientePorId',
+                url: './controllers/ProveedoresControllers.php?action=obtenerProveedorPorId',
                 data: {
-                    id_cliente: idCliente
+                    id_proveedor: idProveedor
                 },
                 dataType: 'json',
                 success: function(response) {
                     console.log("Respuesta del servidor:", response);
 
-                    $('#Eid_cliente').val(idCliente);
-                    $('#Enit_Cl').val(response.nit_Cl);
-                    $('#Eci_Cl').val(response.ci_Cl);
-                    $('#Enombre_Cl').val(response.nombre_Cl)
-                    $('#Eclasificacion_Cl').val(response.clasificacion_Cl)
-                    $('#Edireccion_Cl').val(response.direccion_Cl);
-                    $('#Etelefono_Cl').val(response.telefono_Cl);
-                    $('#Eautorizacion_Cl').val(response.autorizacion_Cl);
-                    $('#Eporcentaje_Cl').val(response.porcentaje_Cl);
-                    $('#Elimite_Cl').val(response.limite_Cl);
-                    $('#modalEditarCliente').modal('show');
+                    $('#Eid_proveedor').val(idProveedor);
+                    $('#Enombre_Pro').val(response.nombre_Pro);
+                    $('#Edireccion_Pro').val(response.direccion_Pro);
+                    $('#Etelefono_Pro').val(response.telefono_Pro);
+
+                    $('#modalEditarProveedor').modal('show');
                 },
                 error: function(error) {
-                  console.log(error);
+                    console.log(error);
                 }
             });
-            $('#editarCliente').click(function() {
+            $('#editarProveedor').click(function() {
 
-                var formData = $('#formEditarCliente').serialize();
+                var formData = $('#formEditarProveedor').serialize();
                 $.ajax({
                     type: 'POST',
-                    url: './controllers/ClientesControllers.php?action=editarCliente',
+                    url: './controllers/ProveedoresControllers.php?action=editarProveedor',
                     data: formData,
                     success: function(response) {
-                        $('#modalEditarCliente').modal('hide');
-                        resetForm();
-                        var mensaje = response.message;
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: mensaje,
-                        });
+                        if (response == '"ok"') {
+                            $('#modalEditarProveedor').modal('hide');
+                            resetForm();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'El proveedor fue actualizado correctamente',
+                            });
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Érror',
+                                text: 'El proveedor no  fue actualizado correctamente' + response,
+                            });
+                        }
                     },
                     error: function(error) {
 
@@ -560,17 +467,17 @@
 
 
         /*============================================================
-        ------------ELIMINAR CLIENTE--------------------------
+        ------------ELIMINAR Proveedor--------------------------
         ============================================================*/
 
         $(document).ready(function() {
-            $('#datatable-clientes').on('click', '.btn-eliminar', function() {
-                var idCliente = $(this).data('id'); // Obtener el ID de la sucursal desde el atributo data-id
-                console.log(idCliente)
+            $('#datatable-Proveedores').on('click', '.btn-eliminar', function() {
+                var idProveedor = $(this).data('id'); // Obtener el ID de la sucursal desde el atributo data-id
+                console.log(idProveedor)
 
                 Swal.fire({
                     title: '¿Estás seguro?',
-                    text: '¿Realmente deseas eliminar este Cliente?',
+                    text: '¿Realmente deseas eliminar este Proveedor?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -582,9 +489,9 @@
 
                         $.ajax({
                             type: 'POST',
-                            url: './controllers/ClientesControllers.php?action=eliminarCliente',
+                            url: './controllers/ProveedoresControllers.php?action=eliminarProveedor',
                             data: {
-                                id_cliente: idCliente
+                                id_proveedor: idProveedor
                             },
                             success: function(response) {
                                 resetForm();

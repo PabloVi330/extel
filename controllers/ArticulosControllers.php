@@ -15,23 +15,27 @@ class ArticulosController
     {
         $data = $_POST;
 
-        $directorioDestino = 'uploads/products/';
-
-        $nombresImagenes = [];
-        $imagenes = $_FILES['imagenes'];
-        $c = 1;
-        foreach ($imagenes['tmp_name'] as $key => $tmp_name) {
-            $nombreArchivo = $c . $data["codigo_A"] . '.png';
-            $rutaArchivo = $directorioDestino . $nombreArchivo;
-            if (move_uploaded_file($tmp_name, $rutaArchivo)) {
-                $nombresImagenes[] = $nombreArchivo;
-                $c++;
-            } else {
-                // Manejar errores si la carga de la imagen falla
-                // Puedes agregar código aquí para manejar los errores según tus necesidades
+        if (!empty($_FILES['imagenes']['name'][0])) {
+            $directorioDestino = 'uploads/products/';
+            $nombresImagenes = [];
+            $imagenes = $_FILES['imagenes'];
+            $c = 1;
+            foreach ($imagenes['tmp_name'] as $key => $tmp_name) {
+                $nombreArchivo = $c . $data["codigo_A"] . '.png';
+                $rutaArchivo = $directorioDestino . $nombreArchivo;
+                if (move_uploaded_file($tmp_name, $rutaArchivo)) {
+                    $nombresImagenes[] = $nombreArchivo;
+                    $c++;
+                } else {
+                    // Manejar errores si la carga de la imagen falla
+                    // Puedes agregar código aquí para manejar los errores según tus necesidades
+                }
             }
+        } else {
+            $uploadedImages = ["producto.jpg"];
         }
-        $data["imagenes"] = json_encode($nombresImagenes);
+        $img = json_encode($uploadedImages);
+        $data['imagenes_A']  = $img;
         $response = $this->articuloModel->crearArticulo($data);
 
         echo json_encode($response);
@@ -63,7 +67,7 @@ class ArticulosController
         try {
             $response = $this->articuloModel->obtenerArticulos();
             // Intenta convertir a JSON
-             //print_r($response);
+            //print_r($response);
             foreach ($response as &$value) {
                 $value['descripcion_A'] = json_decode($value['descripcion_A'], true);
             }

@@ -29,8 +29,7 @@
 
         <!-- =================MODAL CREAR SUCURSAL-->
 
-        <button type="button" class="btn btn-primary
-                                waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#agregarSucursal"> Nueva Sucursal</button>
+        <button type="button" class="btn btn-primary waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#agregarSucursal"> Nueva Sucursal</button>
 
         <div id="agregarSucursal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -59,6 +58,11 @@
                                                     <div class="col-12">
                                                         <label for="example-text-input" class="form-label">Direccion</label>
                                                         <input class="form-control" type="text" id="direccion_S" name="direccion_S">
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label for="example-text-input" class="form-label">Telefono</label>
+                                                        <input class="form-control" type="number" id="telefono_S" name="telefono_S">
                                                     </div>
 
                                                 </div>
@@ -119,8 +123,9 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Nombre</th>                                        
+                                        <th>Nombre</th>
                                         <th>Direccion</th>
+                                        <th>Telefono</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -166,6 +171,10 @@
                                                 <label for="Edireccion_S" class="form-label">Direccion</label>
                                                 <input class="form-control" type="text" id="Edireccion_S" name="Edireccion_S">
                                             </div>
+                                            <div class="col-12">
+                                                <label for="Etelefono_S" class="form-label">Telefono</label>
+                                                <input class="form-control" type="number" id="Etelefono_S" name="Etelefono_S">
+                                            </div>
                                             <hr>
                                             Activo
                                             <div class="col-12 m-a">
@@ -193,6 +202,45 @@
     </div>
 
     <!-- ========================================================================================================================= -->
+
+
+    <!-- Required datatable js -->
+    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="assets/libs/jszip/jszip.min.js"></script>
+    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        $(document).ready(function() {
+            $(".dropzone").dropzone();
+        });
+    </script>
+    <!-- choices js -->
+    <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <!-- color picker js -->
+
+
+    <!-- init js -->
+    <script src="assets/js/pages/form-advanced.init.js"></script>
+
     <script>
         // ======== LLAMADA A LA TABLA DE SUCURSALES
         $(document).ready(function() {
@@ -213,6 +261,9 @@
                     },
                     {
                         data: 'direccion_S'
+                    },
+                    {
+                        data: 'telefono_S'
                     },
                     {
                         data: null,
@@ -250,182 +301,172 @@
         });
 
 
-        // =========GUARDAR SUCURSAL
-        $(document).ready(function() {
-            $("#enviarSucursal").on("click", function(e) {
-                e.preventDefault(); // Evita el comportamiento predeterminado del botón
 
-                // Obtén los datos del formulario
-                var formData = new FormData($("#formCrearSucursal")[0]);
-
-                // Obtén los archivos de imagen seleccionados
-                var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
-
-                // Agrega los archivos de imagen al FormData
-                for (var i = 0; i < imageFiles.length; i++) {
-                    formData.append("imagenes[]", imageFiles[i]);
-                }
-
-                // Realiza la petición AJAX
-                $.ajax({
-                    type: "POST",
-                    url: './controllers/SucursalesControllers.php?action=crearSucursal',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        console.log("Respuesta del servidor:", response);
-                        $('#agregarSucursal').modal('hide');
-
-                        // Resetear el formulario
-                        $('#formCrearSucursal')[0].reset();
-
-                        // Recargar la tabla DataTables
-                        var table = $('#datatable-sucursales').DataTable();
-                        table.ajax.reload();
-
-                        // Mostrar SweetAlert2 de éxito
+        // ==============================================================
+        // ================================= CREAR SUCURSAL==============
+        // ============================================================== 
+        $("#enviarSucursal").on("click", function(e) {
+            e.preventDefault();
+            var formData = new FormData($("#formCrearSucursal")[0]);
+            var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
+            for (var i = 0; i < imageFiles.length; i++) {
+                formData.append("imagenes[]", imageFiles[i]);
+            }
+            $.ajax({
+                type: "POST",
+                url: './controllers/SucursalesControllers.php?action=crearSucursal',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    $('#agregarSucursal').modal('hide');
+                    $('#formCrearSucursal')[0].reset();
+                    var table = $('#datatable-sucursales').DataTable();
+                    table.ajax.reload();
+                    if (response == '"ok"') {
                         Swal.fire({
                             icon: 'success',
                             title: 'Éxito',
                             text: 'La sucursal se ha editado correctamente.',
                         });
-                    },
-                    error: function(error) {
-                        console.log("Error en la petición AJAX:", error);
-
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Érror',
+                            text: response,
+                        });
                     }
-                });
+                },
+                error: function(error) {
+
+                    let errorMessage = "Ocurrió un error al conectar con el controlador.";
+
+                    if (error.status === 0) {
+                        errorMessage = "No se pudo establecer conexión con el servidor.";
+                    } else if (error.status === 404) {
+                        errorMessage = "No se encontró el recurso solicitado.";
+                    } else if (error.status === 500) {
+                        errorMessage = "Error interno del servidor.";
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
+                    });
+
+                }
             });
         });
 
-        // ========= EDITAR SUCURSAL 
-        $(document).ready(function() {
-            //----------------obtener datos para la edicion
-            $('#datatable-sucursales').on('click', '.btn-editar', function() {
-                var row = $(this).closest('tr'); // Obtener la fila más cercana al botón "Editar"
-                var data = $('#datatable-sucursales').DataTable().row(row).data(); // Obtener los datos de la fila
-                $('#Eid_S').val(data.id_sucursal);
-                $('#Enombre_S').val(data.nombreS);
-                $('#Edireccion_S').val(data.direccion_S);
-                $('#editarSucursal').modal('show');
-                if (data.estado_S == 1) {
-                    $('#switch3').prop('checked', true);
-                } else {
-                    $('#switch3').prop('checked', false);
-                }
-            });
 
-            //----------------guardando cambios
-            $('#editarSucursalE').click(function() {
-                var estado_S = $('#switch3').prop('checked') ? 1 : 0;
-                $('#Eestado_S').val(estado_S);
-                var formData = $('#formEditarSucursal').serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: './controllers/SucursalesControllers.php?action=edidarSucursales',
-                    data: formData,
-                    success: function(response) {
-                        $('#editarSucursal').modal('hide');
-                        $('#formEditarSucursal')[0].reset();
+        // ==============================================================
+        // ================================= EDITAR SUCURSAL=============
+        // ============================================================== 
 
-                        var table = $('#datatable-sucursales').DataTable();
-                        table.ajax.reload();
+        //----------------obtener datos para la edicion
+        $('#datatable-sucursales').on('click', '.btn-editar', function() {
+            var row = $(this).closest('tr'); // Obtener la fila más cercana al botón "Editar"
+            var data = $('#datatable-sucursales').DataTable().row(row).data(); // Obtener los datos de la fila
+            $('#Eid_S').val(data.id_sucursal);
+            $('#Enombre_S').val(data.nombreS);
+            $('#Edireccion_S').val(data.direccion_S);
+            $('#Etelefono_S').val(data.telefono_S);
+            $('#editarSucursal').modal('show');
+            if (data.estado_S == 1) {
+                $('#switch3').prop('checked', true);
+            } else {
+                $('#switch3').prop('checked', false);
+            }
+        });
 
+        //----------------guardando cambios
+        $('#editarSucursalE').click(function() {
+            var estado_S = $('#switch3').prop('checked') ? 1 : 0;
+            $('#Eestado_S').val(estado_S);
+            var formData = $('#formEditarSucursal').serialize();
+            $.ajax({
+                type: 'POST',
+                url: './controllers/SucursalesControllers.php?action=edidarSucursales',
+                data: formData,
+                success: function(response) {
+                    $('#editarSucursal').modal('hide');
+                    $('#formEditarSucursal')[0].reset();
+                    var table = $('#datatable-sucursales').DataTable();
+                    table.ajax.reload();
+                    if (response == '"ok"') {
                         Swal.fire({
                             icon: 'success',
                             title: 'Éxito',
                             text: 'La sucursal se ha editado correctamente.',
                         });
-                    },
-                    error: function(error) {
-
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Érror',
+                            text: 'LA SUCURSAL NO SE A EDITADO CORRECTAMENTE.' + response,
+                        });
                     }
-                });
-            });
 
+                },
+                error: function(error) {
+
+                }
+            });
         });
 
-        //=========ELIMINAR SUCURSAL
-        $(document).ready(function() {
-            $('#datatable-sucursales').on('click', '.btn-eliminar', function() {
-                var idSucursal = $(this).data('id'); // Obtener el ID de la sucursal desde el atributo data-id
 
-                // Mostrar un SweetAlert2 de confirmación
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: '¿Realmente deseas eliminar esta sucursal?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // El usuario confirmó la eliminación, realiza la solicitud AJAX para eliminar la sucursal
-                        $.ajax({
-                            type: 'POST',
-                            url: './controllers/SucursalesControllers.php?action=eliminarSucursales',
-                            data: {
-                                id_sucursal: idSucursal
-                            },
-                            success: function(response) {
-                                // Maneja la respuesta del servidor aquí, por ejemplo, recargar la tabla
-                                var table = $('#datatable-sucursales').DataTable();
-                                table.ajax.reload();
+
+
+        // ==============================================================
+        // ================================= ELIMINAR SUCURSAL===========
+        // ============================================================== 
+
+        $('#datatable-sucursales').on('click', '.btn-eliminar', function() {
+            var idSucursal = $(this).data('id'); // Obtener el ID de la sucursal desde el atributo data-id
+
+            // Mostrar un SweetAlert2 de confirmación
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Realmente deseas eliminar esta sucursal?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // El usuario confirmó la eliminación, realiza la solicitud AJAX para eliminar la sucursal
+                    $.ajax({
+                        type: 'POST',
+                        url: './controllers/SucursalesControllers.php?action=eliminarSucursales',
+                        data: {
+                            id_sucursal: idSucursal
+                        },
+                        success: function(response) {
+                            // Maneja la respuesta del servidor aquí, por ejemplo, recargar la tabla
+                            var table = $('#datatable-sucursales').DataTable();
+                            table.ajax.reload();
+                            if (response == '"ok"') {
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Éxito',
                                     text: 'La sucursal eliminado correctamente.',
                                 });
-                            },
-                            error: function(error) {
-                                console.log('Error en la petición AJAX:', error);
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Érror',
+                                    text: 'La sucursal no se eliminado correctamente.' + response,
+                                });
                             }
-                        });
-                    }
-                });
+                        },
+                        error: function(error) {
+                            console.log('Error en la petición AJAX:', error);
+                        }
+                    });
+                }
             });
-
-
-
-        })
-    </script>
-
-    <!-- Required datatable js -->
-    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <!-- Buttons examples -->
-    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="assets/libs/jszip/jszip.min.js"></script>
-    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-    <!-- Responsive examples -->
-    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-    <!-- Datatable init js -->
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
-    <script>
-        Dropzone.autoDiscover = false;
-        $(document).ready(function() {
-            $(".dropzone").dropzone();
         });
     </script>
-    <!-- choices js -->
-    <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-    <!-- color picker js -->
-   
-
-    <!-- init js -->
-    <script src="assets/js/pages/form-advanced.init.js"></script>

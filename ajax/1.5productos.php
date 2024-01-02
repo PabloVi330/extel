@@ -30,7 +30,7 @@
         <!-- MODAL DE NUEVO ARTICULO -->
         <div>
             <button type="button" class="btn btn-primary
-                                waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#modalProducto">Agregar</button>
+                                waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalProducto">Agregar Nuevo Producto</button>
 
             <div id="modalProducto" class="modal fade" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
                 <div class="modal-dialog modal-fullscreen">
@@ -42,8 +42,6 @@
                         <div class="modal-body">
                             <div class="container-fluid">
                                 <form action="#" id="formularioP" class="dropzone p-0">
-                                    <!-- CARGA DE IMAGENES -->
-
                                     <!-- CARGA DE DATROS -->
                                     <div class="col-lg-12">
                                         <div class="card">
@@ -221,36 +219,7 @@
                         <div class="modal-body">
                             <div class="container-fluid">
                                 <form action="#" id="formEditarArticulo" class="dropzone p-0">
-                                    <!-- CARGA DE IMAGENES -->
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">Imagenes</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div>
 
-                                                        <div class="fallback">
-                                                            <input name="imagenes" type="file" enctype="multipart/form-data">
-                                                        </div>
-                                                        <div class="dz-message needsclick">
-                                                            <div class="mb-3">
-                                                                <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                            </div>
-                                                            <h5>Drop files here or click to upload.</h5>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="text-center mt-4">
-                                                        <button type="button" class="btn btn-primary waves-effect waves-light">Send
-                                                            Files</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> <!-- end col -->
-                                    </div> <!-- end row -->
                                     <!-- CARGA DE DATROS -->
                                     <div class="col-lg-12">
                                         <div class="card">
@@ -290,30 +259,14 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <div class="mb-3">
-                                                                <label for="Ecalidad_A" class="form-label font-size-13 text-muted">Calidad</label>
-                                                                <select class="form-control" data-trigger name="Ecalidad_A" id="Ecalidad_A">
-                                                                    <option value="Original">Original</option>
-                                                                    <option value="Generico">Generico</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
 
-                                                        <div class="mb-3">
-                                                            <label for="Ecompatibilidad_A" class="form-label">Compatibilidad</label>
-                                                            <input class="form-control" type="text" id="Ecompatibilidad_A" name="Ecompatibilidad_A">
-                                                        </div>
 
                                                         <div class="mb-3">
                                                             <label for="Edescripcion_A" class="form-label">Descripcion</label>
                                                             <input class="form-control" type="text" id="Edescripcion_A" name="Edescripcion_A">
                                                         </div>
 
-                                                        <div class="col-3">
-                                                            <label for="Eserie_A" class="form-label">Serie</label>
-                                                            <input class="form-control" type="text" id="Eserie_A" name="Eserie_A">
-                                                        </div>
+
                                                         <div class="col-3">
                                                             <label for="Estock_A" class="form-label">Stock</label>
                                                             <input class="form-control" type="number" id="Estock_A" name="Estock_A" min="1">
@@ -328,35 +281,36 @@
                                                             <input class="form-control" type="text" id="Eunimed_A" name="Eunimed_A">
                                                         </div>
 
-                                                        <div class="col-3">
-                                                            <label for="Emodelo_A" class="form-label">Modelo</label>
-                                                            <input class="form-control" type="text" id="Emodelo_A" name="Emodelo_A">
-                                                        </div>
 
                                                         <div class="col-3">
                                                             <label for="Eprecio_neto_A" class="form-label">Precio
                                                                 Neto</label>
-                                                            <input class="form-control" type="number" id="Eprecio_neto_A" name="Eprecio_neto_A" step="any">
+                                                            <input class="form-control" type="number" id="Eprecio_neto_A" name="Eprecio_neto_A" step="0.01">
                                                         </div>
 
                                                         <div class="col-3">
-                                                            <label for="Eprecio_venta_A" class="form-label">Precio
-                                                                Venta</label>
-                                                            <input class="form-control" type="number" id="Eprecio_venta_A" name="Eprecio_venta_A" step="any">
+                                                            <label for="Eprecio_distribucion_A" class="form-label">Precio
+                                                                Dist.</label>
+                                                            <input class="form-control" type="number" id="Eprecio_distribucion_A" name="Eprecio_distribucion_A" step="any">
                                                         </div>
                                                         <div class="col-3">
-                                                            <label for="Eprecio_fact_A" class="form-label">Precio
-                                                                Fact.</label>
-                                                            <input class="form-control" type="number" id="Eprecio_fact_A" name="Eprecio_fact_A" step="any">
-                                                        </div>
-                                                        <hr>
-                                                        Activo
-                                                        <div class="col-12 m-a">
-                                                            <input type="hidden" id="Eestado_A" name="Eestado_A" value="">
-                                                            <input type="checkbox" id="switch3" switch="bool" name="switch3" />
-                                                            <label for="switch3" data-on-label="Si" data-off-label="No"></label>
+                                                            <label for="Eprecio_tecnico_A" class="form-label">Precio
+                                                                Tec..</label>
+                                                            <input class="form-control" type="number" id="Eprecio_tecnico_A" name="Eprecio_tecnico_A" step="any">
                                                         </div>
 
+                                                        <div class="col-3 ">
+                                                            <label for="Eprecio_publico_A" class="form-label">Precio
+                                                                Pub.</label>
+                                                            <input class="form-control" type="number" id="Eprecio_publico_A" name="Eprecio_publico_A" step="any">
+                                                        </div>
+
+                                                    </div>
+                                                    Activo
+                                                    <div class="col-12 m-a">
+                                                        <input type="hidden" id="Eestado_A" name="Eestado_A" value="">
+                                                        <input type="checkbox" id="switch3" switch="bool" name="switch3" />
+                                                        <label for="switch3" data-on-label="Si" data-off-label="No"></label>
                                                     </div>
                                                     <!-- end row -->
                                                 </div>
@@ -364,12 +318,43 @@
                                             <!-- end card body -->
                                         </div>
                                         <!-- end card -->
+
+                                        <!-- CARGA DE IMAGENES -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">Imagenes</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div>
+
+                                                            <div class="fallback">
+                                                                <input name="imagenes" type="file" enctype="multipart/form-data">
+                                                            </div>
+                                                            <div class="dz-message needsclick">
+                                                                <div class="mb-3">
+                                                                    <i class="display-4 text-muted bx bx-cloud-upload"></i>
+                                                                </div>
+                                                                <h5>Drop files here or click to upload.</h5>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="text-center mt-4">
+                                                            <button type="button" class="btn btn-primary waves-effect waves-light">Send
+                                                                Files</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div> <!-- end row -->
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn
-                                                btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                                                btn-secondary waves-effect" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="button" class="btn
                                                 btn-primary waves-effect
                                                 waves-light " id="editarArticulo">Guardar Cambios</button>
@@ -382,24 +367,56 @@
     </div>
     <!-- End Page-content -->
     <style>
-    @keyframes parpadeo {
-        0% {
-            opacity: 1;
+        @keyframes parpadeo {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
-        50% {
-            opacity: 0;
+        .parpadeo {
+            animation: parpadeo 1s infinite;
         }
+    </style>
 
-        100% {
-            opacity: 1;
-        }
-    }
 
-    .parpadeo {
-        animation: parpadeo 1s infinite;
-    }
-</style>
+    <!-- Required datatable js -->
+    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="assets/libs/jszip/jszip.min.js"></script>
+    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        $(document).ready(function() {
+            $(".dropzone").dropzone();
+        });
+    </script>
+
 
     <script>
         function resetForm() {
@@ -423,59 +440,59 @@
 
         $(document).ready(function() {
             //ANCHOR - data tables de articulos
-        var tableArticulos = $('#datatable-articulos').DataTable({
-            lengthChange: true,
-            buttons: [
+            var tableArticulos = $('#datatable-articulos').DataTable({
+                lengthChange: true,
+                buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
-            ],
-            ajax: {
-                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
-                dataSrc: ''
-            },
-            columns: [{
-                    data: 'id_articulo'
+                ],
+                ajax: {
+                    url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
+                    dataSrc: ''
                 },
-                {
-                    data: 'codigo_A'
-                },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        if(data.descripcion_A !== null){
-                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
-                            console.log(data.descripcion_A)
-                             descripcion_A = data.descripcion_A.detalle
-                            // Dividir la cadena en segmentos de 20 caracteres
-                            var segmentos = [];
-                            for (var i = 0; i < descripcion_A.length; i += 20) {
-                                segmentos.push(descripcion_A.substring(i, i + 20));
-                            }
-    
-                            // Crear un bloque de HTML con saltos de línea para cada segmento
-                            var descripcionHtml = segmentos.map(function(segmento) {
-                                return `<div>${segmento}</div>`;
-                            }).join('');
-    
-                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                columns: [{
+                        data: 'id_articulo'
+                    },
+                    {
+                        data: 'codigo_A'
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            if (data.descripcion_A !== null) {
+                                //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
+                                //console.log(data.descripcion_A)
+                                descripcion_A = data.descripcion_A.detalle
+                                // Dividir la cadena en segmentos de 20 caracteres
+                                var segmentos = [];
+                                for (var i = 0; i < descripcion_A.length; i += 20) {
+                                    segmentos.push(descripcion_A.substring(i, i + 20));
+                                }
+
+                                // Crear un bloque de HTML con saltos de línea para cada segmento
+                                var descripcionHtml = segmentos.map(function(segmento) {
+                                    return `<div>${segmento}</div>`;
+                                }).join('');
+
+                                return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">${descripcionHtml}</a>`;
-                        }else{
-                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            } else {
+                                return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">SN</a>`;
+                            }
                         }
-                    }
-                },
-                {
-                    data:'nombre_categoria'
-                },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        // Combina los valores de los cuatro campos en un solo string
-                        var uno = row.stock_sucursal_1
-                        var dos = row.stock_sucursal_2
-                        var tres = row.stock_sucursal_3
-                        var cuatro = row.stock_sucursal_4
-                        return ` <div class="row w-100" >
+                    },
+                    {
+                        data: 'nombre_categoria'
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            // Combina los valores de los cuatro campos en un solo string
+                            var uno = row.stock_sucursal_1
+                            var dos = row.stock_sucursal_2
+                            var tres = row.stock_sucursal_3
+                            var cuatro = row.stock_sucursal_4
+                            return ` <div class="row w-100" >
                                   <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
 
                                   <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
@@ -484,51 +501,51 @@
                                   <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
                                
                             </div>`;
-                    }
-                },
-                {
-                    data: 'nombre_marca'
-                },
-                {
-                    data: 'unimed_A'
-                },
-                {
-                    data: 'precio_neto_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_distribucion_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_tecnico_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_publico_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
+                        }
+                    },
+                    {
+                        data: 'nombre_marca'
+                    },
+                    {
+                        data: 'unimed_A'
+                    },
+                    {
+                        data: 'precio_neto_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'precio_distribucion_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'precio_tecnico_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'precio_publico_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
 
-                {
+                    {
                         data: null,
                         render: function(data, type, row) {
                             return '<button class="btn btn-sm btn-info btn-editar btn-lg" data-id="' + row.id_articulo + '"><i class="fas fa-edit fa-2x"></i></button>  <button class="btn btn-sm btn-danger btn-eliminar " data-id="' + row.id_articulo + '"><i class="fas fa-trash-alt fa-2x"></i></button>';
                         }
                     }
-            ]
-        });
+                ]
+            });
             new $.fn.dataTable.Buttons(tableArticulos, {
                 buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
@@ -540,15 +557,9 @@
 
             $(".dataTables_length select").addClass('form-select form-select-sm');
 
-
-
-        });
-
-
-        //GUARDAR ARTICULOS
-        $(document).ready(function() {
+            //=============CARGAR CATEGORIAS  =================
             $.ajax({
-                url: './controllers/CategoriasControllers.php?action=obtenerCategorias', // Ajusta la ruta correcta
+                url: './controllers/CategoriasControllers.php?action=obtenerCategorias',
                 dataType: 'json',
                 success: function(data) {
                     var select = $('#id_categoria');
@@ -566,8 +577,10 @@
                 }
             });
 
+            //===========CARGAR MARCAS ============================
+
             $.ajax({
-                url: './controllers/MarcasControllers.php?action=obtenerMarcas', // Ajusta la ruta correcta
+                url: './controllers/MarcasControllers.php?action=obtenerMarcas',
                 dataType: 'json',
                 success: function(data) {
                     var select = $('#id_marca');
@@ -585,63 +598,64 @@
                 }
             })
 
-            $("#enviarFormulario").on("click", function(e) {
-                e.preventDefault(); // Evita el comportamiento predeterminado del botón
-
-                // Obtén los datos del formulario
-                var formData = new FormData($("#formularioP")[0]);
-
-                // Obtén los archivos de imagen seleccionados
-                var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
-
-                // Agrega los archivos de imagen al FormData
-                for (var i = 0; i < imageFiles.length; i++) {
-                    formData.append("imagenes[]", imageFiles[i]);
-                }
-
-                // Realiza la petición AJAX
-                $.ajax({
-                    type: "POST",
-                    url: "./controllers/ArticulosControllers.php?action=guardarArticulos",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        console.log("Respuesta del servidor:", response);
-                        if (response == '"ok"') {
-                            $('#modalProducto').modal('hide');
-                            resetForm();
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Éxito',
-                                text: 'El articulo se a creado Correctamente',
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Érror',
-                                text: 'El producto no se guardo en  la base de datos',
-                            });
-                        }
-                    },
-                    error: function(error) {
-                        console.log("Error en la petición AJAX:", error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Érror',
-                            text: 'error no se pudo hacer la petision AJAX:',
-                        });
-                    }
-                });
-            });
-
-
-            //====================LLAMADA DE CATEGORIAS===================
 
 
         });
 
-        //EDITAR ARTICULOS
+
+        // ================================================
+        // -------------CREAR PRODUCTO --------------------
+        // ================================================
+
+        $("#enviarFormulario").on("click", function(e) {
+            e.preventDefault();
+
+            var formData = new FormData($("#formularioP")[0]);
+
+            var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
+
+            for (var i = 0; i < imageFiles.length; i++) {
+                formData.append("imagenes[]", imageFiles[i]);
+            }
+            $.ajax({
+                type: "POST",
+                url: "./controllers/ArticulosControllers.php?action=guardarArticulos",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    console.log("Respuesta del servidor:", response);
+                    if (response == '"ok"') {
+                        $('#modalProducto').modal('hide');
+                        resetForm();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'El articulo se a creado Correctamente',
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Érror',
+                            text: 'El producto no se guardo en  la base de datos',
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.log("Error en la petición AJAX:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Érror',
+                        text: 'error no se pudo hacer la petision AJAX:',
+                    });
+                }
+            });
+        });
+
+
+        // ================================================
+        // -------------EDITAR PRODUCTO --------------------
+        // ================================================
         $('#datatable-articulos').on('click', '.btn-editar', function() {
             var idArticulo = $(this).data('id');
             $.ajax({
@@ -652,7 +666,7 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-
+                    console.log(response);
                     var fk_id_marca = response.fk_id_marca;
                     var fk_id_categoria = response.fk_id_categoria;
                     $.ajax({
@@ -731,26 +745,15 @@
                         return $(this).text() === selectedText;
                     }).prop('selected', true);
 
-                    $('#Ecompatibilidad_A').val(response.compatibilidad_A);
-                    $('#Edescripcion_A').val(response.descripcion_A);
+                    var descripcion = JSON.parse(response.descripcion_A);
+                    $('#Edescripcion_A').val(descripcion.detalle);
                     $('#Estock_A').val(response.stock_A);
                     $('#Ecantidad_A').val(response.cantidad_A);
                     $('#Eunimed_A').val(response.unimed_A);
-                    $('#Emodelo_A').val(response.modelo_A);
                     $('#Eprecio_neto_A').val(response.precio_neto_A);
-                    $('#Eprecio_venta_A').val(response.precio_venta_A);
-                    $('#Eprecio_fact_A').val(response.precio_fact_A);
-
-                    $('#Ecalidad_A').val(response.calidad_A);
-                    var selectedText = $('#Ecalidad_A option:selected').text();
-                    $('#Ecalidad_A').find('option').filter(function() {
-                        return $(this).text() === selectedText;
-                    }).prop('selected', true);
-
-                    $('#Ecorreo_U').val(response.correo_U);
-                    $('#Etelefono_U').val(response.telefono_U);
-
-
+                    $('#Eprecio_distribucion_A').val(response.precio_distribucion_A);
+                    $('#Eprecio_tecnico_A').val(response.precio_tecnico_A);
+                    $('#Eprecio_publico_A').val(response.precio_publico_A);
 
                     if (response.estado_A == 1) {
                         $('#switch3').prop('checked', true);
@@ -774,11 +777,19 @@
 
                         var table = $('#datatable-articulos').DataTable();
                         table.ajax.reload();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: 'El articulo se a actualizado Correctamente',
-                        });
+                        if (response == '"ok"') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'El articulo se a actualizado Correctamente',
+                            });
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Érror',
+                                text: 'El articulo se a actualizado Correctamente' + response,
+                            }); 
+                        }
                     },
                     error: function(error) {
 
@@ -788,7 +799,10 @@
 
         });
 
-        //ELIMINAR ARTICULOS
+
+        // ================================================
+        // -------------ELIMINAR PRODUCTO --------------------
+        // ================================================
         $(document).ready(function() {
             $('#datatable-articulos').on('click', '.btn-eliminar', function() {
                 var idArticulo = $(this).data('id'); // Obtener el ID de la sucursal desde el atributo data-id
@@ -833,36 +847,4 @@
 
 
         })
-    </script>
-
-
-
-    <!-- Required datatable js -->
-    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <!-- Buttons examples -->
-    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="assets/libs/jszip/jszip.min.js"></script>
-    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-    <!-- Responsive examples -->
-    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-    <!-- Datatable init js -->
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
-    <script>
-        Dropzone.autoDiscover = false;
-        $(document).ready(function() {
-            $(".dropzone").dropzone();
-        });
     </script>

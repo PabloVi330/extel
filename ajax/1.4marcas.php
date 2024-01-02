@@ -30,7 +30,7 @@
         <!-- =================MODAL CREAR CATEGORIA-->
 
         <button type="button" class="btn btn-primary
-                                waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#modalGuardarMarca">
+                                waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalGuardarMarca">
             Nueva Marca</button>
 
         <div id="modalGuardarMarca" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">

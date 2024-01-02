@@ -21,7 +21,7 @@ class ArticuloModel
             $fk_id_categoria = $data['id_categoria'];
             $fk_id_usuario = $_SESSION['id_usuario'];
             $fk_id_marca = $data['id_marca'];
-            $descripcion_A = $data['descripcion_A'];
+            $descripcion_A = json_encode(['detalle' => $data['descripcion_A']]);
             $stock_A = $data['stock_A'];
             $cantidad_A = $data['cantidad_A'];
             $unimed_A = $data['unimed_A'];
@@ -31,7 +31,7 @@ class ArticuloModel
             $precio_publico = $data['precio_publico_A'];
             $precio_fact_A = $data['precio_fact_A'];
             $estado_A = 1;
-            $imagenes_A = $data['imagenes'];
+            $imagenes_A = $data['imagenes_A'];
 
 
             $total =   $stock_A * $cantidad_A;
@@ -57,8 +57,10 @@ class ArticuloModel
             $stmt->bindParam(':estado_A', $estado_A);
             $stmt->bindParam(':imagenes_A', $imagenes_A);
             $stmt->execute();
+            $this->conn = null;
             return "ok";
         } catch (PDOException $e) {
+            $this->conn = null;
             return $e->getMessage();
         }
     }
@@ -106,13 +108,13 @@ class ArticuloModel
             $stmt->bindParam(':imagenes_A', $imagenes_A);
 
             $stmt->execute();
-            return "ok"; // Éxito al crear el artículo
+            $this->conn = null;
+            return "ok";
         } catch (PDOException $e) {
+            $this->conn = null;
             return $e->getMessage();
         }
     }
-
-
     public function editarArticulo($data)
     {
         try {
@@ -125,71 +127,57 @@ class ArticuloModel
                         fk_id_usuario = :fk_id_usuario,  
                         fk_id_marca = :fk_id_marca,
                         descripcion_A = :descripcion_A,
-                        compatibilidad_A = :compatibilidad_A,
                         stock_A = :stock_A,
                         cantidad_A = :cantidad_A,
                         unimed_A = :unimed_A,
-                        modelo_A = :modelo_A,
-                        calidad_A = :calidad_A,
                         precio_neto_A = :precio_neto_A,
-                        precio_venta_A = :precio_venta_A,
-                        precio_fact_A = :precio_fact_A,
+                        precio_distribucion_A = :precio_distribucion_A,
+                        precio_tecnico_A = :precio_tecnico_A,
+                        precio_publico_A = :precio_publico_A,
                         estado_A = :estado_A,
-                        imagenes_A = :imagenes_A,
-                        tipo_A = :tipo_A
-                    WHERE id_articulo = :id_articulo";
+                        imagenes_A = :imagenes_A
+                    WHERE id_articulo = :id_articulo ";
 
-            // Prepara la sentencia SQL
+
             $stmt = $this->conn->prepare($sql);
-
-            // Vincula los parámetros
+            $descripcion_A = json_encode(['detalle' =>  $data['Edescripcion_A']]);
             $stmt->bindParam(":codigo_A", $data['Ecodigo_A']);
             $stmt->bindParam(":fk_id_sucursal", $data['Eid_sucursal']);
             $stmt->bindParam(":fk_id_categoria", $data['Eid_categoria']);
             $stmt->bindParam(":fk_id_usuario", $data['Eid_usuario']);
             $stmt->bindParam(":fk_id_marca", $data['Eid_marca']);
-            $stmt->bindParam(":descripcion_A", $data['Edescripcion_A']);
-            $stmt->bindParam(":compatibilidad_A", $data['Ecompatibilidad_A']);
+            $stmt->bindParam(":descripcion_A", $descripcion_A);
             $stmt->bindParam(":stock_A", $data['Estock_A']);
             $stmt->bindParam(":cantidad_A", $data['Ecantidad_A']);
             $stmt->bindParam(":unimed_A", $data['Eunimed_A']);
-            $stmt->bindParam(":modelo_A", $data['Emodelo_A']);
-            $stmt->bindParam(":calidad_A", $data['Ecalidad_A']);
             $stmt->bindParam(":precio_neto_A", $data['Eprecio_neto_A']);
-            $stmt->bindParam(":precio_venta_A", $data['Eprecio_venta_A']);
-            $stmt->bindParam(":precio_fact_A", $data['Eprecio_fact_A']);
+            $stmt->bindParam(":precio_distribucion_A", $data['Eprecio_distribucion_A']);
+            $stmt->bindParam(":precio_tecnico_A", $data['Eprecio_tecnico_A']);
+            $stmt->bindParam(":precio_publico_A", $data['Eprecio_publico_A']);
             $stmt->bindParam(":estado_A", $data['Eestado_A']);
             $stmt->bindParam(":imagenes_A", $data['Eimagenes_A']);
-            $stmt->bindParam(":tipo_A", $data['Etipo_A']);
             $stmt->bindParam(":id_articulo", $data['Eid_articulo']);
 
-            // Ejecuta la consulta
-            if ($stmt->execute()) {
-                return 'articulo actualizado correctamente'; // Éxito
-            } else {
-                return 'error al actualizar el articulo'; // Error en la ejecución
-            }
+            $stmt->execute();
+            $this->conn = null;
+            return "ok";
         } catch (PDOException $e) {
-            echo "Error al actualizar el artículo: " . $e->getMessage();
-            return false;
+            $this->conn = null;
+            return  "Error al actualizar el artículo: " . $e->getMessage();
         }
     }
-
     public function eliminarArticulo($data)
     {
         try {
             $query = 'DELETE FROM articulo WHERE id_articulo = :id_articulo';
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':id_articulo', $data['id_articulo']);
-
-            if ($stmt->execute()) {
-                return 'El articulo se ha eliminado correctamente';
-            } else {
-                return 'El articulo no se ha eliminado';
-            }
+            $stmt->execute();
+            $this->conn = null;
+            return "ok";
         } catch (PDOException $e) {
-            echo 'error en el sql' . $e->getMessage();
-            return false;
+            $this->conn = null;
+            return $e->getMessage();
         }
     }
 

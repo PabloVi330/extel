@@ -52,24 +52,23 @@
             <!-- Left sidebar -->
             <div class="card detalles col-12">
                 <div class="row p-2">
-                    <div class=" col-3">
+                    <div class=" col-lg-3 col-sm-12 mb-2">
                         <button type="button" class="btn btn-danger btn-block
-                        waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#composemodal">
+                        waves-effect waves-light w-100 t-center" data-bs-toggle="modal" data-bs-target="#composemodal">
                             <i class=" fas fa-cart-plus"></i>
                             Agregar
                         </button>
                     </div>
 
-                    <div class="col-9 ">
+                    <div class="col-lg-9 col-sm-12 ">
 
                         <form action="" class="form-control row d-flex" id="formCompras">
-                            <div class="col-3 m-2">
-                                <input type="text" class="form-control" id="proveedor_C" name="proveedor_C" placeholder="Proveedor">
+                            <div class="col-lg-3 col-sm-12 m-2">
+                                <select class="form-control" name="proveedor_C" id="proveedor_C">
+                                    <option value=""> Seleccionar Proveedor</option>
+                                </select>
                             </div>
-                            <div class="col-3 m-2">
-                                <input type="date" class="form-control" id="fecha_C" name="fecha_C" placeholder="Fecha">
-                            </div>
-                            <div class="col-3 m-2">
+                            <div class="col-lg-3 col-sm-12 m-2">
                                 <input type="number" step="any" class="form-control" id="costo_C" name="costo_C">
                             </div>
                             <input type="hidden" id="detalle_C" name="detalle_C">
@@ -92,7 +91,7 @@
                                     <div class="d-flex align-items-start">
                                         <div class="flex-grow-1">
                                             <div class="mb-4">
-                                                <img src="assets/images/logo.png" alt="" height="24"><span class="logo-txt">Minia</span>
+                                                <img src="assets/images/logo.png" alt="" height="100" style="color: red;">
                                             </div>
                                         </div>
                                         <div class="flex-shrink-0">
@@ -104,20 +103,20 @@
 
                                     <div class="col-lg-6">
 
-                                        <p class="mb-1">1874 County Line Road City, FL 33566</p>
-                                        <p class="mb-1"><i class="mdi mdi-email align-middle me-1"></i> abc@123.com</p>
-                                        <p><i class="mdi mdi-phone align-middle me-1"></i> 012-345-6789</p>
-
+                                        <p class="mb-1">Cochamba y la Plata</p>
+                                        <!-- <p class="mb-1"><i class="mdi mdi-email align-middle me-1"></i> abc@123.com</p> -->
+                                        <p><i class="mdi mdi-phone align-middle me-1"></i> 67200201</p>
                                     </div>
 
-                                    <div class="col-lg-6">
+
+                                    <!-- <div class="col-lg-6">
                                         <h5 class="font-size-15 mb-3">Billed To:</h5>
                                         <h5 class="font-size-14 mb-2">Richard Saul</h5>
                                         <p class="mb-1">1208 Sherwood Circle
                                             Lafayette, LA 70506</p>
                                         <p class="mb-1">RichardSaul@rhyta.com</p>
                                         <p>337-256-9134</p>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <hr class="my-4">
 
@@ -189,18 +188,18 @@
                                         table-bordered dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                        <th>ID</th>
-                                        <th>Codigo</th>
-                                        <th>Descripcion</th>
-                                        <th>Categoria</th>
-                                        <th>Stock</th>
-                                        <th>Marca</th>
-                                        <th>Umed.</th>
-                                        <th>P. Neto</th>
-                                        <th>P. Dis.</th>
-                                        <th>P. Tec.</th>
-                                        <th>P. Pub-</th>
-                                        <th>Accio.</th>
+                                    <th>ID</th>
+                                    <th>Codigo</th>
+                                    <th>Descripcion</th>
+                                    <th>Categoria</th>
+                                    <th>Stock</th>
+                                    <th>Marca</th>
+                                    <th>Umed.</th>
+                                    <th>P. Neto</th>
+                                    <th>P. Dis.</th>
+                                    <th>P. Tec.</th>
+                                    <th>P. Pub-</th>
+                                    <th>Accio.</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -344,7 +343,7 @@
             }
         });
     </script>
-  
+
     <script>
         function recargar() {
             var tableArt = $('#datatable-articulos').DataTable();
@@ -359,58 +358,58 @@
         //ANCHOR - LLAMADA A ARTICULOS
         $(document).ready(function() {
             var table = $('#datatable-articulos').DataTable({
-                 lengthChange: true,
-            buttons: [
+                lengthChange: true,
+                buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
-            ],
-            ajax: {
-                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
-                dataSrc: ''
-            },
-            columns: [{
-                    data: 'id_articulo'
+                ],
+                ajax: {
+                    url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
+                    dataSrc: ''
                 },
-                {
-                    data: 'codigo_A'
-                },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        if(data.descripcion_A !== null){
-                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
-                            console.log(data.descripcion_A)
-                             descripcion_A = data.descripcion_A.detalle
-                            // Dividir la cadena en segmentos de 20 caracteres
-                            var segmentos = [];
-                            for (var i = 0; i < descripcion_A.length; i += 20) {
-                                segmentos.push(descripcion_A.substring(i, i + 20));
-                            }
-    
-                            // Crear un bloque de HTML con saltos de línea para cada segmento
-                            var descripcionHtml = segmentos.map(function(segmento) {
-                                return `<div>${segmento}</div>`;
-                            }).join('');
-    
-                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                columns: [{
+                        data: 'id_articulo'
+                    },
+                    {
+                        data: 'codigo_A'
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            if (data.descripcion_A !== null) {
+                                //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
+                                console.log(data.descripcion_A)
+                                descripcion_A = data.descripcion_A.detalle
+                                // Dividir la cadena en segmentos de 20 caracteres
+                                var segmentos = [];
+                                for (var i = 0; i < descripcion_A.length; i += 20) {
+                                    segmentos.push(descripcion_A.substring(i, i + 20));
+                                }
+
+                                // Crear un bloque de HTML con saltos de línea para cada segmento
+                                var descripcionHtml = segmentos.map(function(segmento) {
+                                    return `<div>${segmento}</div>`;
+                                }).join('');
+
+                                return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">${descripcionHtml}</a>`;
-                        }else{
-                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                            } else {
+                                return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">SN</a>`;
+                            }
                         }
-                    }
-                },
-                {
-                    data:'nombre_categoria'
-                },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        // Combina los valores de los cuatro campos en un solo string
-                        var uno = row.stock_sucursal_1
-                        var dos = row.stock_sucursal_2
-                        var tres = row.stock_sucursal_3
-                        var cuatro = row.stock_sucursal_4
-                        return ` <div class="row w-100" >
+                    },
+                    {
+                        data: 'nombre_categoria'
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            // Combina los valores de los cuatro campos en un solo string
+                            var uno = row.stock_sucursal_1
+                            var dos = row.stock_sucursal_2
+                            var tres = row.stock_sucursal_3
+                            var cuatro = row.stock_sucursal_4
+                            return ` <div class="row w-100" >
                                   <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
 
                                   <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
@@ -419,42 +418,42 @@
                                   <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
                                
                             </div>`;
-                    }
-                },
-                {
-                    data: 'nombre_marca'
-                },
-                {
-                    data: 'unimed_A'
-                },
-                {
-                    data: 'precio_neto_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_distribucion_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_tecnico_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_publico_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
+                        }
+                    },
+                    {
+                        data: 'nombre_marca'
+                    },
+                    {
+                        data: 'unimed_A'
+                    },
+                    {
+                        data: 'precio_neto_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'precio_distribucion_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'precio_tecnico_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'precio_publico_A',
+                        render: function(data, type, row) {
+                            // Devolver el contenido de la celda con el color aplicado y estilos
+                            return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
+                        }
+                    },
 
                     {
                         data: null,
@@ -473,7 +472,7 @@
         //FIXME - LLAMADA A COMPRAS
         $(document).ready(function() {
 
-          var table = $('#datatable-compras').DataTable({
+            var table = $('#datatable-compras').DataTable({
                 lengthChange: false,
                 order: [
                     [0, "desc"]
@@ -535,6 +534,29 @@
                 ]
             });
 
+
+            //LINK - llamada a los -proveedors 
+            $.ajax({
+                url: './controllers/ProveedoresControllers.php?action=obtenerProveedores', // Ajusta la ruta correcta
+                dataType: 'json',
+                success: function(data) {
+                    var select = $('#proveedor_C');
+                    select.empty();
+                    select.append($('<option>', {
+
+
+                        value: '',
+                        text: 'Seleccionar Proveedor'
+                    }));
+                    $.each(data, function(key, value) {
+                        select.append($('<option>', {
+                            value: value.id_proveedor,
+                            text: value.nombre_Pro
+                        }));
+                    });
+                }
+            });
+
         });
 
 
@@ -578,7 +600,7 @@
                 unimed: unimed,
             }
             carrito.push(producto)
-    
+
             let nuevaFila = `
                 <tr>
                     <style>
@@ -610,8 +632,8 @@
                         <td class="text-end subtotal" value="">${precio_neto}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
-                $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
-                console.log(carrito)
+            $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
+            console.log(carrito)
             calcularTotal();
         }
 

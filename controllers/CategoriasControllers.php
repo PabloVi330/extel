@@ -1,31 +1,37 @@
 <?php
 require_once '../models/CategoriasModels.php';
 
-class CategoriaController {
+class CategoriaController
+{
     private $categoria;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->categoria = new CategoriaModel();
     }
 
-    public function crearCategoria() {
+    public function crearCategoria()
+    {
         $response = $this->categoria->crearCategoria($_POST);
-         echo json_encode($response);
+        echo json_encode($response);
     }
 
-    public function obtenerCategorias() {
+    public function obtenerCategorias()
+    {
         $response = $this->categoria->obtenerCategorias();
         echo json_encode($response);
     }
 
-    public function editarCategoria() {
+    public function editarCategoria()
+    {
         $response = $this->categoria->editarCategoria($_POST);
         echo json_encode($response);
     }
 
-    public function eliminarCategoria() {
+    public function eliminarCategoria()
+    {
         $response = $this->categoria->eliminarCategoria($_POST);
-         echo json_encode($response);
+        echo json_encode($response);
     }
 }
 $controller = new CategoriaController();
@@ -45,5 +51,3 @@ if (isset($_GET['action']) && $_GET['action'] == 'edidarCategorias') {
 if (isset($_GET['action']) && $_GET['action'] == 'eliminarCategorias') {
     $controller->eliminarCategoria();
 }
-
-?>

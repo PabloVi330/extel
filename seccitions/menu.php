@@ -14,7 +14,7 @@
                 <li>
                     <a href="index.php">
                         <i data-feather="home"></i>
-                        <span data-key="t-dashboard">Dashboard</span>
+                        <span data-key="t-dashboard">Panel de Control</span>
                     </a>
                 </li>
 
@@ -25,7 +25,7 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="grid"></i>
-                        <span data-key="t-apps">Grupos</span>
+                        <span data-key="t-apps">Adminstracion</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <?php if ($area == "administrador") { // Muestra solo si el nivel de usuario es 0 o 1 
@@ -77,8 +77,16 @@
                         <li>
                             <a href="1.6clientes.php">
                                 <span data-key="t-chat">
-                                    <i class="fas fa-user-tie"></i>
+                                    <i class=" fas fa-users"></i>
                                     Clientes</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="1.7proveedores.php">
+                                <span data-key="t-chat">
+                                    <i class="fas fa-user-friends"></i>
+                                    Proveedores</span>
                             </a>
                         </li>
                       </ul>

@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!-- DataTables -->
 <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -110,7 +114,7 @@
                                         <div class="d-flex align-items-start">
                                             <div class="flex-grow-1">
                                                 <div class="mb-4">
-                                                    <img src="assets/images/logo-sm.svg" alt="" height="24"><span class="logo-txt">Minia</span>
+                                                    <img src="assets/images/logo.png" alt="" height="100" style="color: red;">
                                                 </div>
                                             </div>
                                             <div class="flex-shrink-0">
@@ -121,20 +125,22 @@
                                         </div>
 
                                         <div class="col-lg-6">
-
-                                            <p class="mb-1">1874 County Line Road City, FL 33566</p>
-                                            <p class="mb-1"><i class="mdi mdi-email align-middle me-1"></i> abc@123.com</p>
-                                            <p><i class="mdi mdi-phone align-middle me-1"></i> 012-345-6789</p>
-
+                                            <p class="mb-1" id="nombre_S"></p>
+                                            <i class=" fas fa-map-marker-alt"></i>
+                                            <p class="mb-1" id="direccion_S"></p>
+                                            <i class="mdi mdi-phone align-middle me-1"></i>
+                                            <p id="telefono_S"></p>
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <h5 class="font-size-15 mb-3">Billed To:</h5>
-                                            <h5 class="font-size-14 mb-2">Richard Saul</h5>
-                                            <p class="mb-1">1208 Sherwood Circle
+                                            <h5 class="font-size-15 mb-3" >Encargado de envio:</h5>
+
+                                            <i class="fas fa-user-alt"></i>
+                                            <h5 class="font-size-14 mb-2" id="nombre_U">Richard Saul</h5>
+                                            <!-- <p class="mb-1">1208 Sherwood Circle
                                                 Lafayette, LA 70506</p>
                                             <p class="mb-1">RichardSaul@rhyta.com</p>
-                                            <p>337-256-9134</p>
+                                            <p>337-256-9134</p> -->
                                         </div>
                                     </div>
                                     <hr class="my-4">
@@ -203,20 +209,20 @@
                                         table-bordered dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                        <th>ID</th>
-                                        <th>Codigo</th>
-                                        <th>Descripcion</th>
-                                        <th>Categoria</th>
-                                        <th>Stock</th>
-                                        <th>Marca</th>
-                                        <th>Umed.</th>
-                                        <th>P. Neto</th>
-                                        <th>P. Dis.</th>
-                                        <th>P. Tec.</th>
-                                        <th>P. Pub-</th>
-                                        <th>Accio.</th>
+                                    <th>ID</th>
+                                    <th>Codigo</th>
+                                    <th>Descripcion</th>
+                                    <th>Categoria</th>
+                                    <th>Stock</th>
+                                    <th>Marca</th>
+                                    <th>Umed.</th>
+                                    <th>P. Neto</th>
+                                    <th>P. Dis.</th>
+                                    <th>P. Tec.</th>
+                                    <th>P. Pub-</th>
+                                    <th>Accio.</th>
 
-                                    </tr>
+                                </tr>
                             </thead>
                             <tbody>
 
@@ -313,11 +319,34 @@
 </div>
 <script>
     $(document).ready(function() {
+
+        var nombre = <?php echo json_encode($_SESSION['nombre_U']); ?>;
+        var fkIdSucursal = <?php echo json_encode($_SESSION['fk_id_sucursal']); ?>;
+
+        $.ajax({
+            url: 'controllers/SucursalesControllers.php?action=obtenerSucursal',
+            type: 'POST',
+            dataType: 'json',
+            data: {id_sucursal: fkIdSucursal},
+            success: function(response) {
+               $('#nombre_S').text(response.nombreS),
+               $('#direccion_S').text(response.direccion_S);
+               $('#telefono_S').text(response.telefono_S);
+               $('#nombre_U').text(nombre);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Error: muestra un mensaje de error
+                console.error('Error al obtener datos de sesión:', textStatus, errorThrown);
+            }
+        });
+
+        // Haz lo que necesites con el objeto usuario en JavaScript
+        console.log(usuario);
         //ANCHOR -  llamada a los articulos
         var tableArticulos = $('#datatable-articulos').DataTable({
             lengthChange: true,
             buttons: [
-                    'copy', 'excel', 'pdf', 'colvis'
+                'copy', 'excel', 'pdf', 'colvis'
             ],
             ajax: {
                 url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
@@ -332,31 +361,31 @@
                 {
                     data: null,
                     render: function(data, type, row) {
-                        if(data.descripcion_A !== null){
+                        if (data.descripcion_A !== null) {
                             //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
-                            console.log(data.descripcion_A)
-                             descripcion_A = data.descripcion_A.detalle
+                            //console.log(data.descripcion_A)
+                            descripcion_A = data.descripcion_A.detalle
                             // Dividir la cadena en segmentos de 20 caracteres
                             var segmentos = [];
                             for (var i = 0; i < descripcion_A.length; i += 20) {
                                 segmentos.push(descripcion_A.substring(i, i + 20));
                             }
-    
+
                             // Crear un bloque de HTML con saltos de línea para cada segmento
                             var descripcionHtml = segmentos.map(function(segmento) {
                                 return `<div>${segmento}</div>`;
                             }).join('');
-    
+
                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">${descripcionHtml}</a>`;
-                        }else{
-                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                        } else {
+                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">SN</a>`;
                         }
                     }
                 },
                 {
-                    data:'nombre_categoria'
+                    data: 'nombre_categoria'
                 },
                 {
                     data: null,
@@ -423,7 +452,7 @@
             ]
         });
 
-        //LINK - llamada a las sucursales
+        //LINK - llamada a las  
         $.ajax({
             url: './controllers/SucursalesControllers.php?action=obtenerSucursales', // Ajusta la ruta correcta
             dataType: 'json',
@@ -445,103 +474,94 @@
 
         //NOTE - llamada a los envios
         var tableEnvios = $('#datatable-envios').DataTable({
-             lengthChange: true,
-            buttons: [
-                    'copy', 'excel', 'pdf', 'colvis'
+            lengthChange: false,
+            order: [
+                [0, "desc"]
             ],
             ajax: {
-                url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
+                url: './controllers/EnviosControllers.php?action=obtenerEnvios',
                 dataSrc: ''
             },
             columns: [{
-                    data: 'id_articulo'
+                    data: 'id_envio'
                 },
                 {
-                    data: 'codigo_A'
+                    data: 'nombre_sucursal'
+                },
+                {
+                    data: 'nombre_usuario'
+                },
+                {
+                    data: 'fecha_E'
+                },
+                {
+                    data: 'total_E'
                 },
                 {
                     data: null,
                     render: function(data, type, row) {
-                        if(data.descripcion_A !== null){
-                            //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
-                            console.log(data.descripcion_A)
-                             descripcion_A = data.descripcion_A.descripcion_A
-                            // Dividir la cadena en segmentos de 20 caracteres
-                            var segmentos = [];
-                            for (var i = 0; i < descripcion_A.length; i += 20) {
-                                segmentos.push(descripcion_A.substring(i, i + 20));
-                            }
-    
-                            // Crear un bloque de HTML con saltos de línea para cada segmento
-                            var descripcionHtml = segmentos.map(function(segmento) {
-                                return `<div>${segmento}</div>`;
-                            }).join('');
-    
-                            return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
-                            <a href="#" class="text-body">${descripcionHtml}</a>`;
-                        }else{
-                             return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
-                            <a href="#" class="text-body">SN</a>`;
+                        if (data.tipo_E == 0) {
+                            return `<div class="badge badge-soft-info font-size-12">Sin Costo</div>`;
+                        } else {
+                            return `<div class="badge badge-soft-success ont-size-12">Costo</div>`
                         }
+
                     }
-                },
-                {
-                    data:'nombre_categoria'
                 },
                 {
                     data: null,
                     render: function(data, type, row) {
-                        // Combina los valores de los cuatro campos en un solo string
-                        var uno = row.stock_sucursal_1
-                        var dos = row.stock_sucursal_2
-                        var tres = row.stock_sucursal_3
-                        var cuatro = row.stock_sucursal_4
-                        return ` <div class="row w-100" >
-                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
+                        if (data.estado_E == 0) {
+                            return `<div class="badge badge-soft-warning font-size-12">Enviado</div>`;
+                        } else {
+                            return `<div class="badge badge-soft-success ont-size-12">Recibido</div>`
+                        }
 
-                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+                    }
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        return `<div>
+                                        <a >
+                                          <button type="button" class="btn recibir
+                                                    btn-soft-light btn-sm w-xs
+                                                    waves-effect btn-label
+                                                    waves-light" id="${data.id_envio}"><i class="fas fa-envelope-open label-icon"></i>
+                                                Recibir
+                                            </button>
+                                        </a>
+                                    </div>`;
+                    }
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        if (data.impreso_E == 0) {
+                            return `<div class="badge badge-soft-warning font-size-12">Pendiente</div>`;
+                        } else {
+                            return `<div class="badge badge-soft-success ont-size-12">Impreso ${data.impreso_E}</div>`
+                        }
 
-                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${tres}</div>
-                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
-                               
-                            </div>`;
                     }
                 },
                 {
-                    data: 'nombre_marca'
-                },
-                {
-                    data: 'unimed_A'
-                },
-                {
-                    data: 'precio_neto_A',
+                    data: null,
                     render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-secondary font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_distribucion_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-danger font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_tecnico_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-info font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
-                {
-                    data: 'precio_publico_A',
-                    render: function(data, type, row) {
-                        // Devolver el contenido de la celda con el color aplicado y estilos
-                        return `<div class="badge badge-soft-dark font-size-14"><i class="fas fa-laptop-house"></i> ${data}</div>`;
-                    }
-                },
 
+                        return `<div>
+                                        <a href="pdfs/nota_envio.php?id_envio=${data.id_envio}" target="_blank">
+                                          <button type="button" class="btn
+                                                    btn-soft-light btn-sm w-xs
+                                                    waves-effect btn-label
+                                                    waves-light"><i class="bx
+                                                        bx-download label-icon"></i>
+                                                Pdf
+                                            </button>
+                                        </a>
+                                    </div>`;
+                    }
+                },
 
                 {
                     data: null,
@@ -621,7 +641,7 @@
                         <td class="text-end subtotal" value="">${precio_neto}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
-                $(nuevaFila).insertBefore('#tabla-envios tbody tr:last');
+        $(nuevaFila).insertBefore('#tabla-envios tbody tr:last');
         //console.log(carrito)
         calcularTotal();
     }
@@ -701,7 +721,7 @@
 
         var tipo = $('#switch4').prop('checked') ? 1 : 0;
         $('#tipo_E').val(tipo);
-        $('#detalle_E').val(JSON.stringify(carrito)); 
+        $('#detalle_E').val(JSON.stringify(carrito));
         var formData = $('#formEnvios').serialize();
         $.ajax({
             type: 'POST',

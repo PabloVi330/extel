@@ -9,20 +9,20 @@ class SucursalController {
     }
 
     public function crearSucursal() {
-        $data = $_POST;
-        return $this->sucursal->crearSucursal($data);
+        $data = $_POST; 
+        $crearSucursal =  $this->sucursal->crearSucursal($data);
+        echo json_encode($crearSucursal);
     }
 
     public function obtenerSucursales() {
-        $respomse = $this->sucursal->obtenerSucursales();
-        echo json_encode($respomse);
+        $obtenerSucursales = $this->sucursal->obtenerSucursales();
+        echo json_encode($obtenerSucursales);
     }
 
     public function obtenerSucursal() {
         $id = intval($_POST['id_sucursal']);
-        
-        return $this->sucursal->obtenerSucursal($id);
-        echo json_encode($id);
+        $obtenerSucrsalPorId =  $this->sucursal->obtenerSucursal($id);
+        echo json_encode($obtenerSucrsalPorId);
     }
 
     public function editarSucursal() {

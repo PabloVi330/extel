@@ -1,25 +1,25 @@
 <?php
-include_once '../models/ClientesModels.php';
+include_once '../models/ProveedoresModels.php';
 
-class ClienteController
+class ProveedorController
 {
 
-    private $cliente;
+    private $proveedor;
 
     public function __construct()
     {
 
-        $this->cliente = new ClienteModel();
+        $this->proveedor = new ProveedorModel();
     }
 
 
-    public function crearCliente()
+    public function crearProveedor()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
-            echo '<pre>';
-            print_r($data);
-            echo '</pre>';
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
             if (!empty($_FILES['imagenes']['name'][0])) {
                 $uploadDir = 'uploads/users/';
                 $uploadedImages = [];
@@ -44,75 +44,67 @@ class ClienteController
                     echo "No se recibieron imágenes";
                 }
             } else {
-                echo "No se enviaron imágenes";
+                $uploadedImages = ["proveedor.jpg"];
             }
             $img = json_encode($uploadedImages);
             $data['imagenes']  = $img;
 
-            $response = $this->cliente->crearCliente($data);
+            $response = $this->proveedor->crearProveedor($data);
             echo json_encode($response);
         }
     }
 
 
-    public function obtenerClientes()
+    public function obtenerProveedores()
     {
-        $response = $this->cliente->obtenerClientes();
-        echo json_encode($response);
-    }
-
-    public function obtenerClientesPorClasificacion()
-    {
-        $response = $this->cliente->obtenerClientesPorClasificacion();
+        $response = $this->proveedor->obtenerProveedores();
         echo json_encode($response);
     }
 
 
-    // Obtener un usuario por ID en formato JSON
-    public function obtenerClientePorID()
+    public function obtenerProveedorPorId()
     {
 
-        $response = $this->cliente->obtenerClientePorID($_POST['id_cliente']);
+        $response = $this->proveedor->obtenerProveedorPorId($_POST['id_proveedor']);
         echo json_encode($response);
     }
 
-    // Actualizar un usuario
-    public function editarCliente()
+
+    public function editarProveedor()
     {
 
-        $response = $this->cliente->editarCliente($_POST);
+        $response = $this->proveedor->editarProveedor($_POST);
         echo json_encode($response);
     }
 
-    // Eliminar un usuario
-    public function eliminarCliente()
+   
+    public function eliminarProveedor()
     {
-        $response = $this->cliente->eliminarCliente($_POST['id_cliente']);
+        $response = $this->proveedor->eliminarProveedor($_POST['id_proveedor']);
         echo json_encode($response);
     }
 }
-$controller = new ClienteController();
 
-if (isset($_GET['action']) && $_GET['action'] == 'crearCliente') {
-    $controller->crearCliente();
+
+$controller = new ProveedorController();
+
+if (isset($_GET['action']) && $_GET['action'] == 'crearProveedor') {
+    $controller->crearProveedor();
 }
 
-if (isset($_GET['action']) && $_GET['action'] == 'editarCliente') {
-    $controller->editarCliente();
-}
-if (isset($_GET['action']) && $_GET['action'] == 'eliminarCliente') {
-    $controller->eliminarCliente();
+if (isset($_GET['action']) && $_GET['action'] == 'editarProveedor') {
+    $controller->editarProveedor();
 }
 
-if (isset($_GET['action']) && $_GET['action'] == 'obtenerClientes') {
-    $controller->obtenerClientes();
+if (isset($_GET['action']) && $_GET['action'] == 'eliminarProveedor') {
+    $controller->eliminarProveedor();
 }
 
-if (isset($_GET['action']) && $_GET['action'] == 'obtenerClientesPorClasificacion') {
-    $controller->obtenerClientesPorClasificacion();
+if (isset($_GET['action']) && $_GET['action'] == 'obtenerProveedores') {
+    $controller->obtenerProveedores();
 }
 
 
-if (isset($_GET['action']) && $_GET['action'] == 'obtenerClientePorId') {
-    $controller->obtenerClientePorID();
+if (isset($_GET['action']) && $_GET['action'] == 'obtenerProveedorPorId') {
+    $controller->obtenerProveedorPorId();
 }

@@ -14,27 +14,29 @@ class ClienteModel
     }
 
 
-    // Crear un nuevo usuario
     public function crearCliente($data)
     {
-        $query = 'INSERT INTO ' . $this->table . '
-                    (ci_Cl, nombre_Cl, clasificacion_Cl, direccion_Cl, telefono_Cl)
+        try {
+            $query = 'INSERT INTO ' . $this->table . '
+                    (ci_Cl, nombre_Cl, clasificacion_Cl, direccion_Cl, telefono_Cl, nit_Cl)
                     VALUES
-                    (:ci_Cl, :nombre_Cl, :clasificacion_Cl, :direccion_Cl, :telefono_Cl)';
+                    (:ci_Cl, :nombre_Cl, :clasificacion_Cl, :direccion_Cl, :telefono_Cl, :nit_Cl)';
 
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        // Limpiar y vincular los parámetros
-        //$data['password_U'] = password_hash($data['password_U'], PASSWORD_DEFAULT);
-        $stmt->bindParam(':ci_Cl', $data['ci_Cl']);
-        $stmt->bindParam(':nombre_Cl', $data['nombre_Cl']);
-        $stmt->bindParam(':clasificacion_Cl', $data['clasificacion_Cl']);
-        $stmt->bindParam(':direccion_Cl', $data['direccion_Cl']);
-        $stmt->bindParam(':telefono_Cl', $data['telefono_Cl']);
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+            //$data['password_U'] = password_hash($data['password_U'], PASSWORD_DEFAULT);
+            $stmt->bindParam(':ci_Cl', $data['ci_Cl']);
+            $stmt->bindParam(':nombre_Cl', $data['nombre_Cl']);
+            $stmt->bindParam(':clasificacion_Cl', $data['clasificacion_Cl']);
+            $stmt->bindParam(':direccion_Cl', $data['direccion_Cl']);
+            $stmt->bindParam(':telefono_Cl', $data['telefono_Cl']);
+            $stmt->bindParam(':nit_Cl', $data['nit_Cl']);
+            $stmt->execute();
+            $this->conn = null;
+            return "ok";
+        } catch (PDOException $e) {
+            $this->conn = null;
+            return $e->getMessage();
         }
     }
 
@@ -43,18 +45,18 @@ class ClienteModel
     {
         try {
             $id_usuario = $_SESSION['id_usuario'];
-            if($_SESSION['area_U'] == 'administrador'){
+            if ($_SESSION['area_U'] == 'administrador') {
                 $query = "SELECT * FROM clientes";
-            }else{
+            } else {
                 $query = "SELECT * FROM clientes WHERE fk_id_usuario = $id_usuario";
             }
-            
+
             $statement = $this->conn->prepare($query);
             $statement->execute();
-
+            $this->conn = null;
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            // Manejo de errores
+            $this->conn = null;
             return [];
         }
     }
@@ -66,10 +68,10 @@ class ClienteModel
             $query = "SELECT *, COUNT(clasificacion_Cl) AS cantidad FROM `clientes`  GROUP BY clasificacion_Cl;";
             $statement = $this->conn->prepare($query);
             $statement->execute();
-
+            $this->conn = null;
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            // Manejo de errores
+            $this->conn = null;
             return [];
         }
     }
@@ -77,53 +79,73 @@ class ClienteModel
     // Obtener un usuario por ID
     public function obtenerClientePorID($id_cliente)
     {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE id_cliente = :id_cliente';
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id_cliente', $id_cliente);
-        $stmt->execute();
-        return $stmt;
+        try {
+            $query = 'SELECT * FROM ' . $this->table . ' WHERE id_cliente = :id_cliente';
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id_cliente', $id_cliente);
+            $stmt->execute();
+            $this->conn = null;
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $this->conn = null;
+            return $e->getMessage();
+        }
     }
 
-    // Actualizar un usuario
+
     public function editarCliente($data)
     {
-        $query = 'UPDATE ' . $this->table . '
+        try {
+            $query = 'UPDATE ' . $this->table . '
                     SET
                     ci_Cl = :ci_Cl,
                     nombre_Cl = :nombre_Cl,
                     clasificacion_Cl = :clasificacion_Cl,
                     direccion_Cl = :direccion_Cl,
-                    telefono_Cl = :telefono_Cl
+                    telefono_Cl = :telefono_Cl,
+                    nit_Cl = :nit_Cl,
+                    autorizacion_Cl = :autorizacion_Cl,
+                    porcentaje_Cl = :porcentaje_Cl,
+                    limite_Cl = :limite_Cl
                     WHERE id_cliente = :id_cliente';
 
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':id_cliente', $data['Eid_cliente']);
-        $stmt->bindParam(':ci_Cl', $data['Eci_Cl']);
-        $stmt->bindParam(':nombre_Cl', $data['Enombre_Cl']);
-        $stmt->bindParam(':clasificacion_Cl', $data['Eclasificacion_Cl']);
-        $stmt->bindParam(':direccion_Cl', $data['Edireccion_Cl']);
-        $stmt->bindParam(':telefono_Cl', $data['Etelefono_Cl']);
-       
+            $stmt->bindParam(':id_cliente', $data['Eid_cliente']);
+            $stmt->bindParam(':ci_Cl', $data['Eci_Cl']);
+            $stmt->bindParam(':nombre_Cl', $data['Enombre_Cl']);
+            $stmt->bindParam(':clasificacion_Cl', $data['Eclasificacion_Cl']);
+            $stmt->bindParam(':direccion_Cl', $data['Edireccion_Cl']);
+            $stmt->bindParam(':telefono_Cl', $data['Etelefono_Cl']);
+            $stmt->bindParam(':nit_Cl', $data['Enit_Cl']);
+            $stmt->bindParam(':autorizacion_Cl', $data['Eautorizacion_Cl']);
+            $stmt->bindParam(':porcentaje_Cl', $data['Eporcentaje_Cl']);
+            $stmt->bindParam(':limite_Cl', $data['Elimite_Cl']);
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+            $stmt->execute();
+            $this->conn = null;
+            return "ok";
+        } catch (PDOException $e) {
+            $this->conn = null;
+            return $e->getMessage();
         }
     }
 
     // Eliminar un usuario
     public function eliminarCliente($data)
     {
-        $query = 'DELETE FROM ' . $this->table . ' WHERE id_cliente = :id_cliente';
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id_cliente', $data);
+        try {
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+            $query = 'DELETE FROM ' . $this->table . ' WHERE id_cliente = :id_cliente';
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id_cliente', $data);
+
+            $stmt->execute();
+            $this->conn = null;
+            return "ok";
+        } catch (PDOException $e) {
+            $this->conn = null;
+            return $e->getMessage();
         }
     }
 }
