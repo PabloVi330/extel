@@ -111,14 +111,25 @@ class ArticulosController
         $response = $this->articuloModel->filtrarArticulos($_POST['modelo'], $_POST['query']);
         echo json_encode($response);
     }
+
+
+
+    public function productosPorCategoria()
+    {
+        $response = $this->articuloModel->productosPorCategoria();
+        echo json_encode($response);
+    }
+
+
 }
 
 
 
-// Crear una instancia del controlador
 $controller = new ArticulosController();
 
-// Comprobar si se ha hecho una solicitud AJAX
+if (isset($_GET['action']) && $_GET['action'] == 'productosPorCategoria') {
+    $controller->productosPorCategoria();
+}
 
 if (isset($_GET['action']) && $_GET['action'] == 'guardarArticulos') {
     $controller->crearArticulo();

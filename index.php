@@ -12,6 +12,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['login'] = true;
         $_SESSION['id_usuario'] = $usuarioEncontrado['id_usuario'];
         $_SESSION['fk_id_sucursal'] = $usuarioEncontrado['fk_id_sucursal'];
+        $_SESSION['nombre_Suc'] = $usuarioEncontrado['nombreS'];
         $_SESSION['nombre_U'] = $usuarioEncontrado['nombre_U'];
         $_SESSION['area_U'] = $usuarioEncontrado['area_U'];
         $_SESSION['tipo_U'] = $usuarioEncontrado['tipo_U'];

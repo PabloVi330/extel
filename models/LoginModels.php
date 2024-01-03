@@ -16,7 +16,10 @@ class LoginModel
         try {
 
 
-            $query = 'SELECT * FROM usuario WHERE usuario_U = :usuario_U';
+            $query = 'SELECT usuario.*, sucursal.nombreS
+            FROM usuario
+            JOIN sucursal ON usuario.fk_id_sucursal = sucursal.id_sucursal
+            WHERE usuario.usuario_U = :usuario_U';
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':usuario_U', $usuario);
             $stmt->execute();

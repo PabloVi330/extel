@@ -403,4 +403,24 @@ class ArticuloModel
             return $e->getMessage();
         }
     }
+
+
+    public function productosPorCategoria()
+    {
+        try {
+            $query = "SELECT c.id_categoria, c.nombre_C, COUNT(a.id_articulo) AS cantidad_productos
+            FROM categoria c
+            LEFT JOIN articulo a ON c.id_categoria = a.fk_id_categoria
+            GROUP BY c.id_categoria, c.nombre_C
+            ORDER BY cantidad_productos DESC;
+            ";
+            $statement = $this->conn->prepare($query);
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Manejo de errores
+            return "nos se optubo datos";
+        }
+    }
 }

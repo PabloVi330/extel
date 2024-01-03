@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="flex-shrink-0">
                                             <div class="mb-4">
-                                                <h4 class="float-end font-size-16">Invoice # 12345</h4>
+                                                <h4 class="float-end font-size-16">Invoice #</h4>
                                             </div>
                                         </div>
                                     </div>

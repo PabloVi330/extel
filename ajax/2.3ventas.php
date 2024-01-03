@@ -156,7 +156,7 @@
                                         <div class="d-flex align-items-start">
                                             <div class="flex-grow-1">
                                                 <div class="mb-4">
-                                                    <img src="assets/images/logo-sm.svg" alt="" height="24"><span class="logo-txt">Minia</span>
+                                                    <img src="assets/images/logo.png" alt="" height="100"><span class="logo-txt"></span>
                                                 </div>
                                             </div>
                                             <div class="flex-shrink-0">
@@ -167,9 +167,9 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                           <h5 class="font-size-15 mb-2">Actividad Economica:</h5>
+                                            <h5 class="font-size-15 mb-2">Actividad Economica:</h5>
                                             <p class="mb-1 " id="actitivadEconomica"></p>
-                                            
+
                                             <h5 class="font-size-15 mb-2">Fecha:</h5>
                                             <p class="mb-1 " id="fechaNota"></p>
 
@@ -407,7 +407,7 @@
                     render: function(data, type, row) {
                         if (data.descripcion_A !== null) {
                             //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
-                            console.log(data.descripcion_A)
+                            //console.log(data.descripcion_A)
                             descripcion_A = data.descripcion_A.detalle
                             // Dividir la cadena en segmentos de 20 caracteres
                             var segmentos = [];
@@ -493,34 +493,6 @@
             ]
         });
 
-        $.ajax({
-            type: "POST",
-            url: "./controllers/ArticulosControllers.php?action=obtenerArticulos",
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                console.log("Respuesta del servidor:", JSON.stringify(response));
-
-            },
-            error: function(error) {
-                console.log("Error en la petición AJAX:", error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Érror',
-                    text: 'error no se pudo hacer la petision AJAX:',
-                });
-            }
-        });
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -554,7 +526,7 @@
                 });
             },
             onChange: function(value) {
-                
+
                 var selectedClient = this.options[value];
                 var idCliente = selectedClient.id_cliente;
                 var clasificacionCliente = selectedClient.clasificacion_Cl;
@@ -564,16 +536,16 @@
 
                 const fechaActual = new Date();
 
-              
+
                 const año = fechaActual.getFullYear();
-                const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); 
+                const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
                 const dia = String(fechaActual.getDate()).padStart(2, '0');
                 const horas = String(fechaActual.getHours()).padStart(2, '0');
                 const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
                 const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
                 const fechaFormateada = `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
 
-                
+
                 console.log(fechaFormateada);
                 $('#fechaNota').text(fechaFormateada);
 
@@ -631,9 +603,9 @@
                         if (data.tipo_V == "venta") {
                             return `<div class="badge badge-soft-primary font-size-12"><i class="fas fa-money-bill"></i> Venta</div>`;
                         } else if (data.tipo_V == "pedido") {
-                            return `<div class="badge badge-soft-secondary font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Pedido</div>`
+                            return `<div class="badge badge-soft-secondary font-size-12 " id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Pedido</div>`
                         } else {
-                            return `<div class="badge badge-soft-dark font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Proforma</div>`
+                            return `<div class="badge badge-soft-dark font-size-12 " id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Proforma</div>`
                         }
 
                     }
@@ -641,10 +613,11 @@
                 {
                     data: null,
                     render: function(data, type, row) {
-                        if (data.estado_V == 'CANCELADO') {
-                            return `<div class="badge badge-soft-success font-size-12"><i class="fas fa-times"></i> Cancelado</div>`;
+                        var montoPagar = data.importe_V - data.monto_V 
+                        if (data.estado_V == 'cancelado') {
+                            return `<div class="badge badge-soft-success font-size-12 " ><i class="fas fa-times"></i> Cancelado</div>`;
                         } else {
-                            return `<div class="badge badge-soft-danger ont-size-12"><i class="fas fa-dollar-sign"></i> Por pagar</div>`
+                            return `<div class="badge badge-soft-danger font-size-12 pagar" id="${data.id_venta}"><i class="fas fa-dollar-sign"></i> Por pagar: ${montoPagar}</div>`
                         }
 
                     }
@@ -655,7 +628,7 @@
                         if (data.impreso_V == 0) {
                             return `<div class="badge badge-soft-warning font-size-12">Pendiente</div>`;
                         } else {
-                            return `<div class="badge badge-soft-success ont-size-12">Impreso ${data.impreso_V}</div>`
+                            return `<div class="badge badge-soft-success font-size-12">Impreso ${data.impreso_V}</div>`
                         }
 
                     }
@@ -774,10 +747,10 @@
                         <td class="descripcion-cell ">
                             <p class="font-size-13 text-muted mb-0" value="">${descripcion} </p>
                         </td>
-                        <td > <input type="number" step="any" class="form-control price" value="${facturado?producto.precio_facturado:producto.precio_venta}"></td>
-                        <td > <input type="number" class="form-control quantity" value="${cantidad_venta}" min="1" max="${producto.stock_A}">  </td>
+                        <td > <input type="number" step="any" class="form-control price" step="0.01" value="${facturado?producto.precio_facturado:producto.precio_venta}"></td>
+                        <td > <input type="number" class="form-control quantity" step="0.01" value="${cantidad_venta}" min="1" max="${producto.stock_A}">  </td>
                         <td class="text-end subtotal" value="">${facturado?producto.sub_total_facturado:producto.sub_total}</td>
-                        <td> <button class="btn btn-sm btn-danger btn-eliminar" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
+                        <td> <button class="btn btn-sm btn-danger btn-eliminar" step="0.01" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
         $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
 
@@ -936,37 +909,45 @@
         window.location.href = "inicio.php#2.3ventas.php";
     });
 
-    //CONFIRMAR PEDIDO
-    $("#datatable-ventas").on("click", ".pedido", function(e) {
+    //PAGART CREDITO
+    $("#datatable-ventas").on("click", ".pagar", function(e) {
         e.preventDefault();
         var idVenta = $(this).attr('id');
-        console.log(idVenta);
+
         Swal.fire({
             title: '¿Verificar pedido?',
-            text: '¿Confirmas haber recibido todo los productos ?',
+            html: '<input type="number" step="0.01" id="monto" class="swal2-input" placeholder="Ingrese el monto en decimales">',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
+            confirmButtonText: 'Sí, Pagar',
+            cancelButtonText: 'Cancelar',
+            preConfirm: function() {
+                return new Promise(function(resolve) {
+                    resolve({
+                        monto: $('#monto').val()
+                    });
+                });
+            }
+        }).then(function(result) {
             if (result.isConfirmed) {
-                // El usuario confirmó la eliminación, realiza la solicitud AJAX para eliminar la sucursal
+                console.log(result.value.monto)
                 $.ajax({
                     type: 'POST',
-                    url: './controllers/VentasControllers.php?action=recibirPedido',
+                    url: './controllers/VentasControllers.php?action=pagarCredito',
                     data: {
-                        id_venta: idVenta
+                        id_venta: idVenta,
+                        monto_V: result.value.monto
                     },
                     success: function(response) {
-                        if (response === 'true') {
-                            var table = $('#datatable-envios').DataTable();
+                        if (response == '"ok"') {
+                            var table = $('#datatable-ventas').DataTable();
                             table.ajax.reload();
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Éxito',
-                                text: 'El usuario se elimino correctamente.',
+                                text: 'El Pago se verificó correctamente.'
                             });
                         }
                     },
@@ -976,8 +957,8 @@
                 });
             }
         });
-
     });
+
 
     $("#datatable-ventas").on("click", ".btn-eliminar", function(e) {
         e.preventDefault();

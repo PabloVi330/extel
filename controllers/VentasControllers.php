@@ -23,6 +23,8 @@ class VentaController
       $detalle_V = json_decode($_POST['detalle_V'], true);
       if($_POST['tipo_V'] == "pedido" || $_POST['tipo_V'] == "proforma"){
          $_POST['estado_V'] = 'por pagar';
+      }else{
+         $_POST['monto_V'] =   $_POST['importe_V'];
       }
       $crearVenta = $this->venta->crearVenta($_POST);
 
@@ -74,6 +76,11 @@ class VentaController
       $venta = $this->venta->obtenerVentasPorCore($_POST['sql']);
       echo json_encode($venta);
    }
+   public function pagarCredito()
+   {
+      $venta = $this->venta->pagarCredito($_POST['id_venta'], $_POST['monto_V']);
+      echo json_encode($venta);
+   }
 }
 
 $controller = new VentaController();
@@ -94,4 +101,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'obtenerVentasPorFiltro') {
 }
 if (isset($_GET['action']) && $_GET['action'] == 'obtenerVentasPorCore') {
    $controller->obtenerVentasPorCore();
+}
+if (isset($_GET['action']) && $_GET['action'] == 'pagarCredito') {
+   $controller->pagarCredito();
 }

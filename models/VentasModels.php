@@ -15,7 +15,7 @@ class VentaModel
     {
         try {
 
-            $monto_V = 0;
+           
             $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_usuario, fk_id_cliente, fecha_V, detalle_V, importe_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_usuario, :fk_id_cliente, :fecha_V, :detalle_V, :importe_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
 
             $stmt = $this->conn->prepare($query);
@@ -28,7 +28,7 @@ class VentaModel
             $stmt->bindParam(':facturado_V', $data['facturado_V'], PDO::PARAM_INT);
             $stmt->bindParam(':tipo_V', $data['tipo_V'], PDO::PARAM_STR);
             $stmt->bindParam(':estado_V', $data['estado_V'], PDO::PARAM_STR);
-            $stmt->bindParam(':monto_V',  $monto_V, PDO::PARAM_INT);
+            $stmt->bindParam(':monto_V', $data['nonto_V'], PDO::PARAM_INT);
 
             $stmt->execute();
             return  "ok";
@@ -164,6 +164,22 @@ class VentaModel
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return $e->getMessage();
+        }
+    }
+
+
+    
+    public function pagarCredito($id_venta, $monto_V)
+    {
+        try {
+            $sql = "UPDATE ventas SET monto_V = :monto_V WHERE id_venta = :id_venta";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':monto_V', $monto_V);
+            $stmt->bindParam(':id_venta', $id_venta);
+            $stmt->execute();
+            return "ok";
+        } catch (PDOException $e) {
+            return "Error al incrementar el valor de impreso_E: " . $e->getMessage();
         }
     }
 }

@@ -82,8 +82,12 @@ session_start();
                             </div>
 
                             <div class="mb-3">
-                                <label for="responsable_E" class="form-label">Responsable</label>
-                                <input type="text" class="form-control" id="responsable_E" name="responsable_E">
+                                <div class="mb-3">
+                                    <label for="responsable_E" class="form-label font-size-13 text-muted">Responsable</label>
+                                    <select class="form-control" data-trigger name="responsable_E" id="responsable_E">
+                                        <option value="">Seleccionar</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="col-lg-4 col-md-6">
@@ -133,7 +137,7 @@ session_start();
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <h5 class="font-size-15 mb-3" >Encargado de envio:</h5>
+                                            <h5 class="font-size-15 mb-3">Encargado de envio:</h5>
 
                                             <i class="fas fa-user-alt"></i>
                                             <h5 class="font-size-14 mb-2" id="nombre_U">Richard Saul</h5>
@@ -327,12 +331,14 @@ session_start();
             url: 'controllers/SucursalesControllers.php?action=obtenerSucursal',
             type: 'POST',
             dataType: 'json',
-            data: {id_sucursal: fkIdSucursal},
+            data: {
+                id_sucursal: fkIdSucursal
+            },
             success: function(response) {
-               $('#nombre_S').text(response.nombreS),
-               $('#direccion_S').text(response.direccion_S);
-               $('#telefono_S').text(response.telefono_S);
-               $('#nombre_U').text(nombre);
+                $('#nombre_S').text(response.nombreS),
+                    $('#direccion_S').text(response.direccion_S);
+                $('#telefono_S').text(response.telefono_S);
+                $('#nombre_U').text(nombre);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Error: muestra un mensaje de error
@@ -340,8 +346,6 @@ session_start();
             }
         });
 
-        // Haz lo que necesites con el objeto usuario en JavaScript
-        console.log(usuario);
         //ANCHOR -  llamada a los articulos
         var tableArticulos = $('#datatable-articulos').DataTable({
             lengthChange: true,
@@ -452,7 +456,7 @@ session_start();
             ]
         });
 
-        //LINK - llamada a las  
+        //LINK - llamada a las  Sucursales
         $.ajax({
             url: './controllers/SucursalesControllers.php?action=obtenerSucursales', // Ajusta la ruta correcta
             dataType: 'json',
@@ -471,6 +475,27 @@ session_start();
                 });
             }
         });
+
+         //LINK - llamada a los Usuarios
+         $.ajax({
+            url: './controllers/UsuariosControllers.php?action=obtenerUsuarios', // Ajusta la ruta correcta
+            dataType: 'json',
+            success: function(data) {
+                var select = $('#responsable_E');
+                select.empty();
+                select.append($('<option>', {
+                    value: '',
+                    text: 'Seleccionar Usu.'
+                }));
+                $.each(data, function(key, value) {
+                    select.append($('<option>', {
+                        value: value.id_usuario,
+                        text: value.nombre_U
+                    }));
+                });
+            }
+        });
+
 
         //NOTE - llamada a los envios
         var tableEnvios = $('#datatable-envios').DataTable({
@@ -522,8 +547,9 @@ session_start();
                 {
                     data: null,
                     render: function(data, type, row) {
-                        return `<div>
-                                        <a >
+                        if (data.fk_id_sucursal == fkIdSucursal) {
+                            return `<div>
+                                        <a>
                                           <button type="button" class="btn recibir
                                                     btn-soft-light btn-sm w-xs
                                                     waves-effect btn-label
@@ -532,6 +558,19 @@ session_start();
                                             </button>
                                         </a>
                                     </div>`;
+                        }else{
+                            return `<div>
+                                        <a>
+                                          <button type="button" class=" disabled btn recibir
+                                                    btn-soft-light btn-sm w-xs
+                                                    waves-effect btn-label
+                                                    waves-light" id="${data.id_envio}"><i class="fas fa-envelope-open label-icon"></i>
+                                                Recibir
+                                            </button>
+                                        </a>
+                                    </div>`;
+                        }
+
                     }
                 },
                 {
