@@ -2,6 +2,7 @@
 require_once('../TCPDF/tcpdf.php');
 require_once('../models/VentasModels.php');
 require_once('../models/ArticulosModels.php');
+require_once('../models/SucursalesModels.php');
 
 
 class imprimirFactura
@@ -14,7 +15,9 @@ class imprimirFactura
 
 		$id_venta = $_GET['id_venta'];
 		$ventasModels = new VentaModel();
+		$sucursalModels = new Sucursal();
 		$venta = $ventasModels->obtenerVentasPorId($id_venta);
+		$sucursal = $sucursalModels->obtenerSucursal($venta['fk_id_sucursal']);
 		$ventasModels->imprimirVenta($id_venta);
 		$detalle = json_decode($venta['detalle_V'], true);
 		$tipo_V = $venta['tipo_V'];
@@ -42,7 +45,7 @@ class imprimirFactura
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 				
 					<br>
-					Dirección: 6 de octubre junin y ayacucho #555
+					Direcci贸n: $sucursal[direccion_S]
 
 				</div>
 
@@ -53,16 +56,16 @@ class imprimirFactura
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 					
 					<br>
-					Teléfono: 65420150
+					Tel茅fono: $sucursal[telefono_S]
 					
 					<br>
-					74624206
+					
 
 				</div>
 				
 			</td>
 
-			<td style="background-color:white; width:110px; text-align:center; color:red"><br><br>NOTA N.<br>{$venta['id_venta']}</td>
+			<td style="background-color:white; width:110px; text-align:center; color:red"><br><br>NOTA Nro: {$venta['id_venta']}</td>
 
 		</tr>
 
@@ -174,6 +177,7 @@ EOF;
 
 			$c = new ArticuloModel();
 			$cc = $c->obtenerArticuloPorId($item['id_articulo']);
+			$des = json_decode($cc['descripcion_A'], true);
 			if ($venta["facturado_V"] == 1) {
 				$valorUnitario = number_format($item["precio_facturado"], 2);
 				$precioTotal = number_format($item["sub_total_facturado"], 2);
@@ -191,7 +195,7 @@ EOF;
 			</td>
 
 			<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-				$cc[descripcion_A]
+				$des[detalle]
 			</td>
 
 			<td style="border: 1px solid #666;  background-color:white; width:80px; text-align:center">

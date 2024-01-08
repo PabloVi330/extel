@@ -303,8 +303,12 @@
                     <i data-feather="settings" class="icon-lg"></i>
                 </button>
             </div>
-
-            <div class="dropdown d-inline-block">
+  <style>
+    .sadas{
+        background-color: #fff;
+    }
+  </style>
+            <div class="dropdown d-inline-block bg-danger ">
                 <button type="button" class="btn header-item
                                 bg-soft-light border-start border-end" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

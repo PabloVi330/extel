@@ -2,7 +2,7 @@
 require_once('../TCPDF/tcpdf.php');
 require_once('../models/EnviosModels.php');
 require_once('../models/ArticulosModels.php');
-
+require_once('../models/SucursalesModels.php');
 
 class imprimirFactura{
 
@@ -12,7 +12,9 @@ public function traerImpresionFactura(){
 
 $id_envio = $_GET['id_envio'];
 $enviosModels = new EnvioModel();
+$sucursalModels = new Sucursal();
 $envio = $enviosModels->obtenerEnviosPorId($id_envio);
+$sucursal = $sucursalModels->obtenerSucursal($envio['fk_id_sucursal']);
 $enviosModels->imprimirEnvio($id_envio);
 $detalle = json_decode($envio['detalle_E'],true);
 $costo = $envio['total_E'];
@@ -39,7 +41,7 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 				
 					<br>
-					Dirección: 6 de octubre junin y ayacucho #555
+					Dirección: $sucursal[direccion_S]
 
 				</div>
 
@@ -50,10 +52,10 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 					
 					<br>
-					Teléfono: 65420150
+					Teléfono: $sucursal[telefono_S]
 					
 					<br>
-					74624206
+				
 
 				</div>
 				
@@ -144,17 +146,17 @@ $bloque3 = <<<EOF
 	</table>
 
 EOF;
-
+ 
 $pdf->writeHTML($bloque3, false, false, false, false, '');
 
 // ---------------------------------------------------------
-
+// [{"id":"293","codigo":"ghjghjghj","descripcion":"ghjghj","precio_neto":"30","precio_distribucion":"31.5","precio_tecnico":"33","precio_publico":"34.5","stock":"59","cantidad":1,"subtotal":"30","cantidad_envio":1,"unimed":"55"}]
 foreach ($detalle as $key => $item) {
 
 $c = new ArticuloModel();
 $cc = $c->obtenerArticuloPorId($item['id']);
-$valorUnitario = number_format($item["precioUnit"], 2);
-
+$valorUnitario = number_format($item["precio_neto"], 2);
+$des = json_decode($cc['descripcion_A'], true);
 $precioTotal = number_format($item["subtotal"], 2);
 
 $bloque4 = <<<EOF
@@ -167,7 +169,7 @@ $bloque4 = <<<EOF
 			</td>
 
 			<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-				$cc[descripcion_A]
+				$des[detalle]
 			</td>
 
 			<td style="border: 1px solid #666;  background-color:white; width:80px; text-align:center">

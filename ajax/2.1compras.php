@@ -488,7 +488,7 @@
                         data: 'nombre_usuario'
                     },
                     {
-                        data: 'proveedor_C'
+                        data: 'nombre_proveedor'
                     },
                     {
                         data: 'fecha_C'
@@ -670,17 +670,20 @@
         });
 
 
-        $('#tabla-ventas').on('input', '.precioNeto, .cantidad', function() {
+        $('#tabla-ventas').on('input', '.precioNeto, .precioDist, .precioTec, .precioPub, .cantidad', function() {
             let row = $(this).closest('tr');
             let id = parseInt(row.find('.id').text());
             let precioNeto = parseFloat(row.find('.precioNeto').val());
+             let precioDist = parseFloat(row.find('.precioDist').val());
+              let precioTec = parseFloat(row.find('.precioTec').val());
+               let precioPub = parseFloat(row.find('.precioPub').val());
             let cantidad = parseFloat(row.find('.cantidad').val());
             let subtotal = cantidad * precioNeto;
 
             // Calcular los nuevos precios
-            let precioDist = precioNeto * 1.05; // Aumento del 5%
-            let precioTec = precioNeto * 1.1; // Aumento del 10%
-            let precioPub = precioNeto * 1.15; // Aumento del 15%
+            //let precioDist = precioNeto * 1.05; // Aumento del 5%
+            //let precioTec = precioNeto * 1.1; // Aumento del 10%
+            //let precioPub = precioNeto * 1.15; // Aumento del 15%
 
             var productoExistente = carrito.find(item => item.id == id);
 

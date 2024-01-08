@@ -14,10 +14,11 @@ class ArticulosController
     public function crearArticulo()
     {
         $data = $_POST;
-
+      
+        $nombresImagenes = [];
         if (!empty($_FILES['imagenes']['name'][0])) {
             $directorioDestino = 'uploads/products/';
-            $nombresImagenes = [];
+           
             $imagenes = $_FILES['imagenes'];
             $c = 1;
             foreach ($imagenes['tmp_name'] as $key => $tmp_name) {
@@ -32,9 +33,9 @@ class ArticulosController
                 }
             }
         } else {
-            $uploadedImages = ["producto.jpg"];
+            $nombresImagenes = ["producto.jpg"];
         }
-        $img = json_encode($uploadedImages);
+        $img = json_encode($nombresImagenes);
         $data['imagenes_A']  = $img;
         $response = $this->articuloModel->crearArticulo($data);
 
@@ -46,10 +47,42 @@ class ArticulosController
 
     public function editarArticulo()
     {
-        $response = $this->articuloModel->editarArticulo($_POST);
-        echo json_encode($response);     //$response = $this->articuloModel->actualizarArticulo();
+        $data = $_POST;
+        // echo '<pre>';print_r($data);echo '</pre>';
+        // echo '<pre>';print_r($_FILES);echo '</pre>';
+        if (!empty($_FILES['EDIimagenes']['name'][0])) {
+            $directorioDestino = 'uploads/products/';
+            $nombresImagenes = [];
+            $imagenes = $_FILES['EDIimagenes'];
+            $c = 1;
+        
+            foreach ($imagenes['tmp_name'] as $key => $tmp_name) {
+                $nombreArchivo = $c . $data["Ecodigo_A"] . '.png';
+                $rutaArchivo = $directorioDestino . $nombreArchivo;
+        
+                if (move_uploaded_file($tmp_name, $rutaArchivo)) {
+                    $nombresImagenes[] = $nombreArchivo;
+                    $c++;
+                } else {
+                    // Manejar errores si la carga de la imagen falla
+                    // Puedes agregar código aquí para manejar los errores según tus necesidades
+                }
+            }
+        
+            $img = json_encode($nombresImagenes);
+            $data['Eimagenes_A']  = $img;
+        } else {
+             echo json_encode(["error" => "No se enviaron imágenes válidas"]);
+             exit;
+        }
+        //print_r($data);
+        // Procesa los datos en tu modelo
+        $response = $this->articuloModel->editarArticulo($data);
 
+        // Devuelve la respuesta como JSON
+        echo json_encode($response);
     }
+
 
 
     public function eliminarArticulo()
@@ -119,8 +152,6 @@ class ArticulosController
         $response = $this->articuloModel->productosPorCategoria();
         echo json_encode($response);
     }
-
-
 }
 
 

@@ -115,6 +115,11 @@
                             </a>
                         </li>
 
+                         <?php
+                         }
+                        ?>
+
+                        <?php  if($area == "administrador" || $area == "almacen"){?>
                         <li>
                             <a href="2.2envios.php">
                                 <span data-key="t-chat">
@@ -122,17 +127,51 @@
                                     Envios</span>
                             </a>
                         </li>
-                         <?php
-                         }
-                        ?>
+                        <?php }?>
                         
                         <li>
-                            <a href="2.3ventas.php">
+                            <a href="index.php">
                                 <span data-key="t-chat">
                                     <i class="fas fa-money-bill-wave"></i>
                                     Ventas</span>
                             </a>
                         </li>
+
+                        <!-- <li>
+                            <a href="chat.html">
+                                <span data-key="t-chat"><i class="fas fa-money-bill"></i>
+                                    Creditos</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
+                <!-- FIN DE MOVIMINTOS -->
+
+
+
+                 <!-- MOVIMIENTOS -->
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i class=" fas fa-chart-line"></i>
+                        <span data-key="t-apps">Reportes</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <?php
+                         if($area == "administrador" || $area == "supervisor"){
+                        ?>
+                        <li>
+                            <a href="4.1estadisticas.php">
+                                <span data-key="t-calendar">
+                                    <i class=" fas fa-chart-bar"></i>
+                                    Estadisticas
+                                </span>
+                            </a>
+                        </li>
+
+                         <?php
+                         }
+                        ?>
+
 
                         <!-- <li>
                             <a href="chat.html">

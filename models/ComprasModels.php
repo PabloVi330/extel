@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 require_once 'db_conection.php';
 
@@ -23,13 +23,16 @@ class ComprasModel
                 $query = "SELECT 
                             c.*,
                             s.nombreS AS nombre_sucursal,
-                            u.nombre_U AS nombre_usuario
+                            u.nombre_U AS nombre_usuario,
+                            pro.nombre_Pro AS nombre_proveedor
                           FROM 
                               compras AS c
                           LEFT JOIN  
                               sucursal AS s ON c.fk_id_sucursal = s.id_sucursal
                           LEFT JOIN  
                               usuario AS u ON c.fk_id_usuario = u.id_usuario
+                            LEFT JOIN  
+                              proveedores AS pro ON c.proveedor_C = pro.id_proveedor
                            ORDER BY c.id_compra DESC";
                 $stmt = $this->db->query($query);
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,21 +41,26 @@ class ComprasModel
             }
         } else {
             try {
-                $query = "SELECT 
-                            c.*,
-                            s.nombreS AS nombre_sucursal,
-                            u.nombre_U AS nombre_usuario,
-                          FROM 
-                              compras AS c
-                          LEFT JOIN  
-                              sucursal AS s ON c.fk_id_sucursal = s.id_sucursal
-                          LEFT JOIN  
-                              usuario AS u ON c.fk_id_usuario = u.id_usuario
-                          WHERE  fk_id_sucursal = " . $_SESSION['fk_id_sucursal'];
+               $usuario = $_SESSION['id_usuario'];
+                    $query = "SELECT 
+                                c.*,
+                                s.nombreS AS nombre_sucursal,
+                                u.nombre_U AS nombre_usuario,
+                                pro.nombre_Pro AS nombre_proveedor
+                              FROM 
+                                compras AS c
+                              LEFT JOIN  
+                                sucursal AS s ON c.fk_id_sucursal = s.id_sucursal
+                              LEFT JOIN  
+                                usuario AS u ON c.fk_id_usuario = u.id_usuario
+                              LEFT JOIN  
+                                proveedores AS pro ON c.proveedor_C = pro.id_proveedor
+                              WHERE  
+                                c.fk_id_usuario =  $usuario";
                 $stmt = $this->db->query($query);
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
-                return false;
+                return $e->getMessage();
             }
         }
     }
@@ -100,6 +108,8 @@ class ComprasModel
 
     public function crearCompra($data)
     {
+        
+        $fechaActual = date("Y-m-d");
         try {
             $query = "INSERT INTO compras (fk_id_sucursal, fk_id_usuario, proveedor_C, fecha_C, detalle_C,costo_C, impreso_C) VALUES (:fk_id_sucursal, :fk_id_usuario, :proveedor_C, :fecha_C, :detalle_C,:costo_C, :impreso_C)";
 
@@ -107,7 +117,7 @@ class ComprasModel
             $stmt->bindParam(':fk_id_sucursal', $_SESSION['fk_id_sucursal']);
             $stmt->bindParam(':fk_id_usuario', $_SESSION['id_usuario']);
             $stmt->bindParam(':proveedor_C', $data['proveedor_C']);
-            $stmt->bindParam(':fecha_C', $data['fecha_C']);
+            $stmt->bindParam(':fecha_C', $fechaActual);
             $stmt->bindParam(':detalle_C', $data['detalle_C']);
             $stmt->bindParam(':costo_C', $data['costo_C']);
             $stmt->bindValue(':impreso_C', 0);

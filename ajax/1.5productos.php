@@ -41,7 +41,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
-                                <form action="#" id="formularioP" class="dropzone p-0">
+                                <form action="#" id="formularioP" class="dropzone p-0" enctype="multipart/form-data">
                                     <!-- CARGA DE DATROS -->
                                     <div class="col-lg-12">
                                         <div class="card">
@@ -218,7 +218,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
-                                <form action="#" id="formEditarArticulo" class="dropzone p-0">
+                                <form action="#" id="formEditarArticulo" class="dropzone p-0" enctype="multipart/form-data">
 
                                     <!-- CARGA DE DATROS -->
                                     <div class="col-lg-12">
@@ -330,7 +330,7 @@
                                                         <div>
 
                                                             <div class="fallback">
-                                                                <input name="imagenes" type="file" enctype="multipart/form-data">
+                                                                <input name="EDIimagenes" type="file" enctype="multipart/form-data">
                                                             </div>
                                                             <div class="dz-message needsclick">
                                                                 <div class="mb-3">
@@ -424,6 +424,11 @@
             var dropzone = Dropzone.forElement("#formularioP");
             formulario.reset();
             dropzone.removeAllFiles();
+
+            var formulario1 = document.getElementById("formEditarArticulo");
+            var dropzone1 = Dropzone.forElement("#formEditarArticulo");
+            formulario1.reset();
+            dropzone1.removeAllFiles();
             var table = $('#datatable-articulos').DataTable();
             table.ajax.reload();
 
@@ -460,8 +465,10 @@
                         render: function(data, type, row) {
                             if (data.descripcion_A !== null) {
                                 //var descripcion_A = JSON.parse(data.descripcion_A.descripcion_A);
-                                //console.log(data.descripcion_A)
-                                descripcion_A = data.descripcion_A.detalle
+                                //console.log(data)
+                                descripcion_A = data.descripcion_A.detalle;
+                                var img = JSON.parse(data.imagenes_A);
+                                console.log(img);
                                 // Dividir la cadena en segmentos de 20 caracteres
                                 var segmentos = [];
                                 for (var i = 0; i < descripcion_A.length; i += 20) {
@@ -473,7 +480,7 @@
                                     return `<div>${segmento}</div>`;
                                 }).join('');
 
-                                return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
+                                return `<img src="controllers/uploads/products/${img[0]}" alt="" class="avatar-lg rounded-circle me-4">
                             <a href="#" class="text-body">${descripcionHtml}</a>`;
                             } else {
                                 return `<img src="controllers/uploads/products/" alt="" class="avatar-lg rounded-circle me-4">
@@ -607,6 +614,22 @@
         // -------------CREAR PRODUCTO --------------------
         // ================================================
 
+        var myDropzone = new Dropzone("#formularioP", {
+            paramName: "imagenes[]", // Nombre del campo en el formulario
+            maxFilesize: 5, // Tamaño máximo en MB
+            maxFiles: 5, // Número máximo de archivos permitidos
+            acceptedFiles: "image/*", // Acepta solo archivos de imagen
+            addRemoveLinks: true, // Muestra el enlace para eliminar archivos
+            dictRemoveFile: "Eliminar", // Texto para el enlace de eliminación
+            init: function() {
+                this.on("success", function(file, response) {});
+                this.on("removedfile", function(file) {
+                    // Manejar la eliminación de archivos (si es necesario)
+                    console.log("Archivo eliminado: " + file.name);
+                });
+            }
+        });
+
         $("#enviarFormulario").on("click", function(e) {
             e.preventDefault();
 
@@ -623,6 +646,7 @@
                 data: formData,
                 contentType: false,
                 processData: false,
+                cache: false,
                 success: function(response) {
                     console.log("Respuesta del servidor:", response);
                     if (response == '"ok"') {
@@ -688,7 +712,7 @@
 
                             // Recorre la respuesta y agrega opciones al select
                             $.each(response, function(index, sucursal) {
-                                if (sucursal.id_sucursal !== fk_id_sucursal) {
+                                if (sucursal.id_marca !== fk_id_categoria) {
                                     selectSucursal.append($('<option>', {
                                         value: sucursal.id_sucursal, // El valor del ID de la sucursal
                                         text: sucursal.nombreS // El nombre de la sucursal
@@ -762,42 +786,102 @@
                     }
                 }
             });
-            $('#editarArticulo').click(function() {
-                var estado_U = $('#switch3').prop('checked') ? 1 : 0;
-                $('#Eestado_A').val(estado_U);
-                var formData = $('#formEditarArticulo').serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: './controllers/ArticulosControllers.php?action=editararticulos',
-                    data: formData,
-                    success: function(response) {
-                        console.log(response);
-                        $('#modalEditarArticulo').modal('hide');
-                        $('#formEditarArticulo')[0].reset();
-
-                        var table = $('#datatable-articulos').DataTable();
-                        table.ajax.reload();
-                        if (response == '"ok"') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Éxito',
-                                text: 'El articulo se a actualizado Correctamente',
-                            });
-                        }else{
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Érror',
-                                text: 'El articulo se a actualizado Correctamente' + response,
-                            }); 
-                        }
-                    },
-                    error: function(error) {
-
-                    }
-                });
-            });
-
         });
+
+
+
+        // Crear una instancia de Dropzone para el formulario con id "formEditarArticulo"
+        var myDropzone = new Dropzone("#formEditarArticulo", {
+            paramName: "EDIimagenes[]", // Nombre del campo en el formulario
+            maxFilesize: 5, // Tamaño máximo en MB
+            maxFiles: 5, // Número máximo de archivos permitidos
+            acceptedFiles: "image/*", // Acepta solo archivos de imagen
+            addRemoveLinks: true, // Muestra el enlace para eliminar archivos
+            dictRemoveFile: "Eliminar", // Texto para el enlace de eliminación
+            init: function() {
+                this.on("success", function(file, response) {
+                    console.log(response);
+                    // Manejar la respuesta del servidor al cargar el archivo
+                    // No es necesario hacer nada aquí si ya manejas la respuesta en el envío del formulario
+                });
+
+                this.on("removedfile", function(file) {
+                    // Manejar la eliminación de archivos (si es necesario)
+                    console.log("Archivo eliminado: " + file.name);
+                });
+            }
+        });
+
+        // Manejar el envío del formulario mediante Ajax
+        $("#editarArticulo").on("click", function() {
+            // Obtener otros datos del formulario si es necesario
+            var otrosDatos = {
+                Eid_usuario: $("#Eid_usuario").val(),
+                Eid_articulo: $("#Eid_articulo").val(),
+                Eid_sucursal: $("#Eid_sucursal").val(),
+                Ecodigo_A: $("#Ecodigo_A").val(),
+                Eid_categoria: $("#Eid_categoria").val(),
+                Eid_marca: $("#Eid_marca").val(),
+                Edescripcion_A: $("#Edescripcion_A").val(),
+                Estock_A: $("#Estock_A").val(),
+                Ecantidad_A: $("#Ecantidad_A").val(),
+                Eunimed_A: $("#Eunimed_A").val(),
+                Eprecio_neto_A: $("#Eprecio_neto_A").val(),
+                Eprecio_distribucion_A: $("#Eprecio_distribucion_A").val(),
+                Eprecio_tecnico_A: $("#Eprecio_tecnico_A").val(),
+                Eprecio_publico_A: $("#Eprecio_publico_A").val(),
+                Eestado_A: $('#switch3').prop('checked') ? 1 : 0,
+                // Agrega otros campos según sea necesario
+            };
+
+            // Crear un objeto FormData y agregar los archivos de Dropzone
+            var formData = new FormData($("#formEditarArticulo")[0]);
+            //var formData = new FormData($("#formularioP")[0]);
+
+            var imageFiles = $(".dropzone")[1].dropzone.getAcceptedFiles();
+
+            for (var i = 0; i < imageFiles.length; i++) {
+                formData.append("EDIimagenes[]", imageFiles[i]);
+            }
+            // Agregar otros datos al FormData
+            // for (var key in otrosDatos) {
+            //     formData.append(key, otrosDatos[key]);
+            // }
+
+            // Realizar la solicitud Ajax
+            $.ajax({
+                url: './controllers/ArticulosControllers.php?action=editararticulos',
+                type: "POST",
+                data: formData,
+                contentType: false, // Evitar que jQuery establezca automáticamente el tipo de contenido
+                processData: false, // Evitar que jQuery procese la data automáticamente
+                success: function(response) {
+                    if (response == '"ok"') {
+                        $('#modalEditarArticulo').modal('hide');
+                        resetForm();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'El artículo se ha editado correctamente',
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'El producto no se guardó en la base de datos',
+                        });
+                    }
+                },
+                error: function(error) {
+                    // Manejar errores
+                    console.error(error);
+                }
+            });
+        });
+
+
+
+
 
 
         // ================================================

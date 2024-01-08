@@ -317,7 +317,9 @@ class ArticuloModel
                         u.nombre_U AS nombre_usuario,
                         m.nombre_marca AS nombre_marca,
                         MAX(CASE WHEN a.fk_id_sucursal = 1 THEN stock_A END) AS stock_sucursal_1,
-                        MAX(CASE WHEN a.fk_id_sucursal = 2 THEN stock_A END) AS stock_sucursal_2
+                        MAX(CASE WHEN a.fk_id_sucursal = 2 THEN stock_A END) AS stock_sucursal_2,
+                         MAX(CASE WHEN a.fk_id_sucursal = 3 THEN stock_A END) AS stock_sucursal_3,
+                          MAX(CASE WHEN a.fk_id_sucursal = 4 THEN stock_A END) AS stock_sucursal_4
                     FROM 
                         articulo AS a
                     LEFT JOIN 

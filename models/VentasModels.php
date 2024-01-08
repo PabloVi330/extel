@@ -13,24 +13,31 @@ class VentaModel
 
     public  function crearVenta($data)
     {
+       
         try {
-
+           $fechaDeseada = date("Y-m-d");
            
-            $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_usuario, fk_id_cliente, fecha_V, detalle_V, importe_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_usuario, :fk_id_cliente, :fecha_V, :detalle_V, :importe_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
+            $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_usuario, fk_id_cliente, fecha_V, detalle_V, importe_V, metodo_pago_V, efectivo_V, transferencia_V, verificado_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_usuario, :fk_id_cliente, :fecha_V, :detalle_V, :importe_V, :metodo_pago_V, :efectivo_V, :transferencia_V, :verificado_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':fk_id_sucursal', $_SESSION['fk_id_sucursal'], PDO::PARAM_INT);
             $stmt->bindParam(':fk_id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
             $stmt->bindParam(':fk_id_cliente', $data['fk_id_cliente'], PDO::PARAM_INT);
-            $stmt->bindParam(':fecha_V', $data['fecha_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':fecha_V',  $fechaDeseada, PDO::PARAM_STR);
             $stmt->bindParam(':detalle_V', $data['detalle_V'], PDO::PARAM_STR);
             $stmt->bindParam(':importe_V', $data['importe_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':metodo_pago_V', $data['metodo_pago_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':efectivo_V', $data['efectivo_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':transferencia_V', $data['transferencia_V'], PDO::PARAM_STR);
+            $stmt->bindParam(':verificado_V', $data['verificado_V'], PDO::PARAM_STR);
+
             $stmt->bindParam(':facturado_V', $data['facturado_V'], PDO::PARAM_INT);
             $stmt->bindParam(':tipo_V', $data['tipo_V'], PDO::PARAM_STR);
             $stmt->bindParam(':estado_V', $data['estado_V'], PDO::PARAM_STR);
-            $stmt->bindParam(':monto_V', $data['nonto_V'], PDO::PARAM_INT);
+            $stmt->bindParam(':monto_V', $data['monto_V'], PDO::PARAM_INT);
 
             $stmt->execute();
+
             return  "ok";
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -175,6 +182,19 @@ class VentaModel
             $sql = "UPDATE ventas SET monto_V = :monto_V WHERE id_venta = :id_venta";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':monto_V', $monto_V);
+            $stmt->bindParam(':id_venta', $id_venta);
+            $stmt->execute();
+            return "ok";
+        } catch (PDOException $e) {
+            return "Error al incrementar el valor de impreso_E: " . $e->getMessage();
+        }
+    }
+
+    public function confirmarTransferencia($id_venta)
+    {
+        try {
+            $sql = "UPDATE ventas SET verificado_V = 'SI' WHERE id_venta = :id_venta";
+            $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id_venta', $id_venta);
             $stmt->execute();
             return "ok";

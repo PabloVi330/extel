@@ -2,6 +2,7 @@
 require_once('../TCPDF/tcpdf.php');
 require_once('../models/ComprasModels.php');
 require_once('../models/ArticulosModels.php');
+require_once('../models/SucursalesModels.php');
 
 
 class imprimirFactura{
@@ -12,7 +13,9 @@ public function traerImpresionFactura(){
 
 $id_compra = $_GET['id_compra'];
 $comprasModels = new ComprasModel();
+$sucursalModels = new Sucursal();
 $compra = $comprasModels->obtenerCompraPorId($id_compra);
+$sucursal = $sucursalModels->obtenerSucursal($compra['fk_id_sucursal']);
 $comprasModels->imprimirCompras($id_compra);
 $detalle = json_decode($compra['detalle_C'],true);
 $costo = $compra['costo_C'];
@@ -39,7 +42,7 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 				
 					<br>
-					Dirección: Cochabamba presidente montes y la plata
+					Dirección: $sucursal[direccion_S]
 
 				</div>
 
@@ -50,16 +53,14 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 					
 					<br>
-					Teléfono: 63200201
+					Teléfono:$sucursal[telefono_S]
 					
 					<br>
-					74624206
-
 				</div>
 				
 			</td>
 
-			<td style="background-color:white; width:110px; text-align:center; color:red"><br><br>NOTA N.<br>{$compra['id_compra']}</td>
+			<td style="background-color:white; width:110px; text-align:center; color:red"><br>NOTA Nor:{$compra['id_compra']}</td>
 
 		</tr>
 

@@ -59,13 +59,13 @@
                                                 <div class="row">
 
                                                     <div class="col-lg-4 col-md-6">
-                                                        <label for="ci_Cl" class="form-label">CI:</label>
-                                                        <input class="form-control" type="text" id="ci_Cl" name="ci_Cl" requerid>
+                                                        <label for="codigo_Cl" class="form-label">Codigo:</label>
+                                                        <input class="form-control" type="text" id="codigo_Cl" name="codigo_Cl" requerid>
                                                     </div>
 
                                                     <div class="col-lg-4 col-md-6">
-                                                        <label for="nit_Cl" class="form-label">NIT:</label>
-                                                        <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
+                                                        <label for="ci_Cl" class="form-label">CI:</label>
+                                                        <input class="form-control" type="number" id="ci_Cl" name="ci_Cl" requerid>
                                                     </div>
 
                                                     <div class="col-lg-4 col-md-6">
@@ -93,6 +93,23 @@
                                                         <label for="telefono_Cl" class="form-label">Telefono</label>
                                                         <input class="form-control" type="number" id="telefono_Cl" name="telefono_Cl">
                                                     </div>
+
+
+                                                    <div class="col-lg-4 col-md-6">
+                                                        <label for="nit_Cl" class="form-label">NIT:</label>
+                                                        <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-6">
+                                                        <label for="razon_social_Cl" class="form-label">Razon social:</label>
+                                                        <input class="form-control" type="text" id="razon_social_Cl" name="razon_social_Cl" requerid>
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-6">
+                                                        <label for="nombre_empresa_Cl" class="form-label">Nombre de Empresa:</label>
+                                                        <input class="form-control" type="text" id="nombre_empresa_Cl" name="nombre_empresa_Cl" requerid>
+                                                    </div>
+
                                                 </div>
                                                 <!-- end row -->
                                             </div>
@@ -153,7 +170,7 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>NIT</th>
+                                        <th>Codigo</th>
                                         <th>Nombre</th>
                                         <th>CI</th>
                                         <th>Clasificacion</th>
@@ -162,6 +179,9 @@
                                         <th>Limite</th>
                                         <th>Direccion</th>
                                         <th>Telefono</th>
+                                        <th>NIT</th>
+                                        <th>Razon Social</th>
+                                        <th>Empresa</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -181,7 +201,7 @@
 
         <!-- ===============MODAL EDITAR SUCURSAL -->
         <div id="modalEditarCliente" class="modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Editar usuario</h5>
@@ -203,8 +223,8 @@
                                                         <input type="hidden" name="Eid_cliente" id="Eid_cliente">
 
                                                         <div class="col-lg-4 col-md-6">
-                                                            <label for="Enit_Cl" class="form-label">NIT:</label>
-                                                            <input class="form-control" type="text" id="Enit_Cl" name="Enit_Cl" requerid>
+                                                            <label for="Ecodigo_Cl" class="form-label">Codigo:</label>
+                                                            <input class="form-control" type="text" id="Ecodigo_Cl" name="Ecodigo_Cl" requerid>
                                                         </div>
 
                                                         <div class="col-lg-4 col-md-6">
@@ -230,6 +250,22 @@
                                                         <div class="col-lg-4 col-md-6">
                                                             <label for="Etelefono_Cl" class="form-label">Telefono</label>
                                                             <input class="form-control" type="number" id="Etelefono_Cl" name="Etelefono_Cl">
+                                                        </div> <br>
+
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <label for="Enit_Cl" class="form-label">NIT:</label>
+                                                            <input class="form-control" type="text" id="Enit_Cl" name="Enit_Cl" requerid>
+                                                        </div>
+
+
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <label for="Erazon_social_Cl" class="form-label">Razon Social:</label>
+                                                            <input class="form-control" type="text" id="Erazon_social_Cl" name="Erazon_social_Cl" requerid>
+                                                        </div>
+
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <label for="Enombre_empresa_Cl" class="form-label">Nombre de empresa:</label>
+                                                            <input class="form-control" type="text" id="Enombre_empresa_Cl" name="Enombre_empresa_Cl" requerid>
                                                         </div>
 
                                                         <div class="col-lg-4 col-md-6">
@@ -376,8 +412,9 @@
                 columns: [{
                         data: 'id_cliente'
                     },
+
                     {
-                        data: 'nit_Cl'
+                        data: 'codigo_Cl'
                     },
                     {
                         data: null,
@@ -427,6 +464,18 @@
                         }
 
                     },
+
+                    {
+                        data: 'nit_Cl'
+                    },
+
+                    {
+                        data: 'razon_social_Cl'
+                    },
+
+                    {
+                        data: 'nombre_empresa_Cl'
+                    },
                     {
                         data: null,
                         render: function(data, type, row) {
@@ -452,6 +501,21 @@
         /* ==============================
         -------------GUARDAR--------------
         =================================== */
+        var myDropzone = new Dropzone("#formCrearCliente", {
+            paramName: "imagenes[]", // Nombre del campo en el formulario
+            maxFilesize: 5, // Tamaño máximo en MB
+            maxFiles: 5, // Número máximo de archivos permitidos
+            acceptedFiles: "image/*", // Acepta solo archivos de imagen
+            addRemoveLinks: true, // Muestra el enlace para eliminar archivos
+            dictRemoveFile: "Eliminar", // Texto para el enlace de eliminación
+            init: function() {
+                this.on("success", function(file, response) {});
+                this.on("removedfile", function(file) {
+                    // Manejar la eliminación de archivos (si es necesario)
+                    console.log("Archivo eliminado: " + file.name);
+                });
+            }
+        });
 
 
         $("#guardarCliente").on("click", function(e) {
@@ -517,44 +581,46 @@
                     console.log("Respuesta del servidor:", response);
 
                     $('#Eid_cliente').val(idCliente);
-                    $('#Enit_Cl').val(response.nit_Cl);
+                    $('#Ecodigo_Cl').val(response.codigo_Cl);
                     $('#Eci_Cl').val(response.ci_Cl);
                     $('#Enombre_Cl').val(response.nombre_Cl)
                     $('#Eclasificacion_Cl').val(response.clasificacion_Cl)
                     $('#Edireccion_Cl').val(response.direccion_Cl);
                     $('#Etelefono_Cl').val(response.telefono_Cl);
-                    $('#Eautorizacion_Cl').val(response.autorizacion_Cl);
+                    $('#Enit_Cl').val(response.nit_Cl);
+                    $('#Erazon_social_Cl').val(response.razon_social_Cl);
+                    $('#Enombre_empresa_Cl').val(response.nombre_empresa_Cl);
                     $('#Eporcentaje_Cl').val(response.porcentaje_Cl);
                     $('#Elimite_Cl').val(response.limite_Cl);
                     $('#modalEditarCliente').modal('show');
                 },
                 error: function(error) {
-                  console.log(error);
+                    console.log(error);
                 }
             });
-            $('#editarCliente').click(function() {
+        });
 
-                var formData = $('#formEditarCliente').serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: './controllers/ClientesControllers.php?action=editarCliente',
-                    data: formData,
-                    success: function(response) {
-                        $('#modalEditarCliente').modal('hide');
-                        resetForm();
-                        var mensaje = response.message;
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: mensaje,
-                        });
-                    },
-                    error: function(error) {
+        $('#editarCliente').click(function() {
 
-                    }
-                });
+            var formData = $('#formEditarCliente').serialize();
+            $.ajax({
+                type: 'POST',
+                url: './controllers/ClientesControllers.php?action=editarCliente',
+                data: formData,
+                success: function(response) {
+                    $('#modalEditarCliente').modal('hide');
+                    resetForm();
+                    var mensaje = response.message;
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: mensaje,
+                    });
+                },
+                error: function(error) {
+
+                }
             });
-
         });
 
 
