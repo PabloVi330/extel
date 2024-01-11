@@ -328,9 +328,9 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="mdi
+                    <a class="dropdown-item" href="5.1perfil.php"><i class="mdi
                                         mdi-face-profile font-size-16
-                                        align-middle me-1"></i> Profile</a>
+                                        align-middle me-1"></i> Perfil</a>
                     <a class="dropdown-item" href="#"><i class="mdi
                                         mdi-credit-card-outline font-size-16
                                         align-middle me-1"></i> Billing</a>

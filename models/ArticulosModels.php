@@ -186,7 +186,7 @@ class ArticuloModel
 
 
     //SECTION - METODO DE EDITRA ARTICULO AL HACER LA COMPRA
-    public function editarArticuloCompra($stock, $precioN, $id_articulo)
+    public function editarArticuloCompra($stock, $precioN, $codigo, $sucursal)
     {
         try {
 
@@ -195,7 +195,7 @@ class ArticuloModel
                         stock_A = stock_A + '$stock',
                         precio_neto_A = '$precioN'
                     WHERE 
-                        id_articulo = '$id_articulo'";
+                        codigo_A = '$codigo' AND fk_id_sucursal = '$sucursal'";
 
             $stmt = $this->conn->prepare($sql);
 

@@ -489,7 +489,7 @@ session_start();
                 }));
                 $.each(data, function(key, value) {
                     select.append($('<option>', {
-                        value: value.id_usuario,
+                        value: value.nombre_U,
                         text: value.nombre_U
                     }));
                 });
@@ -785,6 +785,9 @@ session_start();
                 }
                 var miTablaenvios = $('#datatable-envios').DataTable();
                 miTablaenvios.ajax.reload();
+
+                var miTablaarticulos = $('#datatable-articulos').DataTable();
+                miTablaarticulos.ajax.reload();
             },
             error: function(error) {
                 Swal.fire({

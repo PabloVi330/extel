@@ -29,8 +29,25 @@
         </div>
         <!-- MODAL DE NUEVO ARTICULO -->
         <div>
-            <button type="button" class="btn btn-primary
-                                waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalProducto">Agregar Nuevo Producto</button>
+            <div class="row">
+
+                <div class="col-3 p-2">
+                    <button type="button" class="btn btn-primary  waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalProducto">
+                        Agregar Nuevo Producto
+                    </button>
+
+                </div>
+                <div class="col-3 p-2">
+                    <button type="button" class="btn btn-success waves-effect waves-light mb-3 excel "><i class=" fas fa-file-excel "></i></button>
+
+                </div>
+            
+                
+            </div>
+
+
+
+
 
             <div id="modalProducto" class="modal fade" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
                 <div class="modal-dialog modal-fullscreen">
@@ -447,9 +464,7 @@
             //ANCHOR - data tables de articulos
             var tableArticulos = $('#datatable-articulos').DataTable({
                 lengthChange: true,
-                buttons: [
-                    'copy', 'excel', 'pdf', 'colvis'
-                ],
+
                 ajax: {
                     url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
                     dataSrc: ''
@@ -553,16 +568,7 @@
                     }
                 ]
             });
-            new $.fn.dataTable.Buttons(tableArticulos, {
-                buttons: [
-                    'copy', 'excel', 'pdf', 'colvis'
-                ]
-            });
 
-            tableArticulos.buttons().container()
-                .appendTo('#datatable-articulos_wrapper .col-md-6:eq(0)');
-
-            $(".dataTables_length select").addClass('form-select form-select-sm');
 
             //=============CARGAR CATEGORIAS  =================
             $.ajax({
@@ -930,5 +936,15 @@
 
 
 
+        })
+
+        $(".excel").on('click',function(e){
+            e.preventDefault();
+            var mes = $('#mes').val();
+            var clasificacion = $('#clasificacion').val();
+            var tipo = $('#tipo').val();
+
+            var url = './pdfs/excel.php';
+            window.open(url);
         })
     </script>

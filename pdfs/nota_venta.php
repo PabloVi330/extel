@@ -22,8 +22,9 @@ class imprimirFactura
 		$detalle = json_decode($venta['detalle_V'], true);
 		$tipo_V = $venta['tipo_V'];
 		$costo = $venta['importe_V'];
+		$estado_V = $venta['estado_V'];
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
+         //echo '<pre>';print_r($venta);echo '</pre>';
 		$pdf->startPageGroup();
 
 		$pdf->AddPage();
@@ -82,16 +83,22 @@ EOF;
 			$titulo = '';
 			$validez = '';
 			if ($tipo_V == 'venta') {
-				$titulo = 'NOTA DE VENTA';
+				if($estado_V == 'por pagar'){
+					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTA (por pagar)</td>';
+					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"></td>';
+				}else{
+					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTAc(cancelado)</td>';
 				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"></td>';
+				}
+				
 			}
 			if ($tipo_V == 'proforma') {
-				$titulo = 'PROFORMA';
+				$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">PROFORMA</td>';
 				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px">Validez: 15 dias Calendario</td>';
 			}
 
 			if ($tipo_V == 'pedido') {
-				$titulo = 'PEDIDO';
+				$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">PEDIDO</td>';
 				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"></td>';
 			}
 
@@ -103,7 +110,7 @@ EOF;
 		<tr>
 		   
 			<td style="width:140px"><img src="images/back.jpg"></td>
-			<td style="width:340px; color:#153959; font-size: 30px; font-weight: bold;">$titulo</td>
+			$titulo
 		
 		</tr>
 
@@ -222,6 +229,70 @@ EOF;
 		}
 
 		// ---------------------------------------------------------
+
+
+
+		// ---------------------------------------------------------
+        $metodepago =  $venta['metodo_pago_V'];
+		$bloque55 = <<<EOF
+
+		<table style="font-size:11px; padding:5px 10px;">
+			
+					<tr>
+			
+						<td style="background-color:white; width:340px; text-align:center"></td>
+			
+						<td style="border-bottom: 1px solid #666; background-color:white; width:100px; text-align:center"></td>
+			
+						<td style="border-bottom: 1px solid #666;  background-color:white; width:100px; text-align:center"></td>
+			
+					</tr>
+					
+					<tr>
+					
+						<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
+		
+						<td style="border: 1px solid #666;  background-color:white; width:200px; text-align:center">
+							Metodo de Pago:
+						</td>
+			
+						<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
+						 $metodepago
+						</td>
+			
+					</tr>
+					<tr>
+					
+						<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
+		
+						<td style="border: 1px solid #666;  background-color:white; width:200px; text-align:center">
+							Efectivo:
+						</td>
+			
+						<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
+						 $venta[efectivo_V]
+						</td>
+			
+					</tr>
+					<tr>
+					
+						<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
+		
+						<td style="border: 1px solid #666;  background-color:white; width:200px; text-align:center">
+							Transferencia:
+						</td>
+			
+						<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
+						 $venta[transferencia_V]
+						</td>
+			
+					</tr>
+		
+		     </table> 
+EOF;
+
+		$pdf->writeHTML($bloque55, false, false, false, false, '');
+
 
 		$bloque5 = <<<EOF
 

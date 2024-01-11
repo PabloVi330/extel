@@ -39,131 +39,95 @@ $estiloTituloColumnas = [
 // Inicializar variables
 $tt = 0;
 $it = 0;
-$mes = $_GET['mes'];
-$clasificacion = $_GET['clasificacion'];
-$tipo = $_GET['tipo'];
+
 // Tu lógica para obtener datos de la base de datos
 $db = DBConnection::getInstance();
 try {
-    $sql = "SELECT * FROM `clientes` WHERE clasificacion_Cl = '$clasificacion'";
+    $sql = "SELECT 
+                a.*,
+                s.nombreS AS nombre_sucursal,
+                c.nombre_C AS nombre_categoria,
+                u.nombre_U AS nombre_usuario,
+                m.nombre_marca AS nombre_marca,
+                MAX(CASE WHEN a.fk_id_sucursal = 1 THEN stock_A END) AS stock_sucursal_1,
+                MAX(CASE WHEN a.fk_id_sucursal = 2 THEN stock_A END) AS stock_sucursal_2,
+                MAX(CASE WHEN a.fk_id_sucursal = 3 THEN stock_A END) AS stock_sucursal_3,
+                MAX(CASE WHEN a.fk_id_sucursal = 4 THEN stock_A END) AS stock_sucursal_4
+            FROM 
+                articulo AS a
+            LEFT JOIN 
+                sucursal AS s ON a.fk_id_sucursal = s.id_sucursal
+            LEFT JOIN 
+                categoria AS c ON a.fk_id_categoria = c.id_categoria
+            LEFT JOIN 
+                usuario AS u ON a.fk_id_usuario = u.id_usuario
+            LEFT JOIN 
+                marcas AS m ON a.fk_id_marca = m.id_marca
+            GROUP BY
+            codigo_A";
     $stmt = $db->query($sql);
-    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
 $fila = 4;
 // Iterar sobre clientes
-foreach ($clientes as $cliente) {
-    $idCliente = $cliente['id_cliente'];
 
-    $sheet->mergeCells('A' . $fila . ':F' . $fila);
-    $sheet->setCellValue('A' . $fila, $cliente['nombre_Cl']);
-    $sheet->getStyle('A' . $fila . ':F' . $fila)->applyFromArray($estiloTituloColumnas);
+$sheet->mergeCells('A' . $fila . ':F' . $fila);
+$sheet->setCellValue('A' . $fila, "INVENTARIO RED EXTEL INGENIERIA");
+$sheet->getStyle('A' . $fila . ':M' . $fila)->applyFromArray($estiloTituloColumnas);
 
-    // Incrementar la fila para los encabezados
-    $fila++;
+// Incrementar la fila para los encabezados
+$fila++;
 
-    $sheet->getColumnDimension('A')->setWidth(7);
-    $sheet->setCellValue('A' . $fila, 'Item');
-    $sheet->getColumnDimension('B')->setWidth(10);
-    $sheet->setCellValue('B' . $fila, 'Fecha');
-    $sheet->getColumnDimension('C')->setWidth(17);
-    $sheet->setCellValue('C' . $fila, 'Codigo');
-    $sheet->getColumnDimension('D')->setWidth(10);
-    $sheet->setCellValue('D' . $fila, 'Cant.');
-    $sheet->getColumnDimension('E')->setWidth(10);
-    $sheet->setCellValue('E' . $fila, 'Unit.');
-    $sheet->getColumnDimension('F')->setWidth(10);
-    $sheet->setCellValue('F' . $fila, 'Precio');
+$sheet->getColumnDimension('A')->setWidth(10);
+$sheet->setCellValue('A' . $fila, 'CODIGO_A');
+$sheet->getColumnDimension('B')->setWidth(15);
+$sheet->setCellValue('B' . $fila, 'GRUPO');
+$sheet->getColumnDimension('C')->setWidth(45);
+$sheet->setCellValue('C' . $fila, 'DESCRIPCION');
+$sheet->getColumnDimension('D')->setWidth(10);
+$sheet->setCellValue('D' . $fila, 'PRECIO COMPRA.');
+$sheet->getColumnDimension('E')->setWidth(10);
+$sheet->setCellValue('E' . $fila, 'P. V. DISTRIBUCION.');
+$sheet->getColumnDimension('F')->setWidth(10);
+$sheet->setCellValue('F' . $fila, 'P.V. TECNICOS');
+$sheet->getColumnDimension('G')->setWidth(10);
+$sheet->setCellValue('G' . $fila, 'P.V. PUBLICO');
+$sheet->getColumnDimension('H')->setWidth(10);
+$sheet->setCellValue('H' . $fila, 'P.V. STOCK TOTAL');
+$sheet->getColumnDimension('I')->setWidth(10);
+$sheet->setCellValue('I' . $fila, 'P.V. VALOR TOTAL ');
+$sheet->getColumnDimension('J')->setWidth(10);
+$sheet->setCellValue('J' . $fila, 'P.V. STOCK REDEXTEL');
+$sheet->getColumnDimension('K')->setWidth(10);
+$sheet->setCellValue('K' . $fila, 'P.V. STOCK ALMACEN COD');
+$sheet->getColumnDimension('L')->setWidth(10);
+$sheet->setCellValue('L' . $fila, 'P.V. STOCK TIENDA TOLSEN');
+$sheet->getColumnDimension('M')->setWidth(10);
+$sheet->setCellValue('M' . $fila, 'P.V. STOCK EX TERMINAL');
+$sheet->getStyle('A' . $fila . ':M' . $fila)->applyFromArray($estiloTituloColumnas);
 
-    // Incrementar la fila para los datos
-    $fila++;
-
-    $sql1 = "SELECT fecha, MAX(codigo) AS codigo, copias, precio, sub_total FROM copias WHERE tipo = '$tipo' AND MONTH(fecha) = $mes AND fk_id_cliente = $idCliente GROUP BY codigo;";
-    $stmt1 = $db->query($sql1);
-    $copias = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
-    if (!empty($copias)) {
-        foreach ($copias as $copia) {
-            $ffe = date("d-m-Y", strtotime($copia['fecha']));
-            $tto = $copia['sub_total'];
-            $tt += $tto;
-            $it++;
-
-            // Obtener el estilo de la celda actual
-            $style = $sheet->getStyle('A' . $fila);
-
-            // Aplicar el tamaño de fuente al estilo
-            $style->getFont()->setSize(9);
-
-            // Rellenar las celdas con los datos
-
-            // Rellenar las celdas con los datos
-            $sheet->setCellValue('A' . $fila, $it);
-            $sheet->setCellValue('B' . $fila, $ffe);
-            $sheet->setCellValue('C' . $fila, $copia['codigo']);
-            $sheet->setCellValue('D' . $fila, $copia['copias']);
-            $sheet->setCellValue('E' . $fila, $copia['precio']);
-            $sheet->setCellValue('F' . $fila, $tto);
-
-            // Incrementar la fila para el siguiente conjunto de datos
-            $fila++;
-        }
-    }
-  
-    try {
-        $sql2 = "SELECT a.fecha_C, a.fk_id_articulo3, a.cantidad, a.precio, art.descripcion_A
-        FROM anillados a
-        JOIN articulo art ON a.fk_id_articulo3 = art.id_articulo
-        WHERE a.tipo = 'credito' AND MONTH(a.fecha_C) = $mes AND a.fk_id_cliente = $idCliente;";
-        $stmt2 = $db->query($sql2);
-        $anillados = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
-
-    if (!empty($anillados)) {
-        foreach ($anillados as $anillado) {
-            $ffe = date("d-m-Y", strtotime($anillado['fecha_C']));
-            $tto = $anillado['cantidad'] * $anillado['precio'];
-            $tt += $tto;
-            $it++;
-
-            // Obtener el estilo de la celda actual
-            $style = $sheet->getStyle('A' . $fila);
-
-            // Aplicar el tamaño de fuente al estilo
-            $style->getFont()->setSize(9);
-
-            // Rellenar las celdas con los datos
-            $texto = $anillado['descripcion_A'];
-            $partes = explode('(', $texto, 2);
-            $resultado = trim($partes[0]);
-
-            //echo $resultado;
-
-
-
-            // Rellenar las celdas con los datos
-            $sheet->setCellValue('A' . $fila, $it);
-            $sheet->setCellValue('B' . $fila, $ffe);
-            $sheet->setCellValue('C' . $fila,   trim($resultado));
-            $sheet->setCellValue('D' . $fila, $anillado['cantidad']);
-            $sheet->setCellValue('E' . $fila, $anillado['precio']);
-            $sheet->setCellValue('F' . $fila, $tto);
-
-            // Incrementar la fila para el siguiente conjunto de datos
-            $fila++;
-        }
-    }
-
-    $sheet->mergeCells('A' . $fila . ':E' . $fila);
-    $sheet->setCellValue('A' . $fila, 'Total');
-    $sheet->setCellValue('F' . $fila, $tt);
-    $sheet->getStyle('A' . $fila . ':F' . $fila)->applyFromArray($estiloTituloColumnas);
-
-    // Incrementar la fila para el siguiente cliente
-    $fila++;$fila++;$fila++;
+$fila++;  
+foreach ($productos as $producto) {
+    
+    $descripcion = json_decode($producto['descripcion_A'], true);
+    $stockTotal = $producto['stock_sucursal_1'] + $producto['stock_sucursal_2'] + $producto['stock_sucursal_3'] + $producto['stock_sucursal_4'];
+    $valorTotal = $producto['precio_neto_A'] * $stockTotal;
+    $sheet->setCellValue('A' . $fila, $producto['codigo_A']);
+    $sheet->setCellValue('B' . $fila, $producto['nombre_categoria']);
+    $sheet->setCellValue('C' . $fila, $descripcion['detalle']);
+    $sheet->setCellValue('D' . $fila, $producto['precio_neto_A']);
+    $sheet->setCellValue('E' . $fila, $producto['precio_distribucion_A']);
+    $sheet->setCellValue('F' . $fila, $producto['precio_tecnico_A']);
+    $sheet->setCellValue('G' . $fila, $producto['precio_publico_A']);
+    $sheet->setCellValue('H' . $fila, $stockTotal); 
+    $sheet->setCellValue('I' . $fila, $valorTotal);    
+    $sheet->setCellValue('J' . $fila, $producto['stock_sucursal_1']);
+    $sheet->setCellValue('K' . $fila, $producto['stock_sucursal_2']);
+    $sheet->setCellValue('L' . $fila, $producto['stock_sucursal_3']);
+    $sheet->setCellValue('M' . $fila, $producto['stock_sucursal_4']); 
+    $fila++;    
 }
 
 // Crear un escritor
@@ -171,7 +135,7 @@ $writer = new Xlsx($spreadsheet);
 
 // Configurar encabezados para la descarga
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Vales.xlsx"');
+header('Content-Disposition: attachment;filename="inventario.xlsx"');
 header('Cache-Control: max-age=0');
 
 // Enviar el archivo al navegador

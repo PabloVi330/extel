@@ -3,6 +3,7 @@ require_once('../TCPDF/tcpdf.php');
 require_once('../models/ComprasModels.php');
 require_once('../models/ArticulosModels.php');
 require_once('../models/SucursalesModels.php');
+require_once('../models/ProveedoresModels.php');
 
 
 class imprimirFactura{
@@ -14,8 +15,12 @@ public function traerImpresionFactura(){
 $id_compra = $_GET['id_compra'];
 $comprasModels = new ComprasModel();
 $sucursalModels = new Sucursal();
+$proveedorModels =  new ProveedorModel();
+
 $compra = $comprasModels->obtenerCompraPorId($id_compra);
 $sucursal = $sucursalModels->obtenerSucursal($compra['fk_id_sucursal']);
+$proveedor = $proveedorModels->obtenerProveedorPorId($compra['proveedor_C']);
+
 $comprasModels->imprimirCompras($id_compra);
 $detalle = json_decode($compra['detalle_C'],true);
 $costo = $compra['costo_C'];
@@ -108,7 +113,7 @@ $bloque2 = <<<EOF
 
 		<tr>
 		   
-			<td style="border: 1px solid #666; background-color:white; width:540px">Proveedor: $compra[proveedor_C]</td>
+			<td style="border: 1px solid #666; background-color:white; width:540px">Proveedor: $proveedor[nombre_Pro]</td>
 
 		</tr>
 

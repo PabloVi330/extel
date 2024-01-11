@@ -27,6 +27,12 @@ class VentaController
          $_POST['monto_V'] =   $_POST['importe_V'];
       }
 
+      if( $_POST['estado_V'] == "cancelado"){
+         $_POST['monto_V'] =   $_POST['importe_V'];
+      }else{
+         $_POST['monto_V'] =   0;
+      }
+
       if($_POST['metodo_pago_V'] == 'trasnferencia' || $_POST['metodo_pago_V'] == "E_T"){
         $_POST['verificado_V'] = "NO";
       }else{

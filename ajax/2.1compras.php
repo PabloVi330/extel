@@ -54,7 +54,7 @@
                 <div class="row p-2">
                     <div class=" col-lg-3 col-sm-12 mb-2">
                         <button type="button" class="btn btn-danger btn-block
-                        waves-effect waves-light w-100 t-center" data-bs-toggle="modal" data-bs-target="#composemodal">
+                        waves-effect waves-light w-100 t-center mb-3" data-bs-toggle="modal" data-bs-target="#composemodal">
                             <i class=" fas fa-cart-plus"></i>
                             Agregar
                         </button>
@@ -68,6 +68,13 @@
                                     <option value=""> Seleccionar Proveedor</option>
                                 </select>
                             </div>
+
+                            <div class="col-lg-3 col-sm-12 m-2">
+                                <select class="form-control" name="fk_id_sucursal" id="fk_id_sucursal">
+                                    <option value=""> Seleccionar Sucursal</option>
+                                </select>
+                            </div>
+
                             <div class="col-lg-3 col-sm-12 m-2">
                                 <input type="number" step="any" class="form-control" id="costo_C" name="costo_C">
                             </div>
@@ -557,6 +564,28 @@
                 }
             });
 
+            //LINK - llamada a los -proveedors 
+            $.ajax({
+                url: './controllers/SucursalesControllers.php?action=obtenerSucursales', // Ajusta la ruta correcta
+                dataType: 'json',
+                success: function(data) {
+                    var select = $('#fk_id_sucursal');
+                    select.empty();
+                    select.append($('<option>', {
+
+
+                        value: '',
+                        text: 'Seleccionar Sucursal'
+                    }));
+                    $.each(data, function(key, value) {
+                        select.append($('<option>', {
+                            value: value.id_sucursal,
+                            text: value.nombreS
+                        }));
+                    });
+                }
+            });
+
         });
 
 
@@ -674,16 +703,16 @@
             let row = $(this).closest('tr');
             let id = parseInt(row.find('.id').text());
             let precioNeto = parseFloat(row.find('.precioNeto').val());
-             let precioDist = parseFloat(row.find('.precioDist').val());
-              let precioTec = parseFloat(row.find('.precioTec').val());
-               let precioPub = parseFloat(row.find('.precioPub').val());
+            let precioDist = parseFloat(row.find('.precioDist').val());
+            let precioTec = parseFloat(row.find('.precioTec').val());
+            let precioPub = parseFloat(row.find('.precioPub').val());
             let cantidad = parseFloat(row.find('.cantidad').val());
             let subtotal = cantidad * precioNeto;
 
             // Calcular los nuevos precios
             //let precioDist = precioNeto * 1.05; // Aumento del 5%
-            //let precioTec = precioNeto * 1.1; // Aumento del 10%
-            //let precioPub = precioNeto * 1.15; // Aumento del 15%
+             precioTec = precioDist * 1.1; // Aumento del 10%
+             precioPub = precioDist * 1.15; // Aumento del 15%
 
             var productoExistente = carrito.find(item => item.id == id);
 

@@ -19,17 +19,19 @@ class ComprasController
     public function crearCompra()
     {
         $crearCompra = $this->comprasModel->crearCompra($_POST);
+        $fkIdSucursal = $_POST['fk_id_sucursal'];
         if ($crearCompra == "ok") {
             $detalle = json_decode($_POST['detalle_C']);
             for ($i = 0; $i < count($detalle); $i++) {
                 $stock = $detalle[$i]->cantidad * $detalle[$i]->cantidad_compra;
                 $precio = $detalle[$i]->precio_neto;
                 $id = $detalle[$i]->id;
+                $codigo = $detalle[$i]->codigo;
                 $precio_distribucion = $detalle[$i]->precio_distribucion;
                 $precio_tecnico = $detalle[$i]->precio_tecnico;
                 $precio_publico = $detalle[$i]->precio_publico;
                 $codigo = $detalle[$i]->codigo;
-                $actualizarProducto = $this->articulo->editarArticuloCompra($stock, $precio, $id);
+                $actualizarProducto = $this->articulo->editarArticuloCompra($stock, $precio, $codigo,  $fkIdSucursal);
                 if ($actualizarProducto == "ok") {
                     $actualizarPrecio = $this->articulo->editarArticuloCompraPrecioVenta($precio, $precio_distribucion, $precio_tecnico, $precio_publico, $codigo);
                     if ($actualizarPrecio == "ok") {
