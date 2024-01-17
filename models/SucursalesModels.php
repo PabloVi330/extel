@@ -50,12 +50,12 @@ class Sucursal
         $query = "SELECT * FROM sucursal WHERE id_sucursal = :id_sucursal";
         try {
             $stmt = $this->conn->prepare($query);
-            $stmt->bindValue(":id_sucursal", $id);
+            $stmt->bindValue(":id_sucursal", $idd);
             $stmt->execute();
-            $this->conn = null;
+            //$this->conn = null;
             return $stmt->fetch();
         } catch (PDOException $e) {
-            $this->conn = null;
+            //$this->conn = null;
             return $e->getMessage();
         }
     }

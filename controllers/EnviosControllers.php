@@ -17,10 +17,10 @@ class EnvioController
 
 	public function crearEnvio()
 	{
-		// echo "<pre>";
-		// print_r($_POST);
-		// echo "</pre>";
-        // exit();
+		 //echo "<pre>";
+		 //print_r($_POST);
+		 //echo "</pre>";
+         //exit();
 		$crearEnvio = $this->envio->crearEnvio($_POST);
 		
 		if ($crearEnvio == "ok") {
@@ -28,7 +28,7 @@ class EnvioController
 			$detalle = json_decode($_POST["detalle_E"], true);
 			for ($i = 0; $i < count($detalle); $i++) {
 				$canti = intval($detalle[$i]['cantidad_envio']);
-				$responseStock = $this->articulo->reducirStock($detalle[$i]["id"], $detalle[$i]["cantidad_envio"]);
+				$responseStock = $this->articulo->reducirStockTraspaso($detalle[$i]["id"], $detalle[$i]["cantidad_envio"],$detalle[$i]["codigo"], $_POST["fk_id_sucursal1"]);
 				if ($responseStock == "ok")  {
 					// echo "redujo el stock del almacen <br>";
 					$busqueda = $this->articulo->buscarArticuloEnSucursal($_POST["fk_id_sucursal"], $detalle[$i]["codigo"]);
@@ -42,7 +42,7 @@ class EnvioController
 						if ($incrementarStock == "ok") {
 							echo json_encode($incrementarStock);
 						} else {
-							echo json_encode($incrementarStock);
+							//echo json_encode($incrementarStock);
 						}
 					} else {
 

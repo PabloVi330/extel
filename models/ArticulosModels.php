@@ -245,6 +245,21 @@ class ArticuloModel
             return $e->getMessage();
         }
     }
+    
+    public function reducirStockTraspaso($id_articulo, $cantidad,$codigo_A, $fk_id_sucursal)
+    {
+
+        try {
+            $query = "UPDATE articulo SET stock_A = stock_A - $cantidad WHERE codigo_A = '$codigo_A' AND fk_id_sucursal = $fk_id_sucursal";
+
+            $stmt = $this->conn->prepare($query);
+
+            $stmt->execute();
+            return "ok";
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
 
     public function sumarStock1($id_articulo, $cantidad)
     {

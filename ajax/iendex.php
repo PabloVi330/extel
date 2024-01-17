@@ -36,17 +36,19 @@
                                      <span>Usuarios</span>
                                  </h4>
                                  <h4 class="mb-3">
-                                     <span class="counter-value text-center" id="usuarios"></span>
+                                     <span class="counter-value text-center" data-target="6">0</span>
                                  </h4>
                              </div>
 
                              <div class="col-6">
-                                 <i class=" fas fa-user-check fa-4x"></i>
+                                 <div id="mini-chart1" data-colors='[" #ffffff"
+                                    ]' class="apex-charts mb-2"></div>
                              </div>
                          </div>
                          <div class="text-nowrap">
-                             <span class="badge bg-soft-success text-success">activos</span>
-                             <span class="ms-1 text-muted font-size-13">sin observaciones</span>
+                             <span class="badge bg-soft-success text-success">+$20.9k</span>
+                             <span class="ms-1 text-muted font-size-13">Since
+                                 last week</span>
                          </div>
                      </div><!-- end card body -->
                  </div><!-- end card -->
@@ -63,16 +65,19 @@
                                      <span>Grupos</span>
                                  </h4>
                                  <h4 class="mb-3">
-                                     <span class="counter-value" id="grupos">0</span>
+                                     <span class="counter-value" data-target="8">0</span>
                                  </h4>
                              </div>
                              <div class="col-6">
-                                 <i class=" far fa-object-group fa-4x"></i>
+                                 <div id="mini-chart2" data-colors='[" #5156be"
+                                    ]' class="apex-charts mb-2"></div>
                              </div>
                          </div>
                          <div class="text-nowrap">
-                             <span class="badge bg-soft-primary text-danger">Activos</span>
-                             <span class="ms-1 text-muted font-size-13">Homologados</span>
+                             <span class="badge bg-soft-danger text-danger">-29
+                                 Trades</span>
+                             <span class="ms-1 text-muted font-size-13">Since
+                                 last week</span>
                          </div>
                      </div><!-- end card body -->
                  </div><!-- end card -->
@@ -89,17 +94,19 @@
                                      <span>Clientes</span>
                                  </h4>
                                  <h4 class="mb-3">
-                                     <span class="counter-value" id="clientes"></span>
+                                     <span class="counter-value" data-target="3"></span>
                                  </h4>
                              </div>
                              <div class="col-6">
-                                 <i class="fas fa-user-tag fa-4x"></i>
+                                 <div id="mini-chart3" data-colors='[" #5156be"
+                                    ]' class="apex-charts mb-2"></div>
                              </div>
                          </div>
                          <div class="text-nowrap">
                              <span class="badge bg-soft-success text-success">+
-                                 Activos</span>
-                             <span class="ms-1 text-muted font-size-13">Sin Observasiones</span>
+                                 $2.8k</span>
+                             <span class="ms-1 text-muted font-size-13">Since
+                                 last week</span>
                          </div>
                      </div><!-- end card body -->
                  </div><!-- end card -->
@@ -116,15 +123,16 @@
                                      <span>Proveedores</span>
                                  </h4>
                                  <h4 class="mb-3">
-                                     <span class="counter-value" id="proveedores">9</span>
+                                     <span class="counter-value" data-target="9">9</span>
                                  </h4>
                              </div>
                              <div class="col-6">
-                                 <i class=" fas fa-house-user fa-4x"></i>
+                                 <div id="mini-chart4" data-colors='[" #5156be"
+                                    ]' class="apex-charts mb-2"></div>
                              </div>
                          </div>
                          <div class="text-nowrap">
-                             <span class="badge bg-soft-info text-success">Activos</span>
+                             <span class="badge bg-soft-success text-success">+2.95%</span>
                              <span class="ms-1 text-muted font-size-13">Since
                                  last week</span>
                          </div>
@@ -144,31 +152,7 @@
 
 
          <div class="row">
-
-
-             <div class="col-xl-12">
-                 <div class="card card-h-100">
-                     <div class="card-body">
-                         <div class="d-flex flex-wrap align-items-center mb-4">
-                             <h5 class="card-title me-2">Ventas Semanales</h5>
-                         </div>
-                         <div class="row">
-                             <div class="col-lg-12">
-                                 <div id="grafico_ventas" data-colors='[" #5156be" ," #34c38f"]' class="apex-charts " s></div>
-                             </div>
-                         </div>
-
-                     </div>
-                 </div>
-
-                 <!-- end row -->
-             </div>
-             <!-- end col -->
-         </div> <!-- end row-->
-
-         <div class="row">
-
-             <div class="col-xl-6">
+             <div class="col-xl-5">
                  <!-- card -->
                  <div class="card card-h-100">
                      <!-- card body -->
@@ -188,24 +172,83 @@
                      </div>
                  </div>
              </div>
+             <!-- end col -->
+             <div class="col-xl-7">
+                 <div class="row">
+                     <div class="col-lg-12">
+                         <div id="invested-overview" data-colors='[" #5156be" ," #34c38f"]' class="apex-charts"></div>
+                     </div>
+                 </div>
+                 <!-- end row -->
+             </div>
+             <!-- end col -->
+         </div> <!-- end row-->
 
-
-             <div class="col-xl-6">
+         <div class="row">
+             <div class="col-xl-8">
                  <!-- card -->
                  <div class="card">
+                     <!-- card body -->
                      <div class="card-body">
                          <div class="d-flex flex-wrap align-items-center mb-4">
-                             <h5 class="card-title me-2">Productos mas vendidos segun cantidad</h5>
+                             <h5 class="card-title me-2">Market Overview</h5>
+                             <div class="ms-auto">
+                                 <div>
+                                     <button type="button" class="btn btn-soft-primary btn-sm">
+                                         ALL
+                                     </button>
+                                     <button type="button" class="btn btn-soft-secondary btn-sm">
+                                         1M
+                                     </button>
+                                     <button type="button" class="btn btn-soft-secondary btn-sm">
+                                         6M
+                                     </button>
+                                     <button type="button" class="btn btn-soft-secondary btn-sm active">
+                                         1Y
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <div class="row align-items-center">
+                             <div class="col-xl-8">
+                                 <div>
+                                     <div id="market-overview" data-colors='["#5156be" ," #34c38f"]' class="apex-charts"></div>
+                                 </div>
+                             </div>
+                             <div class="col-xl-4">
+                                 <div class="p-4" id="coin-list-container">
+                                     <!-- Aquí se añadirá la lista de monedas dinámicamente -->
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <!-- end card -->
+                 </div>
+
+                 <!-- end col -->
+             </div>
+             <!-- end row-->
+
+             <div class="col-xl-4">
+                 <!-- card -->
+                 <div class="card">
+                     <!-- card body -->
+                     <div class="card-body">
+                         <div class="d-flex flex-wrap align-items-center mb-4">
+                             <h5 class="card-title me-2">Sales by Locations</h5>
                              <div class="ms-auto">
                                  <div class="dropdown">
                                      <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                         <span class="text-muted font-size-12">Sort By:</span> <span class="fw-medium">World<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                         <span class="text-muted font-size-12">Sort
+                                             By:</span> <span class="fw-medium">World<i class="mdi mdi-chevron-down
+                                                ms-1"></i></span>
                                      </a>
 
                                      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                                         <a class="dropdown-item" href="" onclick="changeLocation('USA')">USA</a>
-                                         <a class="dropdown-item" href="" onclick="changeLocation('Russia')">Russia</a>
-                                         <a class="dropdown-item" href="" onclick="changeLocation('Australia')">Australia</a>
+                                         <a class="dropdown-item" href="#">USA</a>
+                                         <a class="dropdown-item" href="#">Russia</a>
+                                         <a class="dropdown-item" href="#">Australia</a>
                                      </div>
                                  </div>
                              </div>
@@ -213,10 +256,30 @@
 
                          <div id="sales-by-locations" data-colors='[" #5156be" ]' style="height: 250px"></div>
 
-                         <div class="px-2 py-2" id="progress-container">
-                             <!-- Contenido de progreso dinámico aquí -->
+                         <div class="px-2 py-2">
+                             <p class="mb-1">USA <span class="float-end">75%</span></p>
+                             <div class="progress mt-2" style="height: 6px;">
+                                 <div class="progress-bar progress-bar-striped
+                                    bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="75">
+                                 </div>
+                             </div>
+
+                             <p class="mt-3 mb-1">Russia <span class="float-end">55%</span></p>
+                             <div class="progress mt-2" style="height: 6px;">
+                                 <div class="progress-bar progress-bar-striped
+                                    bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="55">
+                                 </div>
+                             </div>
+
+                             <p class="mt-3 mb-1">Australia <span class="float-end">85%</span></p>
+                             <div class="progress mt-2" style="height: 6px;">
+                                 <div class="progress-bar progress-bar-striped
+                                    bg-primary" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="85">
+                                 </div>
+                             </div>
                          </div>
                      </div>
+                     <!-- end card body -->
                  </div>
                  <!-- end card -->
              </div>
@@ -1634,18 +1697,6 @@
      });
  </script>
  <script>
-
-    $.ajax({
-        method: "POST",
-        url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
-        data:{sql:'SELECT COUNT(*) AS cantidad_usuarios FROM usuario'},
-        dataType: 'json',
-        success: function(data){
-            console.log(data)
-            $('#usuarios').attr('data-target',data[0].cantidad_usuarios);
-            $('#usuarios').text(data[0].cantidad_usuarios);
-        }
-    });
      function crearGrafico(datosCategoria) {
          // Mapea los datos recibidos para obtener las etiquetas (labels) y las series
          var etiquetas = datosCategoria.map(function(categoria) {
@@ -1681,6 +1732,9 @@
              method: "GET",
              dataType: "json",
              success: function(data) {
+                 console.log(data);
+
+                 // Llama a la función para inicializar el gráfico
 
                  crearGrafico(data);
              },
@@ -1694,140 +1748,107 @@
      realizarSolicitudAjax();
 
 
+     // Supongamos que tienes datos dinámicos, por ejemplo:
+     const dataPoints = [10, 20, 30, 40, 50];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     $.ajax({
-         url: './controllers/VentasControllers.php?action=obtenerVentas',
-         dataType: 'json',
-         success(response) {
-             const fechas = response.map(venta => venta.fecha_V);
-             const cantidades = response.map(venta => venta.importe_V);
-
-             const ventas = {
-                 chart: {
-                     type: 'line',
-                 },
-                 series: [{
-                     name: 'Ventas',
-                     data: cantidades,
-                 }],
-                 xaxis: {
-                     categories: fechas,
-                 },
-                 colors: ['#5156be'],
-             };
-
-             // Inicializar el gráfico con ApexCharts
-             const graficoVentas = new ApexCharts(document.querySelector("#grafico_ventas"), ventas);
-             graficoVentas.render();
-         }
-     });
-
-
-
-
- </script>
-
-
- <script>
-     $.ajax({
-         url: './controllers/VentasControllers.php?action=obtenerVentas',
-         dataType: 'json',
-         success: function(response) {
-             const productos_mas_vendidos = obtenerProductosMasVendidos(response, 10);
-             console.log(productos_mas_vendidos);
-             updateProgressBars(productos_mas_vendidos);
+     // Configuración del gráfico ApexCharts
+     const options1 = {
+         chart: {
+             type: 'line',
          },
-         error: function(error) {
-             console.error('Error en la solicitud AJAX: ', error);
-         }
-     });
+         series: [{
+             name: 'Invested Overview',
+             data: dataPoints,
+         }],
+         colors: ['#5156be', '#34c38f'],
+     };
+
+     // Inicializar el gráfico con ApexCharts
+     const chart1 = new ApexCharts(document.querySelector("#invested-overview"), options1);
+     chart1.render();
+
+     // Supongamos que tienes nuevos datos dinámicos, por ejemplo:
+     const newDataPoints = [15, 25, 35, 45, 55];
+
+     // Actualizar el gráfico con los nuevos datos
+     chart1.updateSeries([{
+         data: newDataPoints,
+     }]);
 
 
-    
 
-     function updateProgressBars(data) {
-         const progressContainer = document.getElementById('progress-container');
-         progressContainer.innerHTML = '';
-         let totalProductos = 0
-         data.forEach(item=>{
-             totalProductos += item.cantidad
-         })
+     // Datos de ejemplo para el gráfico
+     const marketOverviewData = {
+         series: [{
+             name: 'Market Overview',
+             data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+         }],
+     };
 
-         data.forEach(item => {
-             const {
-                 id_producto,
-                 codigo,
-                 descripcion,
-                 cantidad
-             } = item;
-             const percentage = (cantidad / totalProductos) * 100; // Calcular el porcentaje en relación con el máximo
+     // Configuración del gráfico ApexCharts
+     const marketOverviewOptions = {
+         chart: {
+             type: 'line',
+         },
+         series: marketOverviewData.series,
+         colors: ['#5156be', '#34c38f'],
+     };
 
-             const progressBarHtml = `
-            <p class="mt-3 mb-1">${codigo} <span class="float-end">${percentage.toFixed(2)}%</span></p>
-            <div class="progress mt-2" style="height: 6px;">
-                <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: ${percentage}%" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">
+     // Inicializar el gráfico con ApexCharts
+     const marketOverviewChart = new ApexCharts(document.querySelector("#market-overview"), marketOverviewOptions);
+     marketOverviewChart.render();
+
+     // Datos de ejemplo para la lista de monedas
+     const coinListData = [{
+             name: 'Coinmarketcap',
+             change: '+2.5%'
+         },
+         {
+             name: 'Binance',
+             change: '+8.3%'
+         },
+         {
+             name: 'Coinbase',
+             change: '-3.6%'
+         },
+         {
+             name: 'Yobit',
+             change: '+7.1%'
+         },
+         {
+             name: 'Bitfinex',
+             change: '-0.9%'
+         },
+     ];
+
+     // Función para generar la lista de monedas dinámicamente
+     function generateCoinList(data) {
+         const container = document.getElementById('coin-list-container');
+         container.innerHTML = '';
+
+         data.forEach((coin, index) => {
+             const html = `
+            <div class="mt-3">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm m-auto">
+                        <span class="avatar-title rounded-circle bg-soft-light text-dark font-size-16">
+                            ${index + 1}
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <span class="font-size-16">${coin.name}</span>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <span class="badge rounded-pill badge-soft-success font-size-12 fw-medium">${coin.change}</span>
+                    </div>
                 </div>
             </div>
         `;
 
-             progressContainer.innerHTML += progressBarHtml;
+             container.innerHTML += html;
          });
      }
 
-
-
-     // Función para obtener los productos más vendidos
-     function obtenerProductosMasVendidos(ventasData, numProductos) {
-         // Crear un objeto para contar la cantidad de cada producto
-         const conteoProductos = {};
-
-         // Iterar sobre los datos de ventas y contar la cantidad de cada producto
-         ventasData.forEach(venta => {
-             const detalle = JSON.parse(venta.detalle_V);
-             console.log(detalle);
-             detalle.forEach(producto => {
-                 const idProducto = producto.id_articulo;
-                 if (conteoProductos[idProducto] === undefined) {
-                     conteoProductos[idProducto] = {
-                         codigo: producto.codigo_A,
-                         descripcion: producto.descripcion_A,
-                         cantidad: producto.cantidad_venta
-                     };
-                 } else {
-                     conteoProductos[idProducto] += producto.cantidad_venta;
-                 }
-             })
-
-         });
-
-         // Convertir el objeto de conteo a un array de objetos
-         const productosOrdenados = Object.keys(conteoProductos).map(idProducto => ({
-             id_producto: idProducto,
-             codigo: conteoProductos[idProducto].codigo,
-             descripcion: conteoProductos[idProducto].descripcion,
-             cantidad: conteoProductos[idProducto].cantidad
-         }));
-
-         // Ordenar el array por la cantidad de ventas en orden descendente
-         productosOrdenados.sort((a, b) => b.cantidad - a.cantidad);
-
-         // Tomar los primeros "numProductos" productos más vendidos
-         const productosMasVendidos = productosOrdenados.slice(0, numProductos);
-
-         return productosMasVendidos;
-     }
+     // Llamar a la función para generar la lista de monedas con los datos de ejemplo
+     generateCoinList(coinListData);
  </script>

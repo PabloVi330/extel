@@ -14,6 +14,25 @@ session_start();
 
 <!-- Responsive datatable examples -->
 <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+  <style>
+        @keyframes parpadeo {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .parpadeo {
+            animation: parpadeo 1s infinite;
+        }
+    </style>
 
 <style>
     /* Estilos para la impresión */
@@ -59,16 +78,22 @@ session_start();
             <div class="col-12">
                 <!-- DATOS DE ENVIO -->
                 <div class="email-leftbar card detalles">
-                    <button type="button" class="btn btn-danger btn-block
-                        waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#composemodal">
-                        <i class=" fas fa-cart-plus"></i>
-                        Agregar
-                    </button>
+                    
                     <div class="mail-list mt-4">
                         <form action="" class="form-control" id="formEnvios">
+                            
                             <div class="mb-3">
                                 <div class="mb-3">
-                                    <label for="fk_id_sucursal" class="form-label font-size-13 text-muted">Sucursal</label>
+                                    <label for="fk_id_sucursal1" class="form-label font-size-13 text-muted">Almacen Origen</label>
+                                    <select class="form-control" data-trigger name="fk_id_sucursal1" id="fk_id_sucursal1">
+                                        <option value="">Seleccionar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="fk_id_sucursal" class="form-label font-size-13 text-muted">Almacen destino</label>
                                     <select class="form-control" data-trigger name="fk_id_sucursal" id="fk_id_sucursal">
                                         <option value="">Seleccionar</option>
                                     </select>
@@ -76,10 +101,6 @@ session_start();
                             </div>
 
 
-                            <div class="mb-3">
-                                <label for="fecha_E" class="form-label">Fecha</label>
-                                <input type="date" class="form-control" id="fecha_E" name="fecha_E">
-                            </div>
 
                             <div class="mb-3">
                                 <div class="mb-3">
@@ -90,12 +111,7 @@ session_start();
                                 </div>
                             </div>
 
-                            <div class="col-lg-4 col-md-6">
-                                <div><label for="switch4">Costo:</label></div>
-                                <input type="hidden" id="tipo_E" name="tipo_E" value="">
-                                <input type="checkbox" id="switch4" switch="bool" name="switch4" checked />
-                                <label for="switch4" data-on-label="Si" data-off-label="No"></label>
-                            </div>
+                           
 
                             <div class="mb-3">
                                 <label for="total_E" class="form-label">Total</label>
@@ -149,8 +165,14 @@ session_start();
                                     </div>
                                     <hr class="my-4">
 
-                                    <div class="py-2 mt-3">
-                                        <h5 class="font-size-15">Detalle de envio</h5>
+                                    <div class="py-2 mt-3 row">
+                                        <h5 class="font-size-15 col-4">Detalle de envio</h5>
+                                        <div class="col-4"></div>
+                                        <button type="button" class="btn btn-danger btn-block
+                                            waves-effect waves-light col-4" data-bs-toggle="modal" data-bs-target="#composemodal">
+                                            <i class=" fas fa-cart-plus"></i>
+                                            Agregar
+                                        </button>
                                     </div>
                                     <div class="p-4 border rounded">
                                         <div class="table-responsive">
@@ -293,7 +315,8 @@ session_start();
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Sucursal</th>
+                                    <th>Origen</th>
+                                    <th>Destino</th>
                                     <th>Responsable</th>
                                     <th>Fecha</th>
                                     <th>Total</th>
@@ -400,12 +423,13 @@ session_start();
                         var tres = row.stock_sucursal_3
                         var cuatro = row.stock_sucursal_4
                         return ` <div class="row w-100" >
-                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div> 
+                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1">REDEX.  <i class="fas fa-laptop-house"></i>_ ${uno}</div> 
 
-                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1">COD. <i class="fas fa-laptop-house"></i>_ ${dos}</div>
 
-                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${tres}</div>
-                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${cuatro}</div>
+                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1">TOLSEN <i class="fas fa-laptop-house"></i>_ ${tres}</div>
+                                  
+                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1">EX TER.  <i class="fas fa-laptop-house"></i>_ ${cuatro}</div>
                                
                             </div>`;
                     }
@@ -475,6 +499,26 @@ session_start();
                 });
             }
         });
+        
+         //LINK - llamada a las  Sucursales
+        $.ajax({
+            url: './controllers/SucursalesControllers.php?action=obtenerSucursales', // Ajusta la ruta correcta
+            dataType: 'json',
+            success: function(data) {
+                var select = $('#fk_id_sucursal1');
+                select.empty();
+                select.append($('<option>', {
+                    value: '',
+                    text: 'Seleccionar'
+                }));
+                $.each(data, function(key, value) {
+                    select.append($('<option>', {
+                        value: value.id_sucursal,
+                        text: value.nombreS
+                    }));
+                });
+            }
+        });
 
          //LINK - llamada a los Usuarios
          $.ajax({
@@ -511,7 +555,10 @@ session_start();
                     data: 'id_envio'
                 },
                 {
-                    data: 'nombre_sucursal'
+                    data: 'sucursal_origen'
+                },
+                {
+                    data: 'sucursal_destino'
                 },
                 {
                     data: 'nombre_usuario'
@@ -620,12 +667,24 @@ session_start();
         for (var i = 0; i < carrito.length; i++) {
             total = total + parseFloat(carrito[i].subtotal);
         }
-        console.log(total);
         $('#total').text(total);
         $('#total_E').val(total);
     }
     // Función para agregar una nueva fila de producto al carrito
     function agregarFila(data) {
+        var suc = $('#fk_id_sucursal1').val();
+        var stock = data.stock_A;
+        switch(suc){
+            case '1': stock = data.stock_sucursal_1
+            break
+            case '2': stock = data.stock_sucursal_2
+            break
+            case '3': stock = data.stock_sucursal_3
+            break
+            case '4': stock = data.stock_sucursal_4
+            break
+        }
+       
         var id = data.id_articulo;
         var codigo = data.codigo_A;
         var descripcion = data.descripcion_A.detalle;
@@ -633,7 +692,7 @@ session_start();
         var precio_distribucion = data.precio_distribucion_A;
         var precio_tecnico = data.precio_tecnico_A;
         var precio_publico = data.precio_publico_A;
-        var stock = data.stock_A;
+        
         var unimed = data.unimed_A;
         var cantidad = parseInt(data.cantidad_A);
         var cantidad_envio = 1;
@@ -653,7 +712,7 @@ session_start();
             unimed: unimed,
         }
         carrito.push(producto)
-
+        console.log(producto);
         let nuevaFila = `
                 <tr>
 
@@ -720,7 +779,7 @@ session_start();
         if (productoExistente && productoExistente.stock >= quantity) {
             // Actualizar el producto existente
             productoExistente.precioUnit = priceUnit;
-            productoExistente.cantidad = quantity;
+            productoExistente.cantidad_envio = quantity;
             productoExistente.subtotal = subtotal;
             row.find('.subtotal').text(subtotal);
         }
@@ -768,7 +827,7 @@ session_start();
             data: formData,
             success: function(response) {
                 console.log(response);
-                if (response == '"ok"') {
+                if (response == '"ok""ok"') {
                     Swal.fire({
                         icon: 'success',
                         title: 'Éxito',

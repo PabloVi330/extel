@@ -17,13 +17,13 @@ class VentaModel
         try {
            $fechaDeseada = date("Y-m-d");
            
-            $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_usuario, fk_id_cliente, fecha_V, detalle_V, importe_V, metodo_pago_V, efectivo_V, transferencia_V, verificado_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_usuario, :fk_id_cliente, :fecha_V, :detalle_V, :importe_V, :metodo_pago_V, :efectivo_V, :transferencia_V, :verificado_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
+            $query = "INSERT INTO ventas (fk_id_sucursal, fk_id_usuario, fk_id_cliente, detalle_V, importe_V, metodo_pago_V, efectivo_V, transferencia_V, verificado_V, facturado_V, tipo_V, estado_V, monto_V) VALUES (:fk_id_sucursal, :fk_id_usuario, :fk_id_cliente,  :detalle_V, :importe_V, :metodo_pago_V, :efectivo_V, :transferencia_V, :verificado_V, :facturado_V, :tipo_V, :estado_V, :monto_V) ";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':fk_id_sucursal', $_SESSION['fk_id_sucursal'], PDO::PARAM_INT);
             $stmt->bindParam(':fk_id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
             $stmt->bindParam(':fk_id_cliente', $data['fk_id_cliente'], PDO::PARAM_INT);
-            $stmt->bindParam(':fecha_V',  $fechaDeseada, PDO::PARAM_STR);
+            //$stmt->bindParam(':fecha_V',  $fechaDeseada, PDO::PARAM_STR);
             $stmt->bindParam(':detalle_V', $data['detalle_V'], PDO::PARAM_STR);
             $stmt->bindParam(':importe_V', $data['importe_V'], PDO::PARAM_STR);
             $stmt->bindParam(':metodo_pago_V', $data['metodo_pago_V'], PDO::PARAM_STR);

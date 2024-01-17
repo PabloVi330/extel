@@ -1,4 +1,4 @@
-<?php session_start()?>
+<?php session_start() ?>
 <!-- DataTables -->
 <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -16,6 +16,25 @@
 <!-- selecte -->
 <link href="assets/libs/select2/select2.min.css" />
 <link href="assets/libs/selectize/selectize.css" rel="stylesheet" type="text/css" />
+<style>
+    @keyframes parpadeo {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .parpadeo {
+        animation: parpadeo 1s infinite;
+    }
+</style>
 
 <style>
     .compatibilidad-cell {
@@ -70,11 +89,7 @@
             <div class="col-12">
                 <!-- DATOS DE ENVIO -->
                 <div class="email-leftbar card detalles">
-                    <button type="button" class="btn btn-danger btn-block
-                        waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#composemodal">
-                        <i class=" fas fa-cart-plus"></i>
-                        Agregar
-                    </button>
+
                     <div class="mail-list mt-4">
                         <form action="" class="form-control text-center" id="formVentas">
 
@@ -193,6 +208,7 @@
                                                     <h4 class="float-end font-size-16">Factura # <input type="text" class="form-control"></h4>
                                                 </div>
                                             </div>
+
                                         </div>
 
                                         <div class="col-lg-6">
@@ -217,9 +233,16 @@
                                     </div>
                                     <hr class="my-4">
 
-                                    <div class="py-2 mt-3">
-                                        <h5 class="font-size-15">Detalle de venta</h5>
+                                    <div class="py-2 mt-3 d-flex row">
+                                        <h5 class="font-size-15 col-4">Detalle de venta</h5>
+                                        <div class="col-4"> </div>
+                                        <button type="button" class="col-4 btn btn-danger btn-block
+                                                waves-effect waves-light " data-bs-toggle="modal" style="float:left" data-bs-target="#composemodal">
+                                            <i class=" fas fa-cart-plus"></i>
+                                            Agregar Articulos
+                                        </button>
                                     </div>
+
                                     <div class="p-4 border rounded">
                                         <div class="table-responsive">
                                             <table class="table table-nowrap align-middle mb-0" id="tabla-ventas">
@@ -685,13 +708,16 @@
                         // Combina los valores de los cuatro campos en un solo string
                         var uno = row.stock_sucursal_1
                         var dos = row.stock_sucursal_2
+                        var tres = row.stock_sucursal_3
+                        var cuatro = row.stock_sucursal_4
                         return ` <div class="row w-100" >
-                                  <div class=" ${uno < 5 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${uno}</div>
+                                  <div class=" ${uno <= 6 ? 'parpadeo' : ''}  badge badge-soft-info font-size-14 m-1">REDEX.  <i class="fas fa-laptop-house"></i>_ ${uno}</div> 
 
-                                  <div class="${dos < 5 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1"><i class="fas fa-laptop-house"></i>${dos}</div>
+                                  <div class="${dos <= 6 ? 'parpadeo' : ''} badge badge-soft-success font-size-14 m-1">COD. <i class="fas fa-laptop-house"></i>_ ${dos}</div>
 
-                                  <div class="badge badge-soft-warning font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
-                                  <div class="badge badge-soft-primary font-size-14 m-1"><i class="fas fa-laptop-house"></i> ${row.stock_sucursal_1}</div>
+                                  <div class=" ${tres <= 6 ? 'parpadeo' : ''} badge badge-soft-warning font-size-14 m-1">TOLSEN <i class="fas fa-laptop-house"></i>_ ${tres}</div>
+                                  
+                                  <div class=" ${cuatro <= 6 ? 'parpadeo' : ''} badge badge-soft-primary font-size-14 m-1">EX TER.  <i class="fas fa-laptop-house"></i>_ ${cuatro}</div>
                                
                             </div>`;
                     }
@@ -1132,10 +1158,13 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Éxito',
-                        text: 'La venta se realizo con exito',
+                        text: 'La venta se realizó con éxito',
                         confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
                     });
-
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -1345,7 +1374,7 @@
                 Swal.fire({
                     title: 'Confirmar Datos de Transaccion de venta Nor: ' + idVenta,
                     html: '¿Confirmas haber recibido el pago Por transferencia?<br>' +
-                        '<h4>Monto:' + transferenciaValor+ '</h4> <br> <h4>la fecha: ' + response.fecha_V +'</h4><br> <h4>del Cliente: ' + response.nombre_cliente+'<h4>',
+                        '<h4>Monto:' + transferenciaValor + '</h4> <br> <h4>la fecha: ' + response.fecha_V + '</h4><br> <h4>del Cliente: ' + response.nombre_cliente + '<h4>',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',

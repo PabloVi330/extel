@@ -1,5 +1,9 @@
 <?php
 require_once '../models/CategoriasModels.php';
+header("Access-Control-Allow-Origin: https://redextel.quirquincho-digital.com");
+
+
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
 class CategoriaController
 {

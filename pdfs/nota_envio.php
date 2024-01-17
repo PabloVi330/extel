@@ -14,10 +14,19 @@ $id_envio = $_GET['id_envio'];
 $enviosModels = new EnvioModel();
 $sucursalModels = new Sucursal();
 $envio = $enviosModels->obtenerEnviosPorId($id_envio);
+//print_r($envio);
+$sucursal1 = $sucursalModels->obtenerSucursal($envio['fk_id_sucursal1']);
 $sucursal = $sucursalModels->obtenerSucursal($envio['fk_id_sucursal']);
 $enviosModels->imprimirEnvio($id_envio);
 $detalle = json_decode($envio['detalle_E'],true);
 $costo = $envio['total_E'];
+
+$timestamp = strtotime($envio['fecha_E']);
+$fecha = date("Y-m-d", $timestamp);
+$hora = date("H:i:s", $timestamp);
+         
+         
+         
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 $pdf->startPageGroup();
@@ -41,7 +50,7 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 				
 					<br>
-					Dirección: $sucursal[direccion_S]
+					Direccion: $sucursal1[direccion_S]
 
 				</div>
 
@@ -52,7 +61,7 @@ $bloque1 = <<<EOF
 				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
 					
 					<br>
-					Teléfono: $sucursal[telefono_S]
+					Telefono: $sucursal1[telefono_S]
 					
 					<br>
 				
@@ -83,7 +92,7 @@ $bloque2 = <<<EOF
 		<tr>
 		   
 			<td style="width:140px"><img src="images/back.jpg"></td>
-			<td style="width:340px; color:#153959; font-size: 30px; font-weight: bold;">NOTA DE ENVIO</td>
+			<td style="width:340px; color:#153959; font-size: 30px; font-weight: bold;">NOTA DE TRASPASO</td>
 		
 		</tr>
 
@@ -101,7 +110,7 @@ $bloque2 = <<<EOF
 
 			<td style="border: 1px solid #666; background-color:white; width:150px; text-align:right">
 			
-				Fecha: $envio[fecha_E]
+				Fecha: $fecha
 
 			</td>
 
@@ -109,7 +118,14 @@ $bloque2 = <<<EOF
 
 		<tr>
 		   
-			<td style="border: 1px solid #666; background-color:white; width:540px">Responsable de recepcion: $envio[responsable_E]</td>
+			<td style="border: 1px solid #666; background-color:white; width:390px">Responsable de recepcion: $envio[responsable_E]</td>
+			<td style="border: 1px solid #666; background-color:white; width:150px">Hora: $hora</td>
+
+		</tr>
+		<tr>
+		   
+			<td style="border: 1px solid #666; background-color:white; width:270px">Origen: $sucursal1[nombreS]</td>
+			<td style="border: 1px solid #666; background-color:white; width:270px">Destino: $sucursal[nombreS]</td>
 
 		</tr>
 
@@ -158,6 +174,7 @@ $cc = $c->obtenerArticuloPorId($item['id']);
 $valorUnitario = number_format($item["precio_neto"], 2);
 $des = json_decode($cc['descripcion_A'], true);
 $precioTotal = number_format($item["subtotal"], 2);
+$costoTo =  number_format($costo, 2);
 
 $bloque4 = <<<EOF
 
@@ -173,7 +190,7 @@ $bloque4 = <<<EOF
 			</td>
 
 			<td style="border: 1px solid #666;  background-color:white; width:80px; text-align:center">
-				$item[cantidad]
+				$item[cantidad_envio]
 			</td>
 
 			<td style="border: 1px solid #666;  background-color:white; width:80px; text-align:center">Bs
@@ -212,21 +229,8 @@ $bloque5 = <<<EOF
 
 		</tr>
 		
-		<tr>
-		
-			<td style="border-right: 1px solid #666;  background-color:white; width:340px; text-align:center"></td>
-
-			<td style="border: 1px solid #666;  background-color:white; width:100px; text-align:center">
-				Neto:
-			</td>
-
-			<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">
-				Bs $costo
-			</td>
-
-		</tr>
-
 	
+
 
 		<tr>
 		
@@ -237,7 +241,7 @@ $bloque5 = <<<EOF
 			</td>
 			
 			<td style="border: 1px solid #666;  background-color:white; width:100px; text-align:center">
-				Bs $costo
+				Bs $costoTo
 			</td>
 
 		</tr>

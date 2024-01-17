@@ -15,14 +15,16 @@ class EnvioModel
 
 	public function crearEnvio($data)
 	{
+        $data['tipo_E'] = "SIN COSTO";
 		try {
-			$query = "INSERT INTO envios (fk_id_sucursal, fk_id_usuario, fecha_E, responsable_E, detalle_E, tipo_E, total_E, impreso_E, estado_E) VALUES (:fk_id_sucursal, :fk_id_usuario, :fecha_E,:responsable_E, :detalle_E, :tipo_E, :total_E, :impreso_E, :estado_E)";
+			$query = "INSERT INTO envios (fk_id_sucursal1, fk_id_sucursal, fk_id_usuario, responsable_E, detalle_E, tipo_E, total_E, impreso_E, estado_E) 
+          VALUES (:fk_id_sucursal1, :fk_id_sucursal, :fk_id_usuario, :responsable_E, :detalle_E, :tipo_E, :total_E, :impreso_E, :estado_E)";
 
 
 			$stmt = $this->conn->prepare($query);
+			$stmt->bindParam(":fk_id_sucursal1", $data['fk_id_sucursal1']);
 			$stmt->bindParam(":fk_id_sucursal", $data['fk_id_sucursal']);
 			$stmt->bindParam(":fk_id_usuario", $_SESSION['id_usuario']);
-			$stmt->bindParam(":fecha_E", $data['fecha_E']);
 			$stmt->bindParam(":responsable_E", $data['responsable_E']);
 			$stmt->bindParam(":detalle_E", $data['detalle_E']);
 			$stmt->bindParam(":tipo_E", $data['tipo_E']);
@@ -75,19 +77,22 @@ class EnvioModel
 	public function obtenerEnvios()
 	{
 
-		if ($_SESSION['area_U'] == 'administrador' && $_SESSION['tipo_U'] == 1) {
+		if ($_SESSION['area_U'] == 'administrador' || $_SESSION['area_U'] == 'almacen') {
 			try {
 				$query = "SELECT 
-							 e.*,
-							 s.nombreS AS nombre_sucursal,
-							 u.nombre_U AS nombre_usuario
-						   FROM 
-							   envios AS e
-						   LEFT JOIN  
-							   sucursal AS s ON e.fk_id_sucursal = s.id_sucursal
-						   LEFT JOIN  
-							   usuario AS u ON e.fk_id_usuario = u.id_usuario
-							ORDER BY e.id_envio DESC";
+                             e.*,
+                             s1.nombreS AS sucursal_origen,
+                             s2.nombreS AS sucursal_destino,
+                             u.nombre_U AS nombre_usuario
+                           FROM 
+                             envios AS e
+                           LEFT JOIN  
+                             sucursal AS s1 ON e.fk_id_sucursal1 = s1.id_sucursal
+                           LEFT JOIN  
+                             sucursal AS s2 ON e.fk_id_sucursal = s2.id_sucursal
+                           LEFT JOIN  
+                             usuario AS u ON e.fk_id_usuario = u.id_usuario
+                           ORDER BY e.id_envio DESC";
 				$stmt = $this->conn->query($query);
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			} catch (PDOException $e) {
