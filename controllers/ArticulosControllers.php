@@ -80,8 +80,8 @@ class ArticulosController
             $img = json_encode($nombresImagenes);
             $data['Eimagenes_A']  = $img;
         } else {
-             echo json_encode(["error" => "No se enviaron imágenes válidas"]);
-             exit;
+            //  echo json_encode(["error" => "No se enviaron imágenes válidas"]);
+            //  exit;
         }
         //print_r($data);
         // Procesa los datos en tu modelo

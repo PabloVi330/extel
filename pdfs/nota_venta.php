@@ -23,12 +23,12 @@ class imprimirFactura
 		$tipo_V = $venta['tipo_V'];
 		$costo = $venta['importe_V'];
 		$estado_V = $venta['estado_V'];
-		
-		 $timestamp = strtotime($venta['fecha_V']);
-         $fecha = date("Y-m-d", $timestamp);
-         $hora = date("H:i:s", $timestamp);
+
+		$timestamp = strtotime($venta['fecha_V']);
+		$fecha = date("Y-m-d", $timestamp);
+		$hora = date("H:i:s", $timestamp);
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-         //echo '<pre>';print_r($venta);echo '</pre>';
+		//echo '<pre>';print_r($venta);echo '</pre>';
 		$pdf->startPageGroup();
 
 		$pdf->AddPage();
@@ -37,47 +37,32 @@ class imprimirFactura
 
 
 		$bloque1 = <<<EOF
-
-
-	<table  >
-		
-		<tr style="font-size:13px;">
-			
-			<td style="width:150px"><img src="logo.png"></td>
-
-			<td   style="font-size:13px; background-color:white; width:140px">
-				
-				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
-				
-					<br>
-					Direccion: $sucursal[direccion_S]
-
-				</div>
-
-			</td>
- 
-			<td style="background-color:white; width:140px">
-
-				<div style="font-size:8.5px; text-align:right; line-height:15px; font-size:11px;">
-					
-					<br>
-					Telefono: $sucursal[telefono_S]
-					
-					<br>
-					
-
-				</div>
-				
-			</td>
-
-			<td style="background-color:white; width:110px; text-align:center; color:red"><br><br>NOTA Nro: {$venta['id_venta']}</td>
-
-		</tr>
-
-	</table>
-
-
+    <table style="border-collapse: collapse; border: 1px solid black;">
+        <tr style="font-size: 13px; border: 1px solid black;">
+            <td style="height: 100px; border: 1px solid black; background-color: white; padding: 3px; text-align: center; vertical-align: middle;">
+                <img src="logo.png" style="margin-top: 1000px; display: inline-line;">
+            </td>
+            <td style="font-size: 13px; background-color: white; width: 140px; border: 1px solid black;">
+                <div style="font-size: 8.5px; text-align: right; line-height: 15px; font-size: 11px;">
+                    <br>
+                    Dirección: $sucursal[direccion_S]
+                </div>
+            </td>
+            <td style="background-color: white; width: 140px; border: 1px solid black;">
+                <div style="font-size: 8.5px; text-align: right; line-height: 15px; font-size: 11px;">
+                    <br>
+                    Teléfono: $sucursal[telefono_S]
+                    <br>
+                </div>
+            </td>
+            <td style="background-color: white; width: 110px; text-align: center; color: red; border: 1px solid black;">
+                <br><br>NOTA Nro: {$venta['id_venta']}
+            </td>
+        </tr>
+    </table>
 EOF;
+
+
 
 		$pdf->writeHTML($bloque1, false, false, false, false, '');
 
@@ -87,14 +72,13 @@ EOF;
 			$titulo = '';
 			$validez = '';
 			if ($tipo_V == 'venta') {
-				if($estado_V == 'por pagar'){
+				if ($estado_V == 'por pagar') {
 					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTA (por pagar)</td>';
 					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"> Hora: $hora </td>';
-				}else{
+				} else {
 					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTA (cancelado)</td>';
-				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px">  Hora: '. $hora.' </td>';
+					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px">  Hora: ' . $hora . ' </td>';
 				}
-				
 			}
 			if ($tipo_V == 'proforma') {
 				$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">PROFORMA</td>';
@@ -105,7 +89,7 @@ EOF;
 				$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">PEDIDO</td>';
 				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"></td>';
 			}
-    
+
 
 			$bloque2 = <<<EOF
 
@@ -166,7 +150,7 @@ EOF;
 
 		$bloque3 = <<<EOF
 
-	<table style="font-size:12px; padding:5px 10px;">
+	<table style="font-size:11px; padding:5px 10px;">
 
 		<tr>
 		<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">Codigo</td>
@@ -206,9 +190,15 @@ EOF;
 				$cc[codigo_A]
 			</td>
 
-			<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-				$des[detalle]
+			<td style="border: 1px solid #666; background-color: white; width: 200px; text-align: center; display: flex; align-items: flex-start;">
+				<div >
+					$des[detalle]
+				</div>
+				<div >
+					<img height="50px" src="logo.png" style="display: block;">
+				</div>
 			</td>
+
 
 			<td style="border: 1px solid #666;  background-color:white; width:80px; text-align:center">
 				$item[cantidad_venta]
@@ -238,7 +228,7 @@ EOF;
 
 
 		// ---------------------------------------------------------
-        $metodepago =  $venta['metodo_pago_V'];
+		$metodepago =  $venta['metodo_pago_V'];
 		$bloque55 = <<<EOF
 
 		<table style="font-size:11px; padding:5px 10px;">

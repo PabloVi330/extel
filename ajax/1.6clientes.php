@@ -31,14 +31,13 @@
             </div>
         </div>
 
-
         <!-- =================MODAL CREAR NUEVO USUARIO-->
-
+  
         <button type="button" class="btn btn-primary
                                 waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
             Nuevo Cliente</button>
 
-        <div id="modalCrearCliente" class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+        <div id="modalCrearCliente"  class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">

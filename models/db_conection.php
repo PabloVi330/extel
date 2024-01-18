@@ -1,7 +1,7 @@
 <?php
 class DBConnection {
     private $host = "localhost";
-    private $dbname = "redextel";
+    private $dbname = "redextel1";
     private $username = "root";
     private $password = "";
     

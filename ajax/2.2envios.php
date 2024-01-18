@@ -827,7 +827,7 @@ session_start();
             data: formData,
             success: function(response) {
                 console.log(response);
-                if (response == '"ok""ok"') {
+                if (response == '"ok"') {
                     Swal.fire({
                         icon: 'success',
                         title: 'Éxito',

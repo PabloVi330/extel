@@ -41,8 +41,8 @@
                     <button type="button" class="btn btn-success waves-effect waves-light mb-3 excel "><i class=" fas fa-file-excel "></i></button>
 
                 </div>
-            
-                
+
+
             </div>
 
 
@@ -457,7 +457,43 @@
             })
         })
 
+        function calcularPrecios() {
+            var precioNeto = parseFloat($("#precio_neto_A").val()) || 0;
 
+            // Calcula los precios según las reglas especificadas
+            var precioDistribucion = precioNeto / 0.92;
+            var precioTecnico = precioDistribucion / 0.95;
+            var precioPublico = precioDistribucion / 0.8;
+
+            // Asigna los valores calculados a los campos correspondientes
+            $("#precio_distribucion_A").val(precioDistribucion.toFixed(2));
+            $("#precio_tecnico_A").val(precioTecnico.toFixed(2));
+            $("#precio_publico_A").val(precioPublico.toFixed(2));
+        }
+
+        // Asigna la función al evento de cambio del campo precio_neto_A
+        $("#precio_neto_A").on("input", function() {
+            calcularPrecios();
+        });
+
+        function calcularPreciosEditar() {
+            var precioNeto = parseFloat($("#Eprecio_neto_A").val()) || 0;
+
+            // Calcula los precios según las reglas especificadas
+            var precioDistribucion = precioNeto / 0.92;
+            var precioTecnico = precioDistribucion / 0.95;
+            var precioPublico = precioDistribucion / 0.8;
+
+            // Asigna los valores calculados a los campos correspondientes
+            $("#Eprecio_distribucion_A").val(precioDistribucion.toFixed(2));
+            $("#Eprecio_tecnico_A").val(precioTecnico.toFixed(2));
+            $("#Eprecio_publico_A").val(precioPublico.toFixed(2));
+        }
+
+        // Asigna la función al evento de cambio del campo precio_neto_A
+        $("#Eprecio_neto_A").on("input", function() {
+            calcularPreciosEditar();
+        });
 
 
         $(document).ready(function() {
@@ -483,7 +519,7 @@
                                 //console.log(data)
                                 descripcion_A = data.descripcion_A.detalle;
                                 var img = JSON.parse(data.imagenes_A);
-                                console.log(img);
+                                //console.log(img);
                                 // Dividir la cadena en segmentos de 20 caracteres
                                 var segmentos = [];
                                 for (var i = 0; i < descripcion_A.length; i += 20) {
@@ -703,26 +739,26 @@
                     $.ajax({
                         type: 'GET',
                         url: './controllers/MarcasControllers.php?action=obtenerMarcas',
-                        dataType: 'json', // Asegúrate de que la respuesta sea en formato JSON
-                        success: function(response) {
-                            var marcaDeseada = response.find(function(marca) {
+                        dataType: 'json',
+                        success: function(response1) {
+                            var marcaDeseada = response1.find(function(marca) {
                                 return marca.id_marca == fk_id_marca;
                             });
-                            console.log("Sucursal encontrada:", marcaDeseada);
-                            var selectSucursal = $('#Eid_marca');
-                            selectSucursal.empty();
+                            console.log("Marca encontrada:", marcaDeseada);
+                            var selectMarca = $('#Eid_marca');
+                            selectMarca.empty();
 
-                            selectSucursal.append($('<option>', {
+                            selectMarca.append($('<option>', {
                                 value: marcaDeseada.id_marca,
                                 text: marcaDeseada.nombre_marca
                             }));
 
                             // Recorre la respuesta y agrega opciones al select
-                            $.each(response, function(index, sucursal) {
-                                if (sucursal.id_marca !== fk_id_categoria) {
-                                    selectSucursal.append($('<option>', {
-                                        value: sucursal.id_sucursal, // El valor del ID de la sucursal
-                                        text: sucursal.nombreS // El nombre de la sucursal
+                            $.each(response1, function(index, marca) {
+                                if (marca.id_marca !== fk_id_marca) {
+                                    selectMarca.append($('<option>', {
+                                        value: marca.id_marca, // El valor del ID de la sucursal
+                                        text: marca.nombre_marca // El nombre de la sucursal
                                     }));
                                 }
 
@@ -939,7 +975,7 @@
 
         })
 
-        $(".excel").on('click',function(e){
+        $(".excel").on('click', function(e) {
             e.preventDefault();
             var mes = $('#mes').val();
             var clasificacion = $('#clasificacion').val();

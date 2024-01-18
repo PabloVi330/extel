@@ -31,28 +31,28 @@ class MarcaModel {
         }
     }
 
-    public function editarCategoria($data) {
+    public function editarMarca($data) {
         try {
-            $sql = "UPDATE categoria SET nombre_C = :nombre_C, estado_C = :estado_C WHERE id_categoria = :id_categoria"; 
+            $sql = "UPDATE marcas SET nombre_marca = :nombre_marca, foto_marca = :foto_marca  WHERE id_marca = :id_marca"; 
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':nombre_C', $data['Enombre_C']);
-            $stmt->bindParam(':estado_C', $data['Eestado_C']);
-            $stmt->bindValue(':id_categoria', $data['Eid_categoria']);
+            $stmt->bindParam(':nombre_marca', $data['Enombre_marca']);
+            $stmt->bindParam(':foto_marca', $data['foto_marca']);
+            $stmt->bindValue(':id_marca', $data['Eid_marca']);
             $stmt->execute();
-            return "Categoría actualizada con éxito";
+            return "ok";
         } catch (PDOException $e) {
-            return "Error al actualizar la categoría: " . $e->getMessage();
+            return $e->getMessage();
         }
     }
 
-    public function eliminarCategoria($data) {
+    public function eliminarMarca($data) {
         try {
-            $stmt = $this->conn->prepare("DELETE FROM categoria WHERE id_categoria = :id_categoria");
-            $stmt->bindParam(':id_categoria', $data['id_categoria']);
+            $stmt = $this->conn->prepare("DELETE FROM marcas WHERE id_marca = :id_marca");
+            $stmt->bindParam(':id_marca', $data['id_marca']);
             $stmt->execute();
-            return "Categoría eliminada con éxito";
+            return "ok";
         } catch (PDOException $e) {
-            return "Error al eliminar la categoría: " . $e->getMessage();
+            return $e->getMessage();
         }
     }
 }
