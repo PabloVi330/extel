@@ -336,7 +336,7 @@
     </div>
 
     <!-- ========================================================================================================================= -->
-  
+
 
     <!-- Required datatable js -->
     <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -361,9 +361,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
-    
 
-    
+
+
     <!-- choices js -->
     <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
     <!-- color picker js -->
@@ -548,6 +548,7 @@
         // ========= EDITAR USUARIO 
         $('#datatable-usuarios').on('click', '.btn-editarU', function() {
             var idUsuario = $(this).data('id');
+            console.log(idUsuario);
             $.ajax({
                 type: 'POST',
                 url: './controllers/UsuariosControllers.php?action=obtenerUsuarioPorId',
@@ -561,7 +562,7 @@
                     $.ajax({
                         type: 'GET',
                         url: './controllers/SucursalesControllers.php?action=obtenerSucursales',
-                        dataType: 'json', // Asegúrate de que la respuesta sea en formato JSON
+                        dataType: 'json',
                         success: function(response) {
                             var sucursalDeseada = response.find(function(sucursal) {
                                 return sucursal.id_sucursal == fk_id_sucursal;
@@ -575,21 +576,18 @@
                                 text: sucursalDeseada.nombreS
                             }));
 
-                            // Recorre la respuesta y agrega opciones al select
                             $.each(response, function(index, sucursal) {
                                 if (sucursal.id_sucursal !== fk_id_sucursal) {
                                     selectSucursal.append($('<option>', {
-                                        value: sucursal.id_sucursal, // El valor del ID de la sucursal
-                                        text: sucursal.nombreS // El nombre de la sucursal
+                                        value: sucursal.id_sucursal,
+                                        text: sucursal.nombreS
                                     }));
                                 }
 
                             });
 
-                            // Abre el modal
                             $('#modalEditarUsuario').modal('show');
 
-                            // Puedes agregar más asignaciones de campos aquí
                         },
                         error: function(error) {
                             console.error('Error en la petición AJAX:', error);
@@ -621,8 +619,16 @@
                     } else {
                         $('#switch3').prop('checked', false);
                     }
+                },
+                error: function(error) {
+                    console.error('Error en la petición AJAX: al pedir usuario por id', error);
                 }
             });
+
+
+
+
+
             $('#editarUsuario').click(function() {
                 var estado_U = $('#switch3').prop('checked') ? 1 : 0;
                 $('#Eestado_U').val(estado_U);

@@ -126,6 +126,32 @@ class ArticulosController
         }
     }
 
+    public function obtenerArticulos1()
+    {
+
+
+
+        try {
+            $response = $this->articuloModel->obtenerArticulos1($_POST['codigo_A']);
+            // Intenta convertir a JSON
+            //print_r($response);
+            foreach ($response as &$value) {
+                $value['descripcion_A'] = json_decode($value['descripcion_A'], true);
+            }
+            $jsonResponse = json_encode($response);
+            if ($jsonResponse === false) {
+                // Ha ocurrido un error durante la conversión a JSON
+                throw new Exception('Error al convertir a JSON');
+            }
+
+            // Envía la respuesta JSON al cliente
+            echo $jsonResponse;
+        } catch (Exception $e) {
+            // Manejar la excepción, puedes imprimir el mensaje o hacer lo que necesites
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
 
     public function obtenerArticuloPorId()
     {
@@ -183,6 +209,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'eliminarArticulos') {
 
 if (isset($_GET['action']) && $_GET['action'] == 'obtenerArticulos') {
     $controller->obtenerArticulos();
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'obtenerArticulos1') {
+    $controller->obtenerArticulos1();
 }
 if (isset($_GET['action']) && $_GET['action'] == 'obtenerArticuloPorId') {
     $controller->obtenerArticuloPorId();

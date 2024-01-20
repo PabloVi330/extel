@@ -17,12 +17,12 @@ class ClienteController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
-            echo '<pre>';
-            print_r($data);
-            echo '</pre>';
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
+            $uploadedImages = [];
             if (!empty($_FILES['imagenes']['name'][0])) {
                 $uploadDir = 'uploads/users/';
-                $uploadedImages = [];
                 $numimg = 0;
                 foreach ($_FILES['imagenes']['tmp_name'] as $key => $tmp_name) {
                     $imageName = basename($_FILES['imagenes']['name'][$key]);
@@ -44,7 +44,7 @@ class ClienteController
                     echo "No se recibieron imágenes";
                 }
             } else {
-                echo "No se enviaron imágenes";
+                $uploadedImages = ['usuario.jpg'];
             }
             $img = json_encode($uploadedImages);
             $data['imagenes']  = $img;
@@ -79,7 +79,7 @@ class ClienteController
     // Actualizar un usuario
     public function editarCliente()
     {
-
+        echo '<pre>';print_r($_POST);echo '</pre>';
         $response = $this->cliente->editarCliente($_POST);
         echo json_encode($response);
     }

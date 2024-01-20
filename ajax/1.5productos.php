@@ -67,9 +67,9 @@
                                                 <div>
                                                     <h5 class="font-size-14 mb-3"></h5>
                                                     <div class="row">
-                                                        <div class="col-3">
+                                                        <div class="col-lg-3">
                                                             <label for="codigo_P" class="form-label">Codigo</label>
-                                                            <input class="form-control" type="text" id="codigo_A" name="codigo_A">
+                                                            <input class="form-control" type="text" id="codigo_A" name="codigo_A" required>
                                                         </div>
                                                         <div class="col-lg-3 col-md-6">
                                                             <div class="mb-3">
@@ -112,33 +112,33 @@
                                                             <input class="form-control" type="text" id="unimed_A" name="unimed_A">
                                                         </div>
                                                         <div class="col-3">
-                                                            <label for="precio_neto_A" class="form-label">Precio
+                                                            <label for="precio_neto_A" class="form-label">Precio 
                                                                 Net.</label>
                                                             <input class="form-control" type="number" id="precio_neto_A" name="precio_neto_A" step="any">
                                                         </div>
 
 
                                                         <div class="col-3">
-                                                            <label for="precio_distribucion_A" class="form-label">Precio
+                                                            <label for="precio_distribucion_A" class="form-label">Precio 
                                                                 Dist.</label>
-                                                            <input class="form-control" type="number" id="precio_distribucion_A" name="precio_distribucion_A" step="any">
+                                                            <input class="form-control" type="number" id="precio_distribucion_A" name="precio_distribucion_A" step="any" readonly aria-readonly="true">
                                                         </div>
 
                                                         <div class="col-3">
-                                                            <label for="precio_tecnico_A" class="form-label">Precio
+                                                            <label for="precio_tecnico_A" class="form-label">Precio 
                                                                 Tec.</label>
-                                                            <input class="form-control" type="number" id="precio_tecnico_A" name="precio_tecnico_A" step="any">
+                                                            <input class="form-control" type="number" id="precio_tecnico_A" name="precio_tecnico_A" step="any" readonly aria-readonly="true">
                                                         </div>
                                                         <div class="col-3">
-                                                            <label for="precio_publico_A" class="form-label">Precio
+                                                            <label for="precio_publico_A" class="form-label">Precio 
                                                                 Pub.</label>
-                                                            <input class="form-control" type="number" id="precio_publico_A" name="precio_publico_A" step="any">
+                                                            <input class="form-control" type="number" id="precio_publico_A" name="precio_publico_A" step="any" readonly aria-readonly="true">
                                                         </div>
 
                                                         <div class="col-3">
                                                             <label for="precio_fact_A" class="form-label">Precio
                                                                 Fact.</label>
-                                                            <input class="form-control" type="number" id="precio_fact_A" name="precio_fact_A" step="any">
+                                                            <input class="form-control" type="hidden" id="precio_fact_A" name="precio_fact_A" step="any">
                                                         </div>
 
                                                     </div>
@@ -249,6 +249,7 @@
                                                         <input class="form-control" type="hidden" id="Eid_articulo" name="Eid_articulo">
                                                         <input class="form-control" type="hidden" id="Eid_sucursal" name="Eid_sucursal">
                                                         <input class="form-control" type="hidden" id="Eimagenes_A" name="Eimagenes_A">
+                                                        <input class="form-control" type="hidden" id="index_fila" name="index_fila">
 
                                                         <div class="col-3">
                                                             <label for="Ecodigo_A" class="form-label">Codigo</label>
@@ -725,6 +726,15 @@
         // ================================================
         $('#datatable-articulos').on('click', '.btn-editar', function() {
             var idArticulo = $(this).data('id');
+
+            
+            // Obtener la fila correspondiente al botón clickeado
+            var fila = $(this).closest('tr');
+        
+            // Obtener el número de fila (índice) de la tabla
+            var numeroFila = $('#datatable-articulos').DataTable().row(fila).index();
+            $("#index_fila").val(numeroFila);
+
             $.ajax({
                 type: 'POST',
                 url: './controllers/ArticulosControllers.php?action=obtenerArticuloPorId',
@@ -890,7 +900,8 @@
             // for (var key in otrosDatos) {
             //     formData.append(key, otrosDatos[key]);
             // }
-
+            var fila = $("#index_fila").val();
+            var codigo = $('#Ecodigo_A').val();
             // Realizar la solicitud Ajax
             $.ajax({
                 url: './controllers/ArticulosControllers.php?action=editararticulos',
@@ -901,12 +912,20 @@
                 success: function(response) {
                     if (response == '"ok"') {
                         $('#modalEditarArticulo').modal('hide');
-                        resetForm();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: 'El artículo se ha editado correctamente',
-                        });
+                        $.ajax({
+                            type: 'POST',
+                            url: './controllers/ArticulosControllers.php?action=obtenerArticulos1',
+                            data: {
+                                codigo_A: codigo
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                console.log(response[0])
+                                var miTabla = $('#datatable-articulos').DataTable();
+                                miTabla.row(fila).data(response[0]).draw(false);
+                            }
+                        })
+
                     } else {
                         Swal.fire({
                             icon: 'error',

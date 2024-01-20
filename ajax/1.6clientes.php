@@ -32,12 +32,11 @@
         </div>
 
         <!-- =================MODAL CREAR NUEVO USUARIO-->
-  
-        <button type="button" class="btn btn-primary
-                                waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
+
+        <button type="button" id="btnCliente" class="btn btn-primary waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
             Nuevo Cliente</button>
 
-        <div id="modalCrearCliente"  class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+        <div id="modalCrearCliente" class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -59,17 +58,17 @@
 
                                                     <div class="col-lg-4 col-md-6">
                                                         <label for="codigo_Cl" class="form-label">Codigo:</label>
-                                                        <input class="form-control" type="text" id="codigo_Cl" name="codigo_Cl" requerid>
+                                                        <input class="form-control" type="text" id="codigo_Cl" name="codigo_Cl" value="Cl_12" readonly aria-readonly="true">
                                                     </div>
 
                                                     <div class="col-lg-4 col-md-6">
-                                                        <label for="ci_Cl" class="form-label">CI:</label>
-                                                        <input class="form-control" type="number" id="ci_Cl" name="ci_Cl" requerid>
+                                                        <label for="nit_Cl" class="form-label">CI/NIT:</label>
+                                                        <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
                                                     </div>
 
                                                     <div class="col-lg-4 col-md-6">
-                                                        <label for="nombre_Cl" class="form-label">Nombre</label>
-                                                        <input class="form-control" type="text" id="nombre_Cl" name="nombre_Cl" requerid>
+                                                        <label for="razon_social_Cl" class="form-label">Razon social:</label>
+                                                        <input class="form-control" type="text" id="razon_social_Cl" name="razon_social_Cl" requerid>
                                                     </div>
 
                                                     <div class="col-lg-4 col-md-6">
@@ -83,6 +82,19 @@
                                                         </div>
                                                     </div>
 
+
+                                                    <div class="col-lg-4 col-md-6">
+                                                        <label for="nombre_Cl" class="form-label">Nombre</label>
+                                                        <input class="form-control" type="text" id="nombre_Cl" name="nombre_Cl" requerid>
+                                                    </div>
+
+
+                                                    <div class="col-lg-4 col-md-6">
+                                                        <label for="nombre_empresa_Cl" class="form-label">Nombre de Empresa:</label>
+                                                        <input class="form-control" type="text" id="nombre_empresa_Cl" name="nombre_empresa_Cl" requerid>
+                                                    </div>
+
+
                                                     <div class="col-lg-4 col-md-6">
                                                         <label for="direccion_Cl" class="form-label">Direccion</label>
                                                         <input class="form-control" type="text" id="direccion_Cl" name="direccion_Cl">
@@ -91,22 +103,6 @@
                                                     <div class="col-lg-4 col-md-6">
                                                         <label for="telefono_Cl" class="form-label">Telefono</label>
                                                         <input class="form-control" type="number" id="telefono_Cl" name="telefono_Cl">
-                                                    </div>
-
-
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="nit_Cl" class="form-label">NIT:</label>
-                                                        <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
-                                                    </div>
-
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="razon_social_Cl" class="form-label">Razon social:</label>
-                                                        <input class="form-control" type="text" id="razon_social_Cl" name="razon_social_Cl" requerid>
-                                                    </div>
-
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="nombre_empresa_Cl" class="form-label">Nombre de Empresa:</label>
-                                                        <input class="form-control" type="text" id="nombre_empresa_Cl" name="nombre_empresa_Cl" requerid>
                                                     </div>
 
                                                 </div>
@@ -158,7 +154,7 @@
         </div>
 
 
-        <!-- ==============TABLA DE SUCURSALES -->
+        <!-- ==============TABLA DE CLIENTES -->
         <div>
             <div class="row">
                 <div class="col-12">
@@ -170,16 +166,15 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Codigo</th>
+                                        <th>CI/NIT</th>
+                                        <th>Razon Social</th>
                                         <th>Nombre</th>
-                                        <th>CI</th>
                                         <th>Clasificacion</th>
                                         <th>Autorizado</th>
                                         <th>Porsentaje</th>
                                         <th>Limite</th>
                                         <th>Direccion</th>
                                         <th>Telefono</th>
-                                        <th>NIT</th>
-                                        <th>Razon Social</th>
                                         <th>Empresa</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -198,13 +193,13 @@
             </div>
         </div>
 
-        <!-- ===============MODAL EDITAR SUCURSAL -->
+        <!-- ===============MODAL EDITAR CLIENTE -->
         <div id="modalEditarCliente" class="modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Editar usuario</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="myModalLabel">Editar Cliente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="col-xl-12">
@@ -227,18 +222,23 @@
                                                         </div>
 
                                                         <div class="col-lg-4 col-md-6">
-                                                            <label for="Eci_Cl" class="form-label">CI:</label>
-                                                            <input class="form-control" type="text" id="Eci_Cl" name="Eci_Cl" requerid>
+                                                            <label for="Eci_Cl" class="form-label">CI/NIT:</label>
+                                                            <input class="form-control" type="text" id="Enit_Cl" name="Enit_Cl" requerid>
                                                         </div>
 
                                                         <div class="col-lg-4 col-md-6">
-                                                            <label for="Enombre_Cl" class="form-label">Nombre</label>
-                                                            <input class="form-control" type="text" id="Enombre_Cl" name="Enombre_Cl" requerid>
+                                                            <label for="Erazon_social_Cl" class="form-label">Razon Social:</label>
+                                                            <input class="form-control" type="text" id="Erazon_social_Cl" name="Erazon_social_Cl" requerid>
                                                         </div>
 
                                                         <div class="col-lg-4 col-md-6">
                                                             <label for="Eclasificacion_Cl" class="form-label">Clasificacion</label>
                                                             <input class="form-control" type="text" id="Eclasificacion_Cl" name="Eclasificacion_Cl" requerid>
+                                                        </div>
+
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <label for="Enombre_Cl" class="form-label">Nombre</label>
+                                                            <input class="form-control" type="text" id="Enombre_Cl" name="Enombre_Cl" requerid>
                                                         </div>
 
                                                         <div class="col-lg-4 col-md-6">
@@ -250,17 +250,6 @@
                                                             <label for="Etelefono_Cl" class="form-label">Telefono</label>
                                                             <input class="form-control" type="number" id="Etelefono_Cl" name="Etelefono_Cl">
                                                         </div> <br>
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Enit_Cl" class="form-label">NIT:</label>
-                                                            <input class="form-control" type="text" id="Enit_Cl" name="Enit_Cl" requerid>
-                                                        </div>
-
-
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <label for="Erazon_social_Cl" class="form-label">Razon Social:</label>
-                                                            <input class="form-control" type="text" id="Erazon_social_Cl" name="Erazon_social_Cl" requerid>
-                                                        </div>
 
                                                         <div class="col-lg-4 col-md-6">
                                                             <label for="Enombre_empresa_Cl" class="form-label">Nombre de empresa:</label>
@@ -396,9 +385,26 @@
 
         });
 
+        function generCodigoCliente() {
+            $.ajax({
+                type: 'POST',
+                url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+                data: {
+                    sql: 'SELECT COUNT(*) AS usuarios FROM clientes'
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response)
+                    $('#codigo_Cl').val('CL-' + response[0].usuarios)
+                }
+            })
+
+        }
+        generCodigoCliente()
 
         // ======== LLAMADA A LA TABLA 
         $(document).ready(function() {
+
             var table = $('#datatable-clientes').DataTable({
                 lengthChange: true,
                 buttons: [
@@ -415,15 +421,20 @@
                     {
                         data: 'codigo_Cl'
                     },
+
+                    {
+                        data: 'nit_Cl'
+                    },
+
+                    {
+                        data: 'razon_social_Cl'
+                    },
                     {
                         data: null,
                         render: function(data, type, row) {
                             return `<i class="bx bxs-user-circle fa-2x"></i>
                             <a href="#" class="text-body">${row.nombre_Cl} </a>`
                         }
-                    },
-                    {
-                        data: 'ci_Cl'
                     },
                     {
                         data: 'clasificacion_Cl'
@@ -462,14 +473,6 @@
 
                         }
 
-                    },
-
-                    {
-                        data: 'nit_Cl'
-                    },
-
-                    {
-                        data: 'razon_social_Cl'
                     },
 
                     {
@@ -535,6 +538,7 @@
                 success: function(response) {
                     if (response) {
                         $('#modalCrearCliente').modal('hide');
+
                         resetForm();
                         Swal.fire({
                             icon: 'success',
@@ -549,6 +553,8 @@
                         });
 
                     }
+
+                    generCodigoCliente()
                 },
                 error: function(error) {
                     console.log("Error en la petición AJAX:", error);
@@ -581,7 +587,6 @@
 
                     $('#Eid_cliente').val(idCliente);
                     $('#Ecodigo_Cl').val(response.codigo_Cl);
-                    $('#Eci_Cl').val(response.ci_Cl);
                     $('#Enombre_Cl').val(response.nombre_Cl)
                     $('#Eclasificacion_Cl').val(response.clasificacion_Cl)
                     $('#Edireccion_Cl').val(response.direccion_Cl);

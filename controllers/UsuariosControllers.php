@@ -71,15 +71,7 @@ class UsuarioController
     {
          
         $result = $this->usuario->obtenerUsuarioPorID($_POST['id_usuario']);
-        $usuario = $result->fetch(PDO::FETCH_ASSOC);
-
-        if ($usuario) {
-            // Devuelve el usuario en formato JSON
-            echo json_encode($usuario);
-        } else {
-            // Devuelve una respuesta JSON de error
-            echo json_encode(array('message' => 'Usuario no encontrado'));
-        }
+        echo json_encode($result);
     }
 
     // Actualizar un usuario

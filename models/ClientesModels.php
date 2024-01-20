@@ -20,7 +20,6 @@ class ClienteModel
             $query = 'INSERT INTO ' . $this->table . '
                     (
                         fk_id_usuario,
-                        ci_Cl, 
                         codigo_Cl,
                         nombre_Cl,
                         clasificacion_Cl,
@@ -31,7 +30,6 @@ class ClienteModel
                         nombre_empresa_Cl
                     ) VALUES (
                         :fk_id_usuario,
-                        :ci_Cl, 
                         :codigo_Cl,
                         :nombre_Cl,
                         :clasificacion_Cl,
@@ -45,7 +43,6 @@ class ClienteModel
 
             //$data['password_U'] = password_hash($data['password_U'], PASSWORD_DEFAULT);
             $stmt->bindParam(':fk_id_usuario', $idUsuario);
-            $stmt->bindParam(':ci_Cl', $data['ci_Cl']);
             $stmt->bindParam(':codigo_Cl', $data['codigo_Cl']);
             $stmt->bindParam(':nombre_Cl', $data['nombre_Cl']);
             $stmt->bindParam(':clasificacion_Cl', $data['clasificacion_Cl']);
@@ -122,7 +119,6 @@ class ClienteModel
             $query = 'UPDATE ' . $this->table . '
                     SET
                     codigo_Cl = :codigo_Cl,
-                    ci_Cl = :ci_Cl,
                     nombre_Cl = :nombre_Cl,
                     clasificacion_Cl = :clasificacion_Cl,
                     direccion_Cl = :direccion_Cl,
@@ -139,7 +135,6 @@ class ClienteModel
 
             $stmt->bindParam(':id_cliente', $data['Eid_cliente']);
             $stmt->bindParam(':codigo_Cl', $data['Ecodigo_Cl']);
-            $stmt->bindParam(':ci_Cl', $data['Eci_Cl']);
             $stmt->bindParam(':nombre_Cl', $data['Enombre_Cl']);
             $stmt->bindParam(':clasificacion_Cl', $data['Eclasificacion_Cl']);
             $stmt->bindParam(':direccion_Cl', $data['Edireccion_Cl']);

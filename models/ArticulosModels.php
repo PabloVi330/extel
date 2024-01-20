@@ -355,6 +355,45 @@ class ArticuloModel
         }
     }
 
+
+    public function obtenerArticulos1($codigo)
+    {
+        try {
+
+            $sql = "SELECT 
+                        a.*,
+                        s.nombreS AS nombre_sucursal,
+                        c.nombre_C AS nombre_categoria,
+                        u.nombre_U AS nombre_usuario,
+                        m.nombre_marca AS nombre_marca,
+                        MAX(CASE WHEN a.fk_id_sucursal = 1 THEN stock_A END) AS stock_sucursal_1,
+                        MAX(CASE WHEN a.fk_id_sucursal = 2 THEN stock_A END) AS stock_sucursal_2,
+                         MAX(CASE WHEN a.fk_id_sucursal = 3 THEN stock_A END) AS stock_sucursal_3,
+                          MAX(CASE WHEN a.fk_id_sucursal = 4 THEN stock_A END) AS stock_sucursal_4
+                    FROM 
+                        articulo AS a
+                    LEFT JOIN 
+                        sucursal AS s ON a.fk_id_sucursal = s.id_sucursal
+                    LEFT JOIN 
+                        categoria AS c ON a.fk_id_categoria = c.id_categoria
+                    LEFT JOIN 
+                        usuario AS u ON a.fk_id_usuario = u.id_usuario
+                    LEFT JOIN 
+                        marcas AS m ON a.fk_id_marca = m.id_marca
+                        WHERE codigo_A = '$codigo'
+                GROUP BY
+            codigo_A";
+            $stmt = $this->conn->query($sql);
+            $articulos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $articulos;
+        } catch (PDOException $e) {
+            return 'Error en la llamda a los articulos' . $e->getMessage();
+        }
+    }
+
+
+
+
     public  function obtenerArticuloPorID($id)
     {
         try {
