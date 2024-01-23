@@ -14,25 +14,25 @@ session_start();
 
 <!-- Responsive datatable examples -->
 <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-  <style>
-        @keyframes parpadeo {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
+<style>
+    @keyframes parpadeo {
+        0% {
+            opacity: 1;
         }
 
-        .parpadeo {
-            animation: parpadeo 1s infinite;
+        50% {
+            opacity: 0;
         }
-    </style>
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .parpadeo {
+        animation: parpadeo 1s infinite;
+    }
+</style>
 
 <style>
     /* Estilos para la impresión */
@@ -78,10 +78,10 @@ session_start();
             <div class="col-12">
                 <!-- DATOS DE ENVIO -->
                 <div class="email-leftbar card detalles">
-                    
+
                     <div class="mail-list mt-4">
                         <form action="" class="form-control" id="formEnvios">
-                            
+                             <h5>Datos de Envio</h5>
                             <div class="mb-3">
                                 <div class="mb-3">
                                     <label for="fk_id_sucursal1" class="form-label font-size-13 text-muted">Almacen Origen</label>
@@ -90,7 +90,7 @@ session_start();
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <div class="mb-3">
                                     <label for="fk_id_sucursal" class="form-label font-size-13 text-muted">Almacen destino</label>
@@ -111,11 +111,10 @@ session_start();
                                 </div>
                             </div>
 
-                           
+
 
                             <div class="mb-3">
-                                <label for="total_E" class="form-label">Total</label>
-                                <input type="number" step="any" class="form-control" id="total_E" name="total_E">
+                                <input type="hidden" step="any" class="form-control" id="total_E" name="total_E">
                             </div>
                             <input type="hidden" id="detalle_E" name="detalle_E">
                         </form>
@@ -139,7 +138,7 @@ session_start();
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <div class="mb-4">
-                                                    <h4 class="float-end font-size-16">Invoice # 12345</h4>
+                                                    <h4 class="float-end font-size-16">Envio # <span id="numeroEnvio">123</span></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -344,30 +343,78 @@ session_start();
     </div>
 
 </div>
+
+<!--ckeditor js-->
+<script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<!-- email editor init -->
+<script src="assets/js/pages/email-editor.init.js"></script>
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="assets/libs/jszip/jszip.min.js"></script>
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+<!-- flatpickr js -->
+<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+<!-- Required datatable js -->
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<!-- init js -->
+<script src="assets/js/pages/invoices-list.init.js"></script>
+
+<script>
+    $('#checkAll').on('change', function() {
+        $('.table-check .form-check-input').prop('checked', $(this).prop("checked"));
+    });
+    $('.table-check .form-check-input').change(function() {
+        if ($('.table-check .form-check-input:checked').length == $('.table-check .form-check-input').length) {
+            $('#checkAll').prop('checked', true);
+        } else {
+            $('#checkAll').prop('checked', false);
+        }
+    });
+</script>
+
+
 <script>
     $(document).ready(function() {
 
         var nombre = <?php echo json_encode($_SESSION['nombre_U']); ?>;
         var fkIdSucursal = <?php echo json_encode($_SESSION['fk_id_sucursal']); ?>;
-
+        //ANCHOR - ASIGNAR NUMERO DE ENVIO
         $.ajax({
-            url: 'controllers/SucursalesControllers.php?action=obtenerSucursal',
-            type: 'POST',
+            method: 'POST',
+            url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
             dataType: 'json',
             data: {
-                id_sucursal: fkIdSucursal
+                sql: 'SELECT COUNT(*) AS numero_envio FROM envios'
             },
+            cache: false,
             success: function(response) {
-                $('#nombre_S').text(response.nombreS),
-                    $('#direccion_S').text(response.direccion_S);
-                $('#telefono_S').text(response.telefono_S);
-                $('#nombre_U').text(nombre);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Error: muestra un mensaje de error
-                console.error('Error al obtener datos de sesión:', textStatus, errorThrown);
+                $('#numeroEnvio').text(response[0].numero_envio)
             }
-        });
+        })
+
 
         //ANCHOR -  llamada a los articulos
         var tableArticulos = $('#datatable-articulos').DataTable({
@@ -499,8 +546,8 @@ session_start();
                 });
             }
         });
-        
-         //LINK - llamada a las  Sucursales
+
+        //LINK - llamada a las  Sucursales
         $.ajax({
             url: './controllers/SucursalesControllers.php?action=obtenerSucursales', // Ajusta la ruta correcta
             dataType: 'json',
@@ -520,8 +567,27 @@ session_start();
             }
         });
 
-         //LINK - llamada a los Usuarios
-         $.ajax({
+        $.ajax({
+            url: 'controllers/SucursalesControllers.php?action=obtenerSucursal',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                id_sucursal: fkIdSucursal
+            },
+            success: function(response) {
+                $('#nombre_S').text(response.nombreS),
+                    $('#direccion_S').text(response.direccion_S);
+                $('#telefono_S').text(response.telefono_S);
+                $('#nombre_U').text(nombre);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Error: muestra un mensaje de error
+                console.error('Error al obtener datos de sesión:', textStatus, errorThrown);
+            }
+        });
+
+        //LINK - llamada a los Usuarios
+        $.ajax({
             url: './controllers/UsuariosControllers.php?action=obtenerUsuarios', // Ajusta la ruta correcta
             dataType: 'json',
             success: function(data) {
@@ -605,7 +671,7 @@ session_start();
                                             </button>
                                         </a>
                                     </div>`;
-                        }else{
+                        } else {
                             return `<div>
                                         <a>
                                           <button type="button" class=" disabled btn recibir
@@ -674,17 +740,21 @@ session_start();
     function agregarFila(data) {
         var suc = $('#fk_id_sucursal1').val();
         var stock = data.stock_A;
-        switch(suc){
-            case '1': stock = data.stock_sucursal_1
-            break
-            case '2': stock = data.stock_sucursal_2
-            break
-            case '3': stock = data.stock_sucursal_3
-            break
-            case '4': stock = data.stock_sucursal_4
-            break
+        switch (suc) {
+            case '1':
+                stock = data.stock_sucursal_1
+                break
+            case '2':
+                stock = data.stock_sucursal_2
+                break
+            case '3':
+                stock = data.stock_sucursal_3
+                break
+            case '4':
+                stock = data.stock_sucursal_4
+                break
         }
-       
+
         var id = data.id_articulo;
         var codigo = data.codigo_A;
         var descripcion = data.descripcion_A.detalle;
@@ -692,7 +762,7 @@ session_start();
         var precio_distribucion = data.precio_distribucion_A;
         var precio_tecnico = data.precio_tecnico_A;
         var precio_publico = data.precio_publico_A;
-        
+
         var unimed = data.unimed_A;
         var cantidad = parseInt(data.cantidad_A);
         var cantidad_envio = 1;
@@ -956,54 +1026,4 @@ session_start();
 
     // Calcular el total inicial
     calcularTotal();
-</script>
-<!--ckeditor js-->
-<script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-<!-- email editor init -->
-<script src="assets/js/pages/email-editor.init.js"></script>
-<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Buttons examples -->
-<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="assets/libs/jszip/jszip.min.js"></script>
-<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-<!-- Datatable init js -->
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
-<!-- flatpickr js -->
-<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
-
-<!-- Required datatable js -->
-<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<!-- init js -->
-<script src="assets/js/pages/invoices-list.init.js"></script>
-
-<script>
-    $('#checkAll').on('change', function() {
-        $('.table-check .form-check-input').prop('checked', $(this).prop("checked"));
-    });
-    $('.table-check .form-check-input').change(function() {
-        if ($('.table-check .form-check-input:checked').length == $('.table-check .form-check-input').length) {
-            $('#checkAll').prop('checked', true);
-        } else {
-            $('#checkAll').prop('checked', false);
-        }
-    });
 </script>

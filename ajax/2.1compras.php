@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="col-lg-3 col-sm-12 m-2">
-                                <input type="number" step="any" class="form-control" id="costo_C" name="costo_C">
+                                <input type="hidden" step="any" class="form-control" id="costo_C" name="costo_C">
                             </div>
                             <input type="hidden" id="detalle_C" name="detalle_C">
                         </form>
@@ -182,8 +182,7 @@
                                 </div>
                                 <div class="d-print-none mt-3">
                                     <div class="float-end">
-                                        <a href="javascript:print();    " id="imprimirBtn" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
-                                        <a href="#" class="btn btn-primary w-md waves-effect waves-light" id="crearCompra"> Guardar</a>
+                                       <a href="#" class="btn btn-primary w-md waves-effect waves-light" id="crearCompra"> Guardar</a>
                                     </div>
                                 </div>
                             </div>
@@ -729,9 +728,9 @@
             let subtotal = cantidad * precioNeto;
 
             // Calcular los nuevos precios
-            //let precioDist = precioNeto * 1.05; // Aumento del 5%
-             precioTec = precioDist * 1.1; // Aumento del 10%
-             precioPub = precioDist * 1.15; // Aumento del 15%
+             precioDist = (precioNeto / 0.92).toFixed(2); // Aumento del 5%
+             precioTec = (precioDist / 0.95).toFixed(2) // Aumento del 10%
+             precioPub = (precioDist / 0.8).toFixed(2) // Aumento del 15%
 
             var productoExistente = carrito.find(item => item.id == id);
 

@@ -128,7 +128,8 @@ class VentaModel
                             v.*,
                             s.nombreS AS nombre_sucursal,
                             u.nombre_U AS nombre_usuario,
-                            c.nombre_Cl AS nombre_cliente
+                            c.nombre_Cl AS nombre_cliente,
+                            c.razon_social_Cl AS razon_social
                         FROM 
                             ventas AS v
                         LEFT JOIN  

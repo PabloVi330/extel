@@ -34,9 +34,7 @@
     .parpadeo {
         animation: parpadeo 1s infinite;
     }
-</style>
 
-<style>
     .compatibilidad-cell {
         max-height: 40px;
         /* Establece la altura máxima deseada */
@@ -46,17 +44,19 @@
         /* Permite que el texto se envuelva dentro de la caja si es necesario */
     }
 
-    /* Estilos para la impresión */
-    @media print {
-        .detalles {
-            visibility: hidden;
-            width: 0
-        }
+    .form-check-input {
+        border-color: #ddd;
+        /* Color del borde predeterminado */
+    }
 
-        .compras {
-            margin-left: 0;
-        }
-
+    /* Estilo para los radio buttons seleccionados */
+    .form-check-input:checked {
+        border-color: #dc3545 !important;
+        /* Cambia el color del borde */
+        background-color: #dc3545 !important;
+        /* Cambia el color de fondo */
+        color: #a20000 !important;
+        /* Cambia el color del texto */
     }
 </style>
 <div class="page-content">
@@ -87,7 +87,7 @@
         ========================================================= -->
         <div class="row">
             <div class="col-12">
-                <!-- DATOS DE ENVIO -->
+                <!-- DATOS DE VENTAS -->
                 <div class="email-leftbar card detalles">
 
                     <div class="mail-list mt-4">
@@ -104,33 +104,33 @@
                                 <option value="">Seleccionar Cliente</option>
                             </select>
 
-                            <input type="hidden" id="clasificacionCliente" name="clasificacionCliente" value="">
+                            <input type="hidden" id="clasificacionCliente" name="clasificacionCliente" value="PUBLICO">
 
                             <!-- TIPOS DE VENTAS -->
                             <div class="col-lg-12 col-md-12">
-                                <h5 class="font-size-14 mb-3"><i class="mdi mdi-arrow-right text-danger me-2"></i>TIPO DE VENTA</h5>
+                                <h5 class="font-size-14 mb-3 text-danger font-weight-bold"><i class="mdi mdi-arrow-right  me-2"></i>TIPO DE VENTA</h5>
                                 <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="tipo_V" id="venta" value="venta" checked>
-                                    <label class="form-check-label" for="formRadios1">
+                                    <input class="form-check-input " type="radio" name="tipo_V" id="venta" value="venta" checked>
+                                    <label class="form-check-label" for="venta">
                                         Venta:
                                     </label>
                                 </div>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="tipo_V" id="pedido" value="pedido">
-                                    <label class="form-check-label" for="formRadios1">
+                                    <label class="form-check-label" for="pedido">
                                         Pedido:
                                     </label>
                                 </div>
                                 <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="tipo_V" id="cancelado" value="proforma">
-                                    <label class="form-check-label" for="formRadios2">
+                                    <input class="form-check-input" type="radio" name="tipo_V" id="proforma" value="proforma">
+                                    <label class="form-check-label" for="proforma">
                                         Proforma:
                                     </label>
                                 </div>
                             </div>
                             <!-- ESTADOS DE VENTA  -->
-                            <div class="col-lg-12 col-md-12">
-                                <h5 class="font-size-14 mb-3"><i class="mdi mdi-arrow-right text-success me-1"></i>ESTADO DE VENTA</h5>
+                            <div class="col-lg-12 col-md-12" id="estados_ventas">
+                                <h5 class="font-size-14 mb-3 text-success font-weight-bold"><i class="mdi mdi-arrow-right text-success me-1"></i>ESTADO DE VENTA</h5>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="estado_V" id="cancelado" value="cancelado" checked>
                                     <label class="form-check-label" for="formRadios1">
@@ -147,7 +147,7 @@
 
                             <!-- METODO DE PAGO DE VENTA  -->
                             <div class="col-lg-12 col-md-12">
-                                <h5 class="font-size-14 mb-3"><i class="mdi mdi-arrow-right text-info me-1"></i>METODO DE PAGO</h5>
+                                <h5 class="font-size-14 mb-3 text-info font-weight-bold"><i class="mdi mdi-arrow-right text-info me-1"></i>METODO DE PAGO</h5>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="metodo_pago_V" id="contado" value="contado" checked>
                                     <label class="form-check-label" for="formRadios1">
@@ -172,13 +172,12 @@
                             <br>
                             <div><label for="switch3">Facturado:</label></div>
                             <input type="hidden" id="facturado_V" name="facturado_V" value="">
-                            <input type="checkbox" id="switch3" switch="bool" name="switch3" />
+                            <input type="checkbox" id="switch3" switch="bool" name="switch3" checked />
                             <label for="switch3" data-on-label="Si" data-off-label="No"></label>
 
 
                             <div class="mb-3">
-                                <label for="total_E" class="form-label">Total</label>
-                                <input type="number" step="any" class="form-control" id="importe_V" name="importe_V">
+                                <input type="hidden" step="any" class="form-control" id="importe_V" name="importe_V">
                             </div>
                             <input type="hidden" id="detalle_V" name="detalle_V">
                             <input type="hidden" id="transferencia_V" name="transferencia_V">
@@ -188,7 +187,7 @@
                 </div>
 
 
-                <!-- DETALLE DE ENVIO-->
+                <!-- DETALLE DE -->
                 <div class="email-rightbar mb-3 compras">
 
                     <div class="row" id="compras">
@@ -205,30 +204,29 @@
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <div class="mb-4">
-                                                    <h4 class="float-end font-size-16">Factura # <input type="text" class="form-control"></h4>
+                                                    <h4 class="float-end font-size-16">Factura # <span id="numeroFactura"></span></h4>
                                                 </div>
                                             </div>
 
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <h5 class="font-size-15 mb-2">Actividad Economica:</h5>
-                                            <p class="mb-1 " id="actitivadEconomica"></p>
+                                            <h5 class="font-size-15 mb-2">Actividad Economica: <span class="mb-1 " id="actitivadEconomicaNota"></span></h5>
+                                            <br>
 
-                                            <h5 class="font-size-15 mb-2">Fecha:</h5>
-                                            <p class="mb-1 " id="fechaNota"></p>
+                                            <h5 class="font-size-15 mb-2">Fecha: <span class="mb-1 " id="fechaNota"></span></h5>
+                                            <br>
 
-                                            <h5 class="font-size-15 mb-2">Nombre/Razon social:</h5>
-                                            <p class="mb-1" id="razonSocialNota"></p>
+                                            <h5 class="font-size-15 mb-2">Razon social: <span class="mb-1" id="razonSocialNota"></span></h5>
+
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <h5 class="font-size-15 mb-2`">NI/CI/CEX:</h5>
-                                            <p class="mb-1" id="nitNota"></p>
+                                            <h5 class="font-size-15 mb-2`">NI/CI/CEX: <span class="mb-1" id="nitNota"></span></h5>
 
-                                            <h5 class="font-size-14 mb-2">Cod. Cliente:</h5>
-                                            <p class="mb-1" id="codigoClienteNota"></p>
-                                            <p>337-256-9134</p>
+                                            <br>
+                                            <h5 class="font-size-14 mb-2">Cod. Cliente: <span class="mb-1" id="codigoClienteNota"></span></h5>
+
                                         </div>
                                     </div>
                                     <hr class="my-4">
@@ -276,8 +274,7 @@
                                     </div>
                                     <div class="d-print-none mt-3">
                                         <div class="float-end">
-                                            <a href="javascript:print();    " id="imprimirBtn" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
-                                            <a href="#" class="btn btn-primary w-md waves-effect waves-light" id="crearVenta"> Guardar</a>
+                                            <a href="#" class="btn btn-success w-md waves-effect waves-light" id="crearVenta"> Guardar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -586,77 +583,87 @@
         animation: parpadeo 1s infinite;
     }
 </style>
+
+<!--ckeditor js-->
+<script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<!-- email editor init -->
+<script src="assets/js/pages/email-editor.init.js"></script>
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="assets/libs/jszip/jszip.min.js"></script>
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+<!-- flatpickr js -->
+<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+<!-- Required datatable js -->
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<!-- init js -->
+<script src="assets/js/pages/invoices-list.init.js"></script>
+<script src="assets/libs/selectize/selectize.js"></script>
+<script>
+    $('#checkAll').on('change', function() {
+        $('.table-check .form-check-input').prop('checked', $(this).prop("checked"));
+    });
+    $('.table-check .form-check-input').change(function() {
+        if ($('.table-check .form-check-input:checked').length == $('.table-check .form-check-input').length) {
+            $('#checkAll').prop('checked', true);
+        } else {
+            $('#checkAll').prop('checked', false);
+        }
+    });
+</script>
+
 <script>
     var nombre = <?php echo json_encode($_SESSION['nombre_U']); ?>;
     var fkIdSucursal = <?php echo json_encode($_SESSION['fk_id_sucursal']); ?>;
     var rol = <?php echo json_encode($_SESSION['area_U']); ?>;
-    /* ==============================
-     -------------GUARDAR CLIENTE--------------
-     =================================== */
-    var myDropzone = new Dropzone("#formCrearCliente", {
-        paramName: "imagenes[]", // Nombre del campo en el formulario
-        maxFilesize: 5, // Tamaño máximo en MB
-        maxFiles: 5, // Número máximo de archivos permitidos
-        acceptedFiles: "image/*", // Acepta solo archivos de imagen
-        addRemoveLinks: true, // Muestra el enlace para eliminar archivos
-        dictRemoveFile: "Eliminar", // Texto para el enlace de eliminación
-        init: function() {
-            this.on("success", function(file, response) {});
-            this.on("removedfile", function(file) {
-                // Manejar la eliminación de archivos (si es necesario)
-                console.log("Archivo eliminado: " + file.name);
-            });
-        }
-    });
+
+    $(document).ready(function() {
 
 
-    $("#guardarCliente").on("click", function(e) {
-        e.preventDefault();
+        $("#cancelado").parent().show();
+        $("#por_pagar").parent().show();
 
-        var formData = new FormData($("#formCrearCliente")[0]);
-        var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
-        for (var i = 0; i < imageFiles.length; i++) {
-            formData.append("imagenes[]", imageFiles[i]);
-        }
+        $("#proforma").change(function() {
+            $("#cancelado").parent().hide();
+            $("#por_pagar").parent().hide();
+        });
+        $("#venta").change(function() {
+            $("#cancelado").parent().show();
+            $("#por_pagar").parent().show();
+        });
 
-        $.ajax({
-            type: "POST",
-            url: "./controllers/ClientesControllers.php?action=crearCliente",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                if (response) {
-                    $('#modalCrearCliente').modal('hide');
-                    var formulario = document.getElementById("formCrearCliente");
-                    var dropzone = Dropzone.forElement("#formCrearCliente");
-                    formulario.reset();
-                    dropzone.removeAllFiles();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Éxito',
-                        text: 'El cliente se ha creado correctamente.',
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Érror',
-                        text: 'El cliente no se creo',
-                    });
+        $('input[type="radio"]').change(function() {
+            // Remover estilos de todos los radio buttons
+            $('input[type="radio"]').removeClass('form-check-input-checked');
 
-                }
-            },
-            error: function(error) {
-                console.log("Error en la petición AJAX:", error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Érror',
-                    text: 'El cliente se ha creado correctamente.' + error.message,
-                });
+            // Aplicar estilos al radio button seleccionado
+            if ($(this).is(':checked')) {
+                $(this).addClass('form-check-input-checked');
             }
         });
-    });
-    $(document).ready(function() {
 
         //ANCHOR - data tables de articulos
         var tableArticulos = $('#datatable-articulos').DataTable({
@@ -779,8 +786,8 @@
 
         selectCliente.selectize({
             valueField: 'id_cliente',
-            labelField: 'nombre_Cl',
-            searchField: 'nombre_Cl',
+            labelField: 'razon_social_Cl',
+            searchField: ['razon_social_Cl', 'nit_Cl'],
             placeholder: 'Seleccionar un cliente',
             load: function(query, callback) {
                 $.ajax({
@@ -800,8 +807,8 @@
                 var selectedClient = this.options[value];
                 var idCliente = selectedClient.id_cliente;
                 var clasificacionCliente = selectedClient.clasificacion_Cl;
-                var razonSocialCliente1 = selectedClient.nombre_Cl;
-                var nitCliente1 = selectedClient.ci_Cl;
+                var razonSocialCliente1 = selectedClient.razon_social_Cl;
+                var nitCliente1 = selectedClient.nit_Cl;
                 var codigoCliente1 = selectedClient.id_cliente;
 
                 const fechaActual = new Date();
@@ -823,6 +830,9 @@
                 razonSocialCliente.text(razonSocialCliente1);
                 nitCliente.text(nitCliente1);
                 codigoCliente.text(codigoCliente1);
+             if(clasificacionCliente == 'DISTRIBUCION'){
+                $("#switch3").prop("disabled", true);
+             }
 
             }
         });
@@ -860,9 +870,9 @@
                     data: null,
                     render: function(data, type, row) {
                         if (data.facturado_V == 1) {
-                            return `<div class="badge badge-soft-info font-size-12"><i class="fas fa-money-bill"></i> Venta Fact</div>`;
+                            return `<div class="badge badge-soft-info font-size-12"><i class="fas fa-money-bill"></i> Facturado</div>`;
                         } else {
-                            return `<div class="badge badge-soft-success font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Venta sin</div>`
+                            return `<div class="badge badge-soft-success font-size-12 pedido" id="${data.id_venta}"><i class="fas fa-file-invoice"></i>Sin Fact</div>`
                         }
 
                     }
@@ -944,13 +954,14 @@
     });
 
 
-    var carrito = [];
+    var carrito = []; 
 
     function calcularTotal() {
+        console.log('se esta sumando las ')
         let total = 0;
         var facturado = $('#switch3').prop("checked");
         for (var i = 0; i < carrito.length; i++) {
-            total = total + parseFloat(facturado ? carrito[i].sub_total_facturado : carrito[i].sub_total);
+            total = total + parseFloat( carrito[i].sub_total);
         }
         total = parseFloat(total.toFixed(2));
         $('#total').text(total);
@@ -963,20 +974,29 @@
         var descripcion = data.descripcion_A;
         var precio_neto = data.precio_neto_A;
         var precio_venta = 0;
-        var precio_facturado = 0;
         var cantidad_venta = 1;
-        if ($('#clasificacionCliente').val() == "DISTRIBUCION") {
-            precio_venta = data.precio_distribucion_A;
-            precio_facturado = data.precio_distribucion_A * 1.13;
+
+        var facturado = $("#switch3").prop("checked");
+        console.log('esta facturado ' + facturado);
+        if (facturado) {
+            if ($('#clasificacionCliente').val() == "DISTRIBUCION") {
+                precio_venta = data.precio_distribucion_A;
+            }
+            if ($('#clasificacionCliente').val() == "TECNICO") {
+                precio_venta = data.precio_tecnico_A;
+            }
+            if ($('#clasificacionCliente').val() == "PUBLICO") {
+                precio_venta = data.precio_publico_A;
+            }
+        }else{
+            if ($('#clasificacionCliente').val() == "TECNICO") {
+                precio_venta = data.precio_tecnico_A * 0.95;
+            }
+            if ($('#clasificacionCliente').val() == "PUBLICO") {
+                precio_venta = data.precio_publico_A * 0.90;
+            }
         }
-        if ($('#clasificacionCliente').val() == "TECNICO") {
-            precio_venta = data.precio_tecnico_A;
-            precio_facturado = data.precio_tecnico_A * 1.13;
-        }
-        if ($('#clasificacionCliente').val() == "PUBLICO") {
-            precio_venta = data.precio_publico_A;
-            precio_facturado = data.precio_publico_A * 1.13;
-        }
+
         var stock = data.stock_A;
         var cantidad = data.cantidad_A;
         if ('cantidad_venta' in data) {
@@ -984,9 +1004,7 @@
         }
         var precio_unitario = precio_venta / data.cantidad_A;
         precio_unitario = parseFloat(precio_unitario.toFixed(2));
-        var precioUnitF = precio_facturado / data.cantidad_A;
-        precioUnitF = parseFloat(precioUnitF.toFixed(2));
-        var facturado = $('#switch3').prop("checked");
+
         var producto = {
             id_articulo: id,
             codigo_A: codigo,
@@ -999,11 +1017,8 @@
             stock_A: stock,
 
             precio_venta: precio_unitario,
-            precio_facturado: precioUnitF,
             cantidad_venta: cantidad_venta,
             sub_total: precio_unitario * cantidad_venta,
-            sub_total_facturado: precioUnitF * cantidad_venta,
-
         }
 
         console.log(producto)
@@ -1014,7 +1029,7 @@
                   <style>
                         .descripcion-cell {
                             max-width: 200px; /* El ancho máximo deseado para la descripción */
-                            overflow: hidden;
+                            overflow: hidden; 
                             text-overflow: ellipsis;
                             white-space: nowrap;
                         }
@@ -1029,9 +1044,9 @@
                         <td class="descripcion-cell ">
                             <p class="font-size-13 text-muted mb-0" value="">${descripcion.detalle} </p>
                         </td>
-                        <td > <input type="number" step="any" class="form-control price" step="0.01" value="${facturado?producto.precio_facturado:producto.precio_venta}"></td>
+                        <td > <input type="number" step="any" class="form-control price" step="0.01" value="${producto.precio_venta}"></td>
                         <td > <input type="number" class="form-control quantity"  value="${cantidad_venta}" min="1" max="${producto.stock_A}">  </td>
-                        <td class="text-end subtotal" value="">${facturado?producto.sub_total_facturado:producto.sub_total}</td>
+                        <td class="text-end subtotal" value="">${producto.sub_total}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" step="0.01" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
         $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
@@ -1095,11 +1110,9 @@
 
         if (productoExistente && productoExistente.stock_A >= quantity || tipo_V == "proforma") {
             // Actualizar el producto existente
-            productoExistente.precio_venta = facturado ? productoExistente.precio_venta : price;
-            productoExistente.precio_facturado = facturado ? price : productoExistente.precio_facturado;
+            productoExistente.precio_venta =  price;
             productoExistente.cantidad_venta = quantity;
-            productoExistente.sub_total = facturado ? productoExistente.sub_total : sub_total;
-            productoExistente.sub_total_facturado = facturado ? sub_total : productoExistente.sub_total_facturado;
+            productoExistente.sub_total = sub_total;
             row.find('.subtotal').text(sub_total);
         }
         if (productoExistente.stock_A <= quantity) {
@@ -1113,9 +1126,8 @@
             if (tipo_V == 'venta' || tipo_V == 'pedido') {
                 productoExistente.cantidad_venta = parseInt(productoExistente.stock_A);
                 productoExistente.sub_total = parseFloat(productoExistente.cantidad_venta * productoExistente.precio_venta)
-                productoExistente.sub_total_facturado = parseFloat(productoExistente.cantidad_venta * productoExistente.precio_facturado)
                 row.find('.quantity').val(productoExistente.stock_A);
-                row.find('.subtotal').text(facturado ? productoExistente.sub_total_facturado : productoExistente.sub_total);
+                row.find('.subtotal').text( productoExistente.sub_total);
             }
 
         }
@@ -1134,6 +1146,9 @@
         })
         calcularTotal();
     })
+
+
+
 
 
 
@@ -1431,54 +1446,73 @@
 
 
     });
-</script>
-<!--ckeditor js-->
-<script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-<!-- email editor init -->
-<script src="assets/js/pages/email-editor.init.js"></script>
-<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Buttons examples -->
-<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="assets/libs/jszip/jszip.min.js"></script>
-<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-<!-- Datatable init js -->
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
-<!-- flatpickr js -->
-<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
 
-<!-- Required datatable js -->
-<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<!-- init js -->
-<script src="assets/js/pages/invoices-list.init.js"></script>
-<script src="assets/libs/selectize/selectize.js"></script>
-<script>
-    $('#checkAll').on('change', function() {
-        $('.table-check .form-check-input').prop('checked', $(this).prop("checked"));
-    });
-    $('.table-check .form-check-input').change(function() {
-        if ($('.table-check .form-check-input:checked').length == $('.table-check .form-check-input').length) {
-            $('#checkAll').prop('checked', true);
-        } else {
-            $('#checkAll').prop('checked', false);
+
+    /* ==============================
+     -------------GUARDAR CLIENTE--------------
+     =================================== */
+    var myDropzone = new Dropzone("#formCrearCliente", {
+        paramName: "imagenes[]", // Nombre del campo en el formulario
+        maxFilesize: 5, // Tamaño máximo en MB
+        maxFiles: 5, // Número máximo de archivos permitidos
+        acceptedFiles: "image/*", // Acepta solo archivos de imagen
+        addRemoveLinks: true, // Muestra el enlace para eliminar archivos
+        dictRemoveFile: "Eliminar", // Texto para el enlace de eliminación
+        init: function() {
+            this.on("success", function(file, response) {});
+            this.on("removedfile", function(file) {
+                // Manejar la eliminación de archivos (si es necesario)
+                console.log("Archivo eliminado: " + file.name);
+            });
         }
+    });
+
+
+    $("#guardarCliente").on("click", function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($("#formCrearCliente")[0]);
+        var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
+        for (var i = 0; i < imageFiles.length; i++) {
+            formData.append("imagenes[]", imageFiles[i]);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "./controllers/ClientesControllers.php?action=crearCliente",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response) {
+                    $('#modalCrearCliente').modal('hide');
+                    var formulario = document.getElementById("formCrearCliente");
+                    var dropzone = Dropzone.forElement("#formCrearCliente");
+                    formulario.reset();
+                    dropzone.removeAllFiles();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: 'El cliente se ha creado correctamente.',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Érror',
+                        text: 'El cliente no se creo',
+                    });
+
+                }
+            },
+            error: function(error) {
+                console.log("Error en la petición AJAX:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Érror',
+                    text: 'El cliente se ha creado correctamente.' + error.message,
+                });
+            }
+        });
     });
 </script>
