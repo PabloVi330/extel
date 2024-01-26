@@ -37,7 +37,7 @@
             Nuevo Cliente</button>
 
         <div id="modalCrearCliente" class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalFullscreenLabel">Registrar nuevo Cliente</h5>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
-                            <form action="#" id="formCrearCliente" class="dropzone p-0">
+                            <form action="#" id="formCrearCliente">
 
                                 <!-- CARGA DE DATROS -->
                                 <div class="col-lg-12">
@@ -56,24 +56,23 @@
                                                 <h5 class="font-size-14 mb-3"></h5>
                                                 <div class="row">
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <label for="codigo_Cl" class="form-label">Codigo:</label>
                                                         <input class="form-control" type="text" id="codigo_Cl" name="codigo_Cl" value="Cl_12" readonly aria-readonly="true">
                                                     </div>
-
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="nit_Cl" class="form-label">CI/NIT:</label>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label for="nit_Cl" class="form-label">CI/NIT: *</label>
                                                         <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <label for="razon_social_Cl" class="form-label">Razon social:</label>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label for="razon_social_Cl" class="form-label">Razon social: *</label>
                                                         <input class="form-control" type="text" id="razon_social_Cl" name="razon_social_Cl" requerid>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="mb-3">
-                                                            <label for="clasificacion_Cl" class="form-label font-size-13 text-muted">Clasificacion</label>
+                                                            <label for="clasificacion_Cl"  class="form-label">Clasificacion: *</label>
                                                             <select class="form-control" name="clasificacion_Cl" id="clasificacion_Cl" requerid>
                                                                 <option value="DISTRIBUCION">Distribucion</option>
                                                                 <option value="TECNICO">Tecnico</option>
@@ -83,24 +82,24 @@
                                                     </div>
 
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <label for="nombre_Cl" class="form-label">Nombre</label>
                                                         <input class="form-control" type="text" id="nombre_Cl" name="nombre_Cl" requerid>
                                                     </div>
 
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <label for="nombre_empresa_Cl" class="form-label">Nombre de Empresa:</label>
                                                         <input class="form-control" type="text" id="nombre_empresa_Cl" name="nombre_empresa_Cl" requerid>
                                                     </div>
 
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <label for="direccion_Cl" class="form-label">Direccion</label>
                                                         <input class="form-control" type="text" id="direccion_Cl" name="direccion_Cl">
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <label for="telefono_Cl" class="form-label">Telefono</label>
                                                         <input class="form-control" type="number" id="telefono_Cl" name="telefono_Cl">
                                                     </div>
@@ -111,31 +110,6 @@
                                         </div>
                                         <!-- end card body -->
 
-                                        <!-- CARGA DE IMAGENES -->
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h4 class="card-title">Imagenes</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div>
-
-                                                            <div class="fallback">
-                                                                <input name="imagenes" type="file" enctype="multipart/form-data">
-                                                            </div>
-                                                            <div class="dz-message needsclick">
-                                                                <div class="mb-3">
-                                                                    <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                                </div>
-                                                                <h5>Drop files here or click to upload.</h5>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> <!-- end col -->
-                                        </div> <!-- end row -->
                                     </div>
                                     <!-- end card -->
                                 </div>
@@ -195,7 +169,7 @@
 
         <!-- ===============MODAL EDITAR CLIENTE -->
         <div id="modalEditarCliente" class="modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Editar Cliente</h5>
@@ -204,7 +178,7 @@
                     <div class="modal-body">
                         <div class="col-xl-12">
                             <div class="card">
-                                <form action="#" id="formEditarCliente" class="dropzone p-0">
+                                <form action="#" id="formEditarCliente" >
 
                                     <!-- CARGA DE DATROS -->
                                     <div class="col-lg-12">
@@ -216,57 +190,62 @@
                                                     <div class="row">
                                                         <input type="hidden" name="Eid_cliente" id="Eid_cliente">
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Ecodigo_Cl" class="form-label">Codigo:</label>
                                                             <input class="form-control" type="text" id="Ecodigo_Cl" name="Ecodigo_Cl" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Eci_Cl" class="form-label">CI/NIT:</label>
                                                             <input class="form-control" type="text" id="Enit_Cl" name="Enit_Cl" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Erazon_social_Cl" class="form-label">Razon Social:</label>
                                                             <input class="form-control" type="text" id="Erazon_social_Cl" name="Erazon_social_Cl" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Eclasificacion_Cl" class="form-label">Clasificacion</label>
                                                             <input class="form-control" type="text" id="Eclasificacion_Cl" name="Eclasificacion_Cl" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Enombre_Cl" class="form-label">Nombre</label>
                                                             <input class="form-control" type="text" id="Enombre_Cl" name="Enombre_Cl" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Edireccion_Cl" class="form-label">Direccion</label>
                                                             <input class="form-control" type="text" id="Edireccion_Cl" name="Edireccion_Cl">
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Etelefono_Cl" class="form-label">Telefono</label>
                                                             <input class="form-control" type="number" id="Etelefono_Cl" name="Etelefono_Cl">
                                                         </div> <br>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Enombre_empresa_Cl" class="form-label">Nombre de empresa:</label>
                                                             <input class="form-control" type="text" id="Enombre_empresa_Cl" name="Enombre_empresa_Cl" requerid>
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Eautorizacion_Cl" class="form-label">Autorizacion:</label>
-                                                            <input class="form-control" type="text" id="Eautorizacion_Cl" name="Eautorizacion_Cl">
+                                                            <select  class="form-control" name="Eautorizacion_Cl" id="Eautorizacion_Cl">
+                                                                <option value="">Seleccionar autorizacion</option>
+                                                                <option value="autorizado">Autorizar</option>
+                                                                <option value="no">Denegar</option>
+                                                            </select>
+                                                           
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Eporcentaje_Cl" class="form-label">Interes %</label>
                                                             <input class="form-control" type="number" id="Eporcentaje_Cl" name="Eporcentaje_Cl">
                                                         </div>
 
-                                                        <div class="col-lg-4 col-md-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <label for="Elimite_Cl" class="form-label">Limite de Credito</label>
                                                             <input class="form-control" type="number" id="Elimite_Cl" name="Elimite_Cl">
                                                         </div>
@@ -276,31 +255,6 @@
                                             </div>
                                             <!-- end card body -->
 
-                                            <!-- CARGA DE IMAGENES -->
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            <h4 class="card-title">Imagenes</h4>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div>
-
-                                                                <div class="fallback">
-                                                                    <input name="imagenes" type="file" enctype="multipart/form-data">
-                                                                </div>
-                                                                <div class="dz-message needsclick">
-                                                                    <div class="mb-3">
-                                                                        <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                                    </div>
-                                                                    <h5>Drop files here or click to upload.</h5>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> <!-- end col -->
-                                            </div> <!-- end row -->
                                         </div>
                                         <!-- end card -->
                                     </div>
@@ -582,6 +536,7 @@
                     id_cliente: idCliente
                 },
                 dataType: 'json',
+                cache: false,
                 success: function(response) {
                     console.log("Respuesta del servidor:", response);
 

@@ -64,7 +64,7 @@ class MarcaController {
             foreach ($_FILES['foto_marca']['tmp_name'] as $key => $tmp_name) {
                 $imageName = basename($_FILES['foto_marca']['name'][$key]);
                 $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
-                $nombre = $data['nombre_marca']; // Cambia 'codigoP' por la clave correcta en $_POST
+                $nombre = $data['Enombre_marca']; // Cambia 'codigoP' por la clave correcta en $_POST
                 // Construir un nuevo nombre de imagen usando el código del producto
                 $newImageName = $nombre . $numimg . '.' . $imageExtension;
                 $targetPath = $uploadDir . $newImageName;
@@ -76,9 +76,9 @@ class MarcaController {
                 }
             }
             if (!empty($uploadedImages)) {
-                echo "Imágenes recibidas: ";
+                //echo "Imágenes recibidas: ";
             } else {
-                echo "No se recibieron imágenes";
+                //echo "No se recibieron imágenes";
             }
             $img = json_encode($uploadedImages);
             $data['foto_marca']  = $img;

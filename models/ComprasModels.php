@@ -109,15 +109,13 @@ class ComprasModel
     public function crearCompra($data)
     {
         
-        $fechaActual = date("Y-m-d");
         try {
-            $query = "INSERT INTO compras (fk_id_sucursal, fk_id_usuario, proveedor_C, fecha_C, detalle_C,costo_C, impreso_C) VALUES (:fk_id_sucursal, :fk_id_usuario, :proveedor_C, :fecha_C, :detalle_C,:costo_C, :impreso_C)";
+            $query = "INSERT INTO compras (fk_id_sucursal, fk_id_usuario, proveedor_C,  detalle_C,costo_C, impreso_C) VALUES (:fk_id_sucursal, :fk_id_usuario, :proveedor_C, :detalle_C,:costo_C, :impreso_C)";
 
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':fk_id_sucursal', $data['fk_id_sucursal']);
             $stmt->bindParam(':fk_id_usuario', $_SESSION['id_usuario']);
             $stmt->bindParam(':proveedor_C', $data['proveedor_C']);
-            $stmt->bindParam(':fecha_C', $fechaActual);
             $stmt->bindParam(':detalle_C', $data['detalle_C']);
             $stmt->bindParam(':costo_C', $data['costo_C']);
             $stmt->bindValue(':impreso_C', 0);

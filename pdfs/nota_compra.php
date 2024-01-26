@@ -65,7 +65,7 @@ $bloque1 = <<<EOF
 				
 			</td>
 
-			<td style="background-color:white; width:110px; text-align:center; color:red"><br>NOTA Nor:{$compra['id_compra']}</td>
+			<td style="background-color:white; width:110px; text-align:center; color:red"><br>NOTA Nro:{$compra['id_compra']}</td>
 
 		</tr>
 
@@ -99,7 +99,7 @@ $bloque2 = <<<EOF
 		
 			<td style="border: 1px solid #666; background-color:white; width:390px">
 
-				Conprador: $compra[nombre_usuario] 
+				Comprador: $compra[nombre_usuario] 
 
 			</td>
 
@@ -216,20 +216,6 @@ $bloque5 = <<<EOF
 
 		</tr>
 		
-		<tr>
-		
-			<td style="border-right: 1px solid #666;  background-color:white; width:340px; text-align:center"></td>
-
-			<td style="border: 1px solid #666;  background-color:white; width:100px; text-align:center">
-				Neto:
-			</td>
-
-			<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">
-				Bs $costo
-			</td>
-
-		</tr>
-
 	
 
 		<tr>

@@ -70,7 +70,7 @@ $bloque1 = <<<EOF
 				
 			</td>
 
-			<td style="background-color:white; width:110px; text-align:center; color:red"><br><br>NOTA N.<br>{$envio['id_envio']}</td>
+			<td style="background-color:white; width:110px; text-align:center; color:red"><br><br>NOTA Nro. <br>{$envio['id_envio']}</td>
 
 		</tr>
 
@@ -108,7 +108,7 @@ $bloque2 = <<<EOF
 
 			</td>
 
-			<td style="border: 1px solid #666; background-color:white; width:150px; text-align:right">
+			<td style="border: 1px solid #666; background-color:white; width:150px;">
 			
 				Fecha: $fecha
 
@@ -118,7 +118,7 @@ $bloque2 = <<<EOF
 
 		<tr>
 		   
-			<td style="border: 1px solid #666; background-color:white; width:390px">Responsable de recepcion: $envio[responsable_E]</td>
+			<td style="border: 1px solid #666; background-color:white; width:390px">Responsable de recepción : $envio[responsable_E]</td>
 			<td style="border: 1px solid #666; background-color:white; width:150px">Hora: $hora</td>
 
 		</tr>

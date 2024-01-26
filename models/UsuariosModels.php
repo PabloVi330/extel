@@ -94,7 +94,8 @@ class UsuarioModel
     // Actualizar un usuario
     public function editarUsuario($data)
     {
-        $query = 'UPDATE ' . $this->table . '
+        try {
+            $query = 'UPDATE ' . $this->table . '
                     SET
                     fk_id_sucursal = :fk_id_sucursal,
                     usuario_U = :usuario_U,
@@ -107,23 +108,23 @@ class UsuarioModel
                     foto_U = :foto_U
                     WHERE id_usuario = :id_usuario';
 
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':id_usuario', $data['Eid_usuario']);
-        $stmt->bindParam(':fk_id_sucursal', $data['Esucursal_U']);
-        $stmt->bindParam(':usuario_U', $data['Eusuario_U']);
-        $stmt->bindParam(':nombre_U', $data['Enombre_U']);
-        $stmt->bindParam(':area_U', $data['Earea_U']);
-        $stmt->bindParam(':tipo_U', $data['Etipo_U']);
-        $stmt->bindParam(':correo_U', $data['Ecorreo_U']);
-        $stmt->bindParam(':telefono_U', $data['Etelefono_U']);
-        $stmt->bindParam(':estado_U', $data['Eestado_U']);
-        $stmt->bindParam(':foto_U', $data['Efoto_U']);
+            $stmt->bindParam(':fk_id_sucursal', $data['Esucursal_U']);
+            $stmt->bindParam(':usuario_U', $data['Eusuario_U']);
+            $stmt->bindParam(':nombre_U', $data['Enombre_U']);
+            $stmt->bindParam(':area_U', $data['Earea_U']);
+            $stmt->bindParam(':tipo_U', $data['Etipo_U']);
+            $stmt->bindParam(':correo_U', $data['Ecorreo_U']);
+            $stmt->bindParam(':telefono_U', $data['Etelefono_U']);
+            $stmt->bindParam(':estado_U', $data['Eestado_U']);
+            $stmt->bindParam(':foto_U', $data['Efoto_U']);
+            $stmt->bindParam(':id_usuario', $data['Eid_usuario']);
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+            $stmt->execute();
+            return "ok";
+        } catch (PDOException $e) {
+            return $e->getMessage();
         }
     }
 

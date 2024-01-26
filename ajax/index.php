@@ -93,9 +93,13 @@
                     <div class="mail-list mt-4">
                         <form action="" class="form-control text-center" id="formVentas">
 
-                            <button type="button" class="btn btn-primary btn-block waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
+                            <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-2" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
                                 <i class="fas fa-user-plus"></i>
                                 Agregar Cliente
+                            </button>
+                            <button type="button" class="btn btn-info btn-block waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#modalCrearClienteA">
+                                <i class="fas fa-user-plus"></i>
+                                Cliente Ocacional
                             </button>
 
                             <br><br>
@@ -417,7 +421,7 @@
 
 
     <div id="modalCrearCliente" class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalFullscreenLabel">Registrar nuevo Cliente</h5>
@@ -425,7 +429,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <form action="#" id="formCrearCliente" class="dropzone p-0">
+                        <form action="#" id="formCrearCliente">
 
                             <!-- CARGA DE DATROS -->
                             <div class="col-lg-12">
@@ -436,24 +440,23 @@
                                             <h5 class="font-size-14 mb-3"></h5>
                                             <div class="row">
 
-                                                <div class="col-lg-4 col-md-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <label for="codigo_Cl" class="form-label">Codigo:</label>
-                                                    <input class="form-control" type="text" id="codigo_Cl" name="codigo_Cl" requerid>
+                                                    <input class="form-control" type="text" id="codigo_Cl" name="codigo_Cl" value="Cl_12" readonly aria-readonly="true">
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label for="nit_Cl" class="form-label">CI/NIT: *</label>
+                                                    <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6">
-                                                    <label for="ci_Cl" class="form-label">CI:</label>
-                                                    <input class="form-control" type="number" id="ci_Cl" name="ci_Cl" requerid>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label for="razon_social_Cl" class="form-label">Razon social: *</label>
+                                                    <input class="form-control" type="text" id="razon_social_Cl" name="razon_social_Cl" requerid>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6">
-                                                    <label for="nombre_Cl" class="form-label">Nombre</label>
-                                                    <input class="form-control" type="text" id="nombre_Cl" name="nombre_Cl" requerid>
-                                                </div>
-
-                                                <div class="col-lg-4 col-md-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <div class="mb-3">
-                                                        <label for="clasificacion_Cl" class="form-label font-size-13 text-muted">Clasificacion</label>
+                                                        <label for="clasificacion_Cl" class="form-label">Clasificacion: *</label>
                                                         <select class="form-control" name="clasificacion_Cl" id="clasificacion_Cl" requerid>
                                                             <option value="DISTRIBUCION">Distribucion</option>
                                                             <option value="TECNICO">Tecnico</option>
@@ -462,30 +465,27 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6">
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label for="nombre_Cl" class="form-label">Nombre</label>
+                                                    <input class="form-control" type="text" id="nombre_Cl" name="nombre_Cl" requerid>
+                                                </div>
+
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label for="nombre_empresa_Cl" class="form-label">Nombre de Empresa:</label>
+                                                    <input class="form-control" type="text" id="nombre_empresa_Cl" name="nombre_empresa_Cl" requerid>
+                                                </div>
+
+
+                                                <div class="col-lg-6 col-md-6">
                                                     <label for="direccion_Cl" class="form-label">Direccion</label>
                                                     <input class="form-control" type="text" id="direccion_Cl" name="direccion_Cl">
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <label for="telefono_Cl" class="form-label">Telefono</label>
                                                     <input class="form-control" type="number" id="telefono_Cl" name="telefono_Cl">
-                                                </div>
-
-
-                                                <div class="col-lg-4 col-md-6">
-                                                    <label for="nit_Cl" class="form-label">NIT:</label>
-                                                    <input class="form-control" type="text" id="nit_Cl" name="nit_Cl" requerid>
-                                                </div>
-
-                                                <div class="col-lg-4 col-md-6">
-                                                    <label for="razon_social_Cl" class="form-label">Razon social:</label>
-                                                    <input class="form-control" type="text" id="razon_social_Cl" name="razon_social_Cl" requerid>
-                                                </div>
-
-                                                <div class="col-lg-4 col-md-6">
-                                                    <label for="nombre_empresa_Cl" class="form-label">Nombre de Empresa:</label>
-                                                    <input class="form-control" type="text" id="nombre_empresa_Cl" name="nombre_empresa_Cl" requerid>
                                                 </div>
 
                                             </div>
@@ -494,31 +494,6 @@
                                     </div>
                                     <!-- end card body -->
 
-                                    <!-- CARGA DE IMAGENES -->
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">Imagenes</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div>
-
-                                                        <div class="fallback">
-                                                            <input name="imagenes" type="file" enctype="multipart/form-data">
-                                                        </div>
-                                                        <div class="dz-message needsclick">
-                                                            <div class="mb-3">
-                                                                <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                            </div>
-                                                            <h5>Drop files here or click to upload.</h5>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> <!-- end col -->
-                                    </div> <!-- end row -->
                                 </div>
                                 <!-- end card -->
                             </div>
@@ -530,6 +505,101 @@
                         <button type="button" class="btn
                                                 btn-primary waves-effect
                                                 waves-light " id="guardarCliente">Guardar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- ==========================================================
+    ----------------MODAL CREAR CLIENTE ARBITRAIO--------------------------
+    ========================================================== -->
+
+
+    <div id="modalCrearClienteA" class="modal fade " tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalFullscreenLabel">Cliente ocacional</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <form action="#" id="formCrearClienteA">
+
+                            <!-- CARGA DE DATROS -->
+                            <div class="col-lg-12">
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        <div>
+                                            <h5 class="font-size-14 mb-3"></h5>
+                                            <div class="row">
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label for="Acodigo_Cl" class="form-label">Codigo:</label>
+                                                    <input class="form-control" type="text" id="Acodigo_Cl" name="codigo_Cl" readonly aria-readonly="true" value="Cl_00">
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label for="nit_Cl" class="form-label">CI/NIT: <span class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="Anit_Cl" name="nit_Cl" requerid>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label for="razon_social_Cl" class="form-label">Razon social/ Nombre <span class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="Arazon_social_Cl" name="razon_social_Cl" requerid>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="clasificacion_Cl" class="form-label">Clasificacion: <span class="text-danger">*</span></label>
+                                                        <select type="hidden" class="form-control" name="clasificacion_Cl" id="Aclasificacion_Cl" requerid>
+                                                            <option value="PUBLICO">Publico</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <!-- <label for="nombre_Cl" class="form-label">Nombre</label> -->
+                                                    <input class="form-control" type="hidden" id="Anombre_Cl" name="nombre_Cl" requerid>
+                                                </div>
+
+
+                                                <div class="col-lg-6 col-md-6">
+
+                                                    <input class="form-control" type="hidden" id="Anombre_empresa_Cl" name="nombre_empresa_Cl" requerid>
+                                                </div>
+
+
+                                                <div class="col-lg-6 col-md-6 ">
+
+                                                    <input class="form-control" type="hidden" id="Adireccion_Cl" name="direccion_Cl">
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+
+                                                    <input class="form-control" type="hidden" id="Atelefono_Cl" name="telefono_Cl">
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+
+                                                    <input class="form-control" type="hidden" id="Atelefono_Cl" name="arbitrario" value="arbitrario">
+                                                </div </div>
+                                                <!-- end row -->
+                                            </div>
+                                        </div>
+                                        <!-- end card body -->
+
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn
+                                                btn-secondary waves-effect" data-bs-dismiss="modal" id="limpiar">Cerrar</button>
+                        <button type="button" class="btn
+                                                btn-primary waves-effect
+                                                waves-light " id="guardarClienteA">Guardar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -640,19 +710,43 @@
     var fkIdSucursal = <?php echo json_encode($_SESSION['fk_id_sucursal']); ?>;
     var rol = <?php echo json_encode($_SESSION['area_U']); ?>;
 
+    function generCodigoCliente() {
+        $.ajax({
+            type: 'POST',
+            url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+            data: {
+                sql: 'SELECT COUNT(*) AS usuarios FROM clientes'
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response)
+                $('#codigo_Cl').val('CL-' + response[0].usuarios)
+            }
+        })
+
+    }
+    generCodigoCliente()
     $(document).ready(function() {
 
 
         $("#cancelado").parent().show();
         $("#por_pagar").parent().show();
+        $("#pedido").parent().hide();
 
         $("#proforma").change(function() {
             $("#cancelado").parent().hide();
             $("#por_pagar").parent().hide();
+            $("#contado").parent().hide();
+            $("#transferencia").parent().hide();
+            $("#E_T").parent().hide();
+
         });
         $("#venta").change(function() {
             $("#cancelado").parent().show();
             $("#por_pagar").parent().show();
+            $("#contado").parent().show();
+            $("#transferencia").parent().show();
+            $("#E_T").parent().show();
         });
 
         $('input[type="radio"]').change(function() {
@@ -787,7 +881,7 @@
         selectCliente.selectize({
             valueField: 'id_cliente',
             labelField: 'razon_social_Cl',
-            searchField: ['razon_social_Cl', 'nit_Cl'],
+            searchField: ['razon_social_Cl', 'nit_Cl', 'nombre_Cl'],
             placeholder: 'Seleccionar un cliente',
             load: function(query, callback) {
                 $.ajax({
@@ -830,9 +924,9 @@
                 razonSocialCliente.text(razonSocialCliente1);
                 nitCliente.text(nitCliente1);
                 codigoCliente.text(codigoCliente1);
-             if(clasificacionCliente == 'DISTRIBUCION'){
-                $("#switch3").prop("disabled", true);
-             }
+                if (clasificacionCliente == 'DISTRIBUCION') {
+                    $("#switch3").prop("disabled", true);
+                }
 
             }
         });
@@ -885,7 +979,7 @@
                         } else if (data.tipo_V == "pedido") {
                             return `<div class="badge badge-soft-secondary font-size-12 " id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Pedido</div>`
                         } else {
-                            return `<div class="badge badge-soft-dark font-size-12 " id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Proforma</div>`
+                            return `<div class="badge badge-soft-dark font-size-12 convertirProforma " id="${data.id_venta}"><i class="fas fa-file-invoice"></i> Proforma</div>`
                         }
 
                     }
@@ -954,14 +1048,14 @@
     });
 
 
-    var carrito = []; 
+    var carrito = [];
 
     function calcularTotal() {
         console.log('se esta sumando las ')
         let total = 0;
         var facturado = $('#switch3').prop("checked");
         for (var i = 0; i < carrito.length; i++) {
-            total = total + parseFloat( carrito[i].sub_total);
+            total = total + parseFloat(carrito[i].sub_total);
         }
         total = parseFloat(total.toFixed(2));
         $('#total').text(total);
@@ -988,7 +1082,7 @@
             if ($('#clasificacionCliente').val() == "PUBLICO") {
                 precio_venta = data.precio_publico_A;
             }
-        }else{
+        } else {
             if ($('#clasificacionCliente').val() == "TECNICO") {
                 precio_venta = data.precio_tecnico_A * 0.95;
             }
@@ -1110,7 +1204,7 @@
 
         if (productoExistente && productoExistente.stock_A >= quantity || tipo_V == "proforma") {
             // Actualizar el producto existente
-            productoExistente.precio_venta =  price;
+            productoExistente.precio_venta = price;
             productoExistente.cantidad_venta = quantity;
             productoExistente.sub_total = sub_total;
             row.find('.subtotal').text(sub_total);
@@ -1127,7 +1221,7 @@
                 productoExistente.cantidad_venta = parseInt(productoExistente.stock_A);
                 productoExistente.sub_total = parseFloat(productoExistente.cantidad_venta * productoExistente.precio_venta)
                 row.find('.quantity').val(productoExistente.stock_A);
-                row.find('.subtotal').text( productoExistente.sub_total);
+                row.find('.subtotal').text(productoExistente.sub_total);
             }
 
         }
@@ -1261,6 +1355,84 @@
     });
 
 
+
+    //CONVERTIR PROFORMA A VENTA
+    $("#datatable-ventas").on("click", ".convertirProforma", function(e) {
+        e.preventDefault();
+        var idVenta = $(this).attr('id');
+
+        Swal.fire({
+            title: '¿Convertir a venta?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar',
+
+        })
+
+        $.ajax({
+            type: 'POST',
+            url: './controllers/VentasControllers.php?action=obtenerVentasPorId',
+            data: {
+                id_venta: idVenta,
+            },
+            dataType: 'json',
+            cache: false,
+            success: function(response) {
+                var detalle_V = JSON.parse(response.detalle_V) 
+                detalle_V.forEach(function(producto) {
+                    $.ajax({
+                        type: 'POST',
+                        url: './controllers/ArticulosControllers.php?action=obtenerArticuloPorId',
+                        data: {
+                            id_articulo: producto.id_articulo
+                        },
+                        dataType: 'json',
+                        cache: false,
+                        success: function(response) {
+
+                            console.log('datos parseados' + response);
+                            producto.stock_A = response.stock_A
+                            agregarFila(producto);
+                        }
+                    })
+
+                });
+                detalle_V = [];
+                $(`#fk_id_cliente option[value=""]`).val(response.fk_id_cliente);
+                $.ajax({
+                    type: 'POST',
+                    url: './controllers/ClientesControllers.php?action=obtenerClientePorId',
+                    data: {
+                        id_cliente: response.fk_id_cliente
+                    },
+                    dataType: 'json',
+                    cache: false,
+                    success: function(response) {
+                        console.log('datos usuario' + response);
+                        $('#clasificacionCliente').val(response.clasificacion_Cl);
+                        $('#razonSocialNota').text(response.razon_social_Cl);
+                        $('#nitNota').text(response.nit_Cl);
+                        $('#codigoClienteNota').text(response.codigo_Cl);
+                    },
+                    error: function(error) {
+                        console.log('Error en la petición AJAX usuarios por id:', error);
+                    }
+                })
+
+
+
+
+
+            },
+            error: function(error) {
+                console.log('Error en la petición AJAX:', error);
+            }
+        });
+    });
+
     $("#datatable-ventas").on("click", ".btn-eliminar", function(e) {
         e.preventDefault();
         var idVenta = $(this).attr('id');
@@ -1319,8 +1491,7 @@
         miTablaArticulos.ajax.reload();
     }
 
-    // Calcular el total inicial
-    calcularTotal();
+    // Calcular el total inicial 
 
 
 
@@ -1496,6 +1667,84 @@
                         title: 'Éxito',
                         text: 'El cliente se ha creado correctamente.',
                     });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Érror',
+                        text: 'El cliente no se creo',
+                    });
+
+                }
+            },
+            error: function(error) {
+                console.log("Error en la petición AJAX:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Érror',
+                    text: 'El cliente se ha creado correctamente.' + error.message,
+                });
+            }
+        });
+    });
+
+    $("#guardarClienteA").on("click", function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($("#formCrearClienteA")[0]);
+        var datosFormulario = {};
+
+        // Recorrer el FormData y asignar los valores al nuevo objeto
+        formData.forEach(function(value, key) {
+            datosFormulario[key] = value;
+        });
+        console.log(datosFormulario);
+        $.ajax({
+            type: "POST",
+            url: "./controllers/ClientesControllers.php?action=crearCliente",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+
+                if (response) {
+                    $('#modalCrearClienteA').modal('hide');
+                    var formulario = document.getElementById("formCrearClienteA");
+                    formulario.reset();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: 'El cliente se ha creado correctamente.',
+                    });
+
+                    //LINK - llamada a los clientes 
+                    var idCliente = JSON.parse(response)
+                    var selectCliente = $('#fk_id_cliente');
+                    var razonSocialCliente = $('#razonSocialNota');
+                    var nitCliente = $('#nitNota');
+                    var codigoCliente = $('#codigoClienteNota');
+                    const fechaActual = new Date();
+
+
+                    const año = fechaActual.getFullYear();
+                    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
+                    const dia = String(fechaActual.getDate()).padStart(2, '0');
+                    const horas = String(fechaActual.getHours()).padStart(2, '0');
+                    const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+                    const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+                    const fechaFormateada = `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+
+
+                    $('#fechaNota').text(fechaFormateada);
+                    //selectCliente.val(idCliente)
+
+                    console.log("idCliente:", idCliente);
+                    $(`#fk_id_cliente option[value=""]`).val(idCliente).text(datosFormulario.razon_social_Cl);
+
+
+                    razonSocialCliente.text(datosFormulario.razon_social_Cl);
+                    nitCliente.text(datosFormulario.nit_Cl);
+                    codigoCliente.text(datosFormulario.codigo_Cl);
+
                 } else {
                     Swal.fire({
                         icon: 'error',

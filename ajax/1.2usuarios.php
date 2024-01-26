@@ -30,13 +30,13 @@
         <!-- =================MODAL CREAR NUEVO USUARIO-->
 
         <button type="button" class="btn btn-primary
-                                waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario"> Nuevo Usuarios</button>
+                                waves-effect waves-light mb-2" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario"> Nuevo Usuarios</button>
 
         <div id="modalCrearUsuario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalFullscreenLabel">Registrar nuevo usuario</h5>
+                        <h5 class="modal-title" id="exampleModalFullscreenLabel"> <i class=" fas fa-user-check fa-2x"></i>Registrar nuevo usuario</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -151,10 +151,10 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn
-                                                btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                                                btn-secondary waves-effect limpiar" data-bs-dismiss="modal">Cerrar</button>
                             <button type="button" class="btn
                                                 btn-primary waves-effect
-                                                waves-light " id="guardarUsuario">Save changes</button>
+                                                waves-light " id="guardarUsuario">Guardar</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -201,10 +201,10 @@
 
         <!-- ===============MODAL EDITAR SUCURSAL -->
         <div id="modalEditarUsuario" class="modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Editar usuario</h5>
+                        <h5 class="modal-title" id="myModalLabel"><i class=" fas fa-user-edit fa-2x"></i> Editar usuario</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -250,12 +250,13 @@
                                                     <div class="mb-3">
                                                         <label for="Earea_U" class="form-label font-size-13 text-muted">Seleccionar Area</label>
                                                         <select class="form-control" data-trigger name="Earea_U" id="Earea_U" requerid>
-                                                            <option value="">Seleccionar Area</option>
-                                                            <option value="administrador">Administrador</option>
-                                                            <option value="supervisor">Supervisor</option>
-                                                            <option value="operador">Operador</option>
-                                                            <option value="tecnico">Tecnico</option>
+                                                                <option value="">Seleccionar Area</option>
+                                                                <option value="administrador">Administrador</option>
+                                                                <option value="supervisor">Supervisor</option>
+                                                                <option value="tecnico">Tecnico</option>
+                                                                <option value="ventas">Ventas</option>
                                                         </select>
+                                                        
                                                     </div>
                                                 </div>
 
@@ -287,6 +288,11 @@
                                                     <label for="switch3" data-on-label="Si" data-off-label="No"></label>
                                                 </div>
                                             </div>
+                                            <div class="card m-2">
+                                                <div class="card-body text-center">
+                                                    <img id="imagen_U" class="rounded me-2 img-fluid" alt="200x200" width="400" src="assets/images/small/img-4.jpg" data-holder-rendered="true">
+                                                </div>
+                                            </div>
                                             <!-- end row -->
                                         </div>
                                         <!-- end card body -->
@@ -302,7 +308,7 @@
                                                         <div>
 
                                                             <div class="fallback">
-                                                                <input name="imagenes" type="file" enctype="multipart/form-data">
+                                                                <input name="Eimagenes" type="file" enctype="multipart/form-data">
                                                             </div>
                                                             <div class="dz-message needsclick">
                                                                 <div class="mb-3">
@@ -325,7 +331,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn
-                                                btn-secondary waves-effect" data-bs-dismiss="modal">Cerrar</button>
+                                                btn-secondary waves-effect limpiar" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn
                                                 btn-primary waves-effect
                                                 waves-light" id="editarUsuario">Guardar Cambios</button>
@@ -380,15 +386,41 @@
         Dropzone.autoDiscover = false;
         $(document).ready(function() {
             $(".dropzone").dropzone();
-        });
+        }); 
     </script>
 
     <script>
+        function resetForm() {
+            var formulario = document.getElementById("formEditarUsuario");
+            var dropzone = Dropzone.forElement("#formEditarUsuario");
+            formulario.reset();
+            dropzone.removeAllFiles();
+
+            var table1 = $('#datatable-usuarios').DataTable();
+            table1.ajax.reload(function() {
+                // Verifica si la columna existe antes de intentar reinicializarla
+                if (table1.cell(0, 2) !== undefined) {
+                    // Reinicializa y redibuja la tercera columna (índice 2) de la primera fila
+                    table1.cell(0, 2).invalidate().draw();
+                    console.log('Columna reinicializada correctamente');
+                } else {
+                    console.error('La columna no existe en la tabla.');
+                }
+            });
+
+
+        }
+
+        $(".limpiar").on("click", function(e) {
+            e.preventDefault();
+            resetForm();
+        })
         // ======== LLAMADA A LA TABLA DE USUARIOS
         $(document).ready(function() {
 
             var tableU = $('#datatable-usuarios').DataTable({
                 lengthChange: true,
+                cache: false,
                 buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
                 ],
@@ -467,85 +499,89 @@
 
 
         // =========GUARDAR USUARIO
-        $(document).ready(function() {
-            //llamada a las sucursales 
-            $.ajax({
-                url: "./controllers/SucursalesControllers.php?action=obtenerSucursales", // Ajusta la ruta correcta
-                dataType: 'json',
-                success: function(data) {
-                    var select = $('#sucursal_U');
-                    select.empty();
+
+        //llamada a las sucursales 
+        $.ajax({
+            url: "./controllers/SucursalesControllers.php?action=obtenerSucursales", // Ajusta la ruta correcta
+            dataType: 'json',
+            cache: false,
+            success: function(data) {
+                var select = $('#sucursal_U');
+                select.empty();
+                select.append($('<option>', {
+                    value: '',
+                    text: 'Seleccionar'
+                }));
+                $.each(data, function(key, value) {
                     select.append($('<option>', {
-                        value: '',
-                        text: 'Seleccionar'
+                        value: value.id_sucursal,
+                        text: value.nombreS
                     }));
-                    $.each(data, function(key, value) {
-                        select.append($('<option>', {
-                            value: value.id_sucursal,
-                            text: value.nombreS
-                        }));
+                });
+            }
+        });
+
+        $("#guardarUsuario").on("click", function(e) {
+            e.preventDefault(); // Evita el comportamiento predeterminado del botón
+
+            // Obtén los datos del formulario
+            var formData = new FormData($("#formCrearUsuario")[0]);
+
+            // Obtén los archivos de imagen seleccionados
+            var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
+
+            // Agrega los archivos de imagen al FormData
+            for (var i = 0; i < imageFiles.length; i++) {
+                formData.append("imagenes[]", imageFiles[i]);
+            }
+            // Realiza la petición AJAX
+            $.ajax({
+                type: "POST",
+                url: "./controllers/UsuariosControllers.php?action=crearUsuarios",
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function(response) {
+                    console.log("Respuesta del servidor:", response);
+                    if (response) {
+                        $('#modalCrearUsuario').modal('hide');
+                        $('#formCrearUsuario')[0].reset();
+
+                        // Recargar la tabla DataTables
+                        var table = $('#datatable-usuarios').DataTable();
+                        table.ajax.reload();
+
+                        // Mostrar SweetAlert2 de éxito
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'El usuarios se ha creado correctamente.',
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Éxito',
+                            text: 'El usuarios se ha creado correctamente.',
+                        });
+
+                    }
+                },
+                error: function(error) {
+                    console.log("Error en la petición AJAX:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Érror',
+                        text: 'El usuarios se ha creado correctamente.' + error.message,
                     });
                 }
             });
-
-            $("#guardarUsuario").on("click", function(e) {
-                e.preventDefault(); // Evita el comportamiento predeterminado del botón
-
-                // Obtén los datos del formulario
-                var formData = new FormData($("#formCrearUsuario")[0]);
-
-                // Obtén los archivos de imagen seleccionados
-                var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
-
-                // Agrega los archivos de imagen al FormData
-                for (var i = 0; i < imageFiles.length; i++) {
-                    formData.append("imagenes[]", imageFiles[i]);
-                }
-                // Realiza la petición AJAX
-                $.ajax({
-                    type: "POST",
-                    url: "./controllers/UsuariosControllers.php?action=crearUsuarios",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        console.log("Respuesta del servidor:", response);
-                        if (response) {
-                            $('#modalCrearUsuario').modal('hide');
-                            $('#formCrearUsuario')[0].reset();
-
-                            // Recargar la tabla DataTables
-                            var table = $('#datatable-usuarios').DataTable();
-                            table.ajax.reload();
-
-                            // Mostrar SweetAlert2 de éxito
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Éxito',
-                                text: 'El usuarios se ha creado correctamente.',
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Éxito',
-                                text: 'El usuarios se ha creado correctamente.',
-                            });
-
-                        }
-                    },
-                    error: function(error) {
-                        console.log("Error en la petición AJAX:", error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Érror',
-                            text: 'El usuarios se ha creado correctamente.' + error.message,
-                        });
-                    }
-                });
-            });
         });
 
-        // ========= EDITAR USUARIO 
+
+        // // ======================================================
+        // -------------------------EDITAR USUARIO ----------------
+        // ========================================================
         $('#datatable-usuarios').on('click', '.btn-editarU', function() {
             var idUsuario = $(this).data('id');
             console.log(idUsuario);
@@ -555,6 +591,7 @@
                 data: {
                     id_usuario: idUsuario
                 },
+                cache: false,
                 dataType: 'json',
                 success: function(response) {
                     console.log("Respuesta del servidor:", response);
@@ -619,87 +656,107 @@
                     } else {
                         $('#switch3').prop('checked', false);
                     }
+
+                    foto_U = JSON.parse(response.foto_U);
+                    ruta_foto_U = './controllers/uploads/users/' + foto_U[0];
+                    $('#imagen_U').attr("src", ruta_foto_U);
                 },
                 error: function(error) {
                     console.error('Error en la petición AJAX: al pedir usuario por id', error);
                 }
             });
 
+        });
 
 
+        $('#editarUsuario').click(function() {
+            var estado_U = $('#switch3').prop('checked') ? 1 : 0;
+            $('#Eestado_U').val(estado_U);
 
+            var formData = new FormData($("#formEditarUsuario")[0]);
 
-            $('#editarUsuario').click(function() {
-                var estado_U = $('#switch3').prop('checked') ? 1 : 0;
-                $('#Eestado_U').val(estado_U);
-                var formData = $('#formEditarUsuario').serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: './controllers/UsuariosControllers.php?action=editarUsuarios',
-                    data: formData,
-                    success: function(response) {
+            var imageFiles = $(".dropzone")[1].dropzone.getAcceptedFiles();
+            for (var i = 0; i < imageFiles.length; i++) {
+                formData.append("Eimagenes[]", imageFiles[i]);
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: './controllers/UsuariosControllers.php?action=editarUsuarios',
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function(response) {
+                    if (response == '"ok"') {
                         $('#modalEditarUsuario').modal('hide');
-                        $('#formEditarUsuario')[0].reset();
-
-                        var table = $('#datatable-usuarios').DataTable();
-                        table.ajax.reload();
-                        var mensaje = response.message;
+                        resetForm();
                         Swal.fire({
                             icon: 'success',
                             title: 'Éxito',
-                            text: mensaje,
+                            text: 'El usuario se elimino correctamente.',
                         });
-                    },
-                    error: function(error) {
+                        
+                    } else {
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Érror',
+                            text: 'El usuario se elimino correctamente.' + response,
+                        });
 
                     }
-                });
-            });
 
+
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+            console.log("cinco")
         });
-        //ELIMINAR USUARIO
-        $(document).ready(function() {
-            $('#datatable-usuarios').on('click', '.btn-eliminarU', function() {
-                var idUsuario = $(this).data('id'); // Obtener el ID de la sucursal desde el atributo data-id
-                console.log(idUsuario)
-                // Mostrar un SweetAlert2 de confirmación
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: '¿Realmente deseas eliminar este Usuarios?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // El usuario confirmó la eliminación, realiza la solicitud AJAX para eliminar la sucursal
-                        $.ajax({
-                            type: 'POST',
-                            url: './controllers/UsuariosControllers.php?action=eliminarUsuarios',
-                            data: {
-                                id_usuario: idUsuario
-                            },
-                            success: function(response) {
-                                // Maneja la respuesta del servidor aquí, por ejemplo, recargar la tabla
-                                var table = $('#datatable-usuarios').DataTable();
-                                table.ajax.reload();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Éxito',
-                                    text: 'El usuario se elimino correctamente.',
-                                });
-                            },
-                            error: function(error) {
-                                console.log('Error en la petición AJAX:', error);
-                            }
-                        });
-                    }
-                });
+        // ===============================================================
+        // ---------------------ELIMINAR USUARIO--------------------------
+        // ===============================================================
+
+        $('#datatable-usuarios').on('click', '.btn-eliminarU', function() {
+            var idUsuario = $(this).data('id'); // Obtener el ID de la sucursal desde el atributo data-id
+            console.log(idUsuario)
+            // Mostrar un SweetAlert2 de confirmación
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Realmente deseas eliminar este Usuarios?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // El usuario confirmó la eliminación, realiza la solicitud AJAX para eliminar la sucursal
+                    $.ajax({
+                        type: 'POST',
+                        url: './controllers/UsuariosControllers.php?action=eliminarUsuarios',
+                        data: {
+                            id_usuario: idUsuario
+                        },
+                        cache: false,
+                        success: function(response) {
+                            // Maneja la respuesta del servidor aquí, por ejemplo, recargar la tabla
+                            var table = $('#datatable-usuarios').DataTable();
+                            table.ajax.reload();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'El usuario se elimino correctamente.',
+                            });
+                        },
+                        error: function(error) {
+                            console.log('Error en la petición AJAX:', error);
+                        }
+                    });
+                }
             });
-
-
-
-        })
+        });
     </script>

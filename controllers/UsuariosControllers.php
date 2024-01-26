@@ -69,7 +69,7 @@ class UsuarioController
     // Obtener un usuario por ID en formato JSON
     public function obtenerUsuarioPorID()
     {
-         
+
         $result = $this->usuario->obtenerUsuarioPorID($_POST['id_usuario']);
         echo json_encode($result);
     }
@@ -77,13 +77,35 @@ class UsuarioController
     // Actualizar un usuario
     public function editarUsuario()
     {
-       
-        if ($this->usuario->editarUsuario($_POST)) {// Devuelve una respuesta JSON de éxito
-            echo json_encode(array('message' => 'Usuario actualizado con éxito'));
+
+        $data = $_POST;
+        if (!empty($_FILES['Eimagenes']['name'][0])) {
+            $directorioDestino = 'uploads/users/';
+            $nombresImagenes = [];
+            $imagenes = $_FILES['Eimagenes'];
+            $c = 1;
+
+            foreach ($imagenes['tmp_name'] as $key => $tmp_name) {
+                $numeroRandom = rand(1, 100);
+                $nombreArchivo = $numeroRandom . $data["Eid_usuario"] . '.png';
+                $rutaArchivo = $directorioDestino . $nombreArchivo;
+
+                if (move_uploaded_file($tmp_name, $rutaArchivo)) {
+                    $nombresImagenes[] = $nombreArchivo;
+                    $c++;
+                } else {
+                    // Manejar errores si la carga de la imagen falla
+                    // Puedes agregar código aquí para manejar los errores según tus necesidades
+                }
+            }
+
+            $img = json_encode($nombresImagenes);
+            $data['Efoto_U']  = $img;
         } else {
-            // Devuelve una respuesta JSON de error
-            echo json_encode(array('message' => 'Error al actualizar el usuario'));
+            
         }
+        $response = $this->usuario->editarUsuario($data); // Devuelve una respuesta JSON de éxito
+        echo json_encode($response);
     }
 
     // Eliminar un usuario
@@ -118,4 +140,3 @@ if (isset($_GET['action']) && $_GET['action'] == 'editarUsuarios') {
 if (isset($_GET['action']) && $_GET['action'] == 'eliminarUsuarios') {
     $controller->eliminarUsuario();
 }
-

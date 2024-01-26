@@ -52,8 +52,13 @@ class ClienteModel
             $stmt->bindParam(':razon_social_Cl', $data['razon_social_Cl']);
             $stmt->bindParam(':nombre_empresa_Cl', $data['nombre_empresa_Cl']);
             $stmt->execute();
+            $lastInsertId = $this->conn->lastInsertId();
             $this->conn = null;
+            if(!empty($data['arbitrario'])){
+              return $lastInsertId;  
+            }
             return "ok";
+
         } catch (PDOException $e) {
             $this->conn = null;
             return $e->getMessage();
@@ -133,7 +138,7 @@ class ClienteModel
 
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(':id_cliente', $data['Eid_cliente']);
+            
             $stmt->bindParam(':codigo_Cl', $data['Ecodigo_Cl']);
             $stmt->bindParam(':nombre_Cl', $data['Enombre_Cl']);
             $stmt->bindParam(':clasificacion_Cl', $data['Eclasificacion_Cl']);
@@ -145,6 +150,7 @@ class ClienteModel
             $stmt->bindParam(':autorizacion_Cl', $data['Eautorizacion_Cl']);
             $stmt->bindParam(':porcentaje_Cl', $data['Eporcentaje_Cl']);
             $stmt->bindParam(':limite_Cl', $data['Elimite_Cl']);
+            $stmt->bindParam(':id_cliente', $data['Eid_cliente']);
 
             $stmt->execute();
             $this->conn = null;

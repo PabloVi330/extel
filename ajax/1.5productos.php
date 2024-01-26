@@ -112,25 +112,25 @@
                                                             <input class="form-control" type="text" id="unimed_A" name="unimed_A">
                                                         </div>
                                                         <div class="col-3">
-                                                            <label for="precio_neto_A" class="form-label">Precio 
+                                                            <label for="precio_neto_A" class="form-label">Precio
                                                                 Net.</label>
                                                             <input class="form-control" type="number" id="precio_neto_A" name="precio_neto_A" step="any">
                                                         </div>
 
 
                                                         <div class="col-3">
-                                                            <label for="precio_distribucion_A" class="form-label">Precio 
+                                                            <label for="precio_distribucion_A" class="form-label">Precio
                                                                 Dist.</label>
                                                             <input class="form-control" type="number" id="precio_distribucion_A" name="precio_distribucion_A" step="any" readonly aria-readonly="true">
                                                         </div>
 
                                                         <div class="col-3">
-                                                            <label for="precio_tecnico_A" class="form-label">Precio 
+                                                            <label for="precio_tecnico_A" class="form-label">Precio
                                                                 Tec.</label>
                                                             <input class="form-control" type="number" id="precio_tecnico_A" name="precio_tecnico_A" step="any" readonly aria-readonly="true">
                                                         </div>
                                                         <div class="col-3">
-                                                            <label for="precio_publico_A" class="form-label">Precio 
+                                                            <label for="precio_publico_A" class="form-label">Precio
                                                                 Pub.</label>
                                                             <input class="form-control" type="number" id="precio_publico_A" name="precio_publico_A" step="any" readonly aria-readonly="true">
                                                         </div>
@@ -324,12 +324,13 @@
                                                         </div>
 
                                                     </div>
-                                                    Activo
-                                                    <div class="col-12 m-a">
-                                                        <input type="hidden" id="Eestado_A" name="Eestado_A" value="">
-                                                        <input type="checkbox" id="switch3" switch="bool" name="switch3" />
-                                                        <label for="switch3" data-on-label="Si" data-off-label="No"></label>
+                                                    <div class="card m-2">
+                                                        <div class="card-body">
+                                                            <img id="imagen_PRO" class="rounded me-2" alt="200x200" width="200" src="assets/images/small/img-4.jpg" data-holder-rendered="true">
+                                                        </div>
                                                     </div>
+
+
                                                     <!-- end row -->
                                                 </div>
                                             </div>
@@ -447,8 +448,18 @@
             var dropzone1 = Dropzone.forElement("#formEditarArticulo");
             formulario1.reset();
             dropzone1.removeAllFiles();
-            var table = $('#datatable-articulos').DataTable();
-            table.ajax.reload();
+
+            var table1 = $('#datatable-articulos').DataTable();
+            table1.ajax.reload(function() {
+                // Verifica si la columna existe antes de intentar reinicializarla
+                if (table1.cell(0, 2) !== undefined) {
+                    // Reinicializa y redibuja la tercera columna (índice 2) de la primera fila
+                    table1.cell(0, 2).invalidate().draw();
+                    console.log('Columna reinicializada correctamente');
+                } else {
+                    console.error('La columna no existe en la tabla.');
+                }
+            });
 
         }
         $(document).ready(function() {
@@ -501,7 +512,7 @@
             //ANCHOR - data tables de articulos
             var tableArticulos = $('#datatable-articulos').DataTable({
                 lengthChange: true,
-
+                cache: false,
                 ajax: {
                     url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
                     dataSrc: ''
@@ -612,6 +623,7 @@
             $.ajax({
                 url: './controllers/CategoriasControllers.php?action=obtenerCategorias',
                 dataType: 'json',
+                cache: false,
                 success: function(data) {
                     var select = $('#id_categoria');
                     select.empty();
@@ -633,6 +645,7 @@
             $.ajax({
                 url: './controllers/MarcasControllers.php?action=obtenerMarcas',
                 dataType: 'json',
+                cache: false,
                 success: function(data) {
                     var select = $('#id_marca');
                     select.empty();
@@ -719,28 +732,40 @@
                 }
             });
         });
-
+        var idFila = 0;
 
         // ================================================
         // -------------EDITAR PRODUCTO --------------------
         // ================================================
         $('#datatable-articulos').on('click', '.btn-editar', function() {
             var idArticulo = $(this).data('id');
+            var table = $('#datatable-articulos').DataTable();
 
-            
-            // Obtener la fila correspondiente al botón clickeado
-            var fila = $(this).closest('tr');
-        
-            // Obtener el número de fila (índice) de la tabla
-            var numeroFila = $('#datatable-articulos').DataTable().row(fila).index();
-            $("#index_fila").val(numeroFila);
+            // Buscar el ID del artículo en los datos de la tabla
+            var numeroFila = table.rows().indexes().toArray().findIndex(function(index) {
+                return table.row(index).data().id_articulo == idArticulo;
+            });
 
+            // Imprime información adicional en la consola para depuración
+            console.log('ID del artículo:', idArticulo);
+            console.log('Índice de fila:', numeroFila);
+
+            // Verifica si el índice es un número válido antes de intentar sumar 1
+            if (typeof numeroFila === 'number' && !isNaN(numeroFila)) {
+                // Suma 1 al índice para obtener el número de fila basado en uno
+                var numeroFilaBasadoEnUno = numeroFila + 1;
+                $("#index_fila").val(numeroFilaBasadoEnUno);
+                console.log('Número de fila basado en uno:', numeroFilaBasadoEnUno);
+            } else {
+                console.error('No se pudo obtener el índice de fila correctamente.');
+            }
             $.ajax({
                 type: 'POST',
                 url: './controllers/ArticulosControllers.php?action=obtenerArticuloPorId',
                 data: {
                     id_articulo: idArticulo
                 },
+                cache: false,
                 dataType: 'json',
                 success: function(response) {
                     console.log(response);
@@ -832,6 +857,10 @@
                     $('#Eprecio_tecnico_A').val(response.precio_tecnico_A);
                     $('#Eprecio_publico_A').val(response.precio_publico_A);
 
+                    imagenes_A = JSON.parse(response.imagenes_A);
+                    ruta_imagenes_A = './controllers/uploads/products/' + imagenes_A[0];
+                    $('#imagen_PRO').attr("src", ruta_imagenes_A);
+
                     if (response.estado_A == 1) {
                         $('#switch3').prop('checked', true);
                     } else {
@@ -900,31 +929,25 @@
             // for (var key in otrosDatos) {
             //     formData.append(key, otrosDatos[key]);
             // }
-            var fila = $("#index_fila").val();
+
             var codigo = $('#Ecodigo_A').val();
             // Realizar la solicitud Ajax
             $.ajax({
                 url: './controllers/ArticulosControllers.php?action=editararticulos',
                 type: "POST",
                 data: formData,
-                contentType: false, // Evitar que jQuery establezca automáticamente el tipo de contenido
-                processData: false, // Evitar que jQuery procese la data automáticamente
+                contentType: false,
+                processData: false,
+                cache: false,
                 success: function(response) {
                     if (response == '"ok"') {
                         $('#modalEditarArticulo').modal('hide');
-                        $.ajax({
-                            type: 'POST',
-                            url: './controllers/ArticulosControllers.php?action=obtenerArticulos1',
-                            data: {
-                                codigo_A: codigo
-                            },
-                            dataType: 'json',
-                            success: function(response) {
-                                console.log(response[0])
-                                var miTabla = $('#datatable-articulos').DataTable();
-                                miTabla.row(fila).data(response[0]).draw(false);
-                            }
-                        })
+                       resetForm();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Exito ',
+                            text: 'El producto no se guardó en la base de datos',
+                        });
 
                     } else {
                         Swal.fire({

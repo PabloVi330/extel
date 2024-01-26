@@ -18,11 +18,14 @@ class ComprasController
     //NOTE - METODOS  FIJOS
     public function crearCompra()
     {
+        //echo '<pre>';print_r($_POST);echo '</pre>';
         $crearCompra = $this->comprasModel->crearCompra($_POST);
         $fkIdSucursal = $_POST['fk_id_sucursal'];
         if ($crearCompra == "ok") {
+           // echo 'creo la compra';
             $detalle = json_decode($_POST['detalle_C']);
             for ($i = 0; $i < count($detalle); $i++) {
+
                 $stock = $detalle[$i]->cantidad * $detalle[$i]->cantidad_compra;
                 $precio = $detalle[$i]->precio_neto;
                 $id = $detalle[$i]->id;
@@ -33,8 +36,10 @@ class ComprasController
                 $codigo = $detalle[$i]->codigo;
                 $actualizarProducto = $this->articulo->editarArticuloCompra($stock, $precio, $codigo,  $fkIdSucursal);
                 if ($actualizarProducto == "ok") {
+                    //echo 'sumo al stock';
                     $actualizarPrecio = $this->articulo->editarArticuloCompraPrecioVenta($precio, $precio_distribucion, $precio_tecnico, $precio_publico, $codigo);
                     if ($actualizarPrecio == "ok") {
+                       // echo 'cambio loas precioas';
                     }
                 }
             }

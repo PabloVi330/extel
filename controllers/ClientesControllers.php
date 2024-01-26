@@ -48,9 +48,11 @@ class ClienteController
             }
             $img = json_encode($uploadedImages);
             $data['imagenes']  = $img;
-
+            
             $response = $this->cliente->crearCliente($data);
             echo json_encode($response);
+           
+            
         }
     }
 

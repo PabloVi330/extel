@@ -92,7 +92,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn
-                                                btn-secondary waves-effect" data-bs-dismiss="modal" id="limpiar">Cerrar</button>
+                                                btn-secondary waves-effect limpiar" data-bs-dismiss="modal" id="limpiar">Cerrar</button>
                         <button type="button" class="btn
                                                 btn-primary waves-effect
                                                 waves-light" id="guardarMarca">Guardar</button>
@@ -144,7 +144,7 @@
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="#" id="formEditarMarca" class="dropzone p-0" >
+                                    <form action="#" id="formEditarMarca" class="dropzone p-0">
                                         <!-- CARGA DE DATROS -->
                                         <div class="col-lg-12">
                                             <div class="card">
@@ -199,7 +199,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn
-                                                btn-secondary waves-effect" data-bs-dismiss="modal">Cerrar</button>
+                                                btn-secondary waves-effect limpiar" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn
                                                 btn-primary waves-effect
                                                 waves-light" id="editarMarca">Guardar Cambios</button>
@@ -220,18 +220,18 @@
             table.ajax.reload();
 
         }
-        $(document).ready(function() {
-            $("#limpiar").on("click", function(e) {
-                e.preventDefault();
-                resetForm();
-            })
+        $(".limpiar").on("click", function(e) {
+            e.preventDefault();
+            resetForm();
         })
+
         // ======== LLAMADA A LA TABLA DE CATEGORIAS
 
         $(document).ready(function() {
 
             var table = $('#datatable-marcas').DataTable({
                 lengthChange: false,
+                cache: false,
                 buttons: [
                     'copy', 'excel', 'pdf', 'colvis'
                 ],
@@ -296,7 +296,7 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        console.log("Respuesta del servidor:", response);
+                        //console.log("Respuesta del servidor:", response);
                         $('#modalGuardarMarca').modal('hide');
                         resetForm();
                         Swal.fire({
@@ -313,7 +313,9 @@
             });
         });
 
-        // ========= EDITAR MARCA 
+        // =========================================================================
+        // ----------------------- EDITAR MARCA ------------------------------------
+        // =========================================================================
 
         //----------------obtener datos para la edicion
         $('#datatable-marcas').on('click', '.editar', function() {
@@ -324,7 +326,7 @@
             $('#Enombre_marca').val(data.nombre_marca);
             $('#Efoto_marca').val(data.foto_marca);
             $('#modalEditarMarca').modal('show');
-           
+
         });
 
         //----------------guardando cambios
@@ -345,19 +347,26 @@
                 data: formData,
                 contentType: false,
                 processData: false,
+                cache: false,
                 success: function(response) {
-                    console.log(response);
-                    $('#modalEditarMarca').modal('hide');
-                    //$('#formEditarSucursal')[0].reset();
+                    if (response == '"ok"') {
+                        $('#modalEditarMarca').modal('hide');
 
-                    var table = $('#datatable-marcas').DataTable();
-                    table.ajax.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'La marca ha editado correctamente.',
+                        });
+                        resetForm();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Érror',
+                            text: 'La marca ha editado correctamente.' + response,
+                        });
+                    }
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Éxito',
-                        text: 'La marca ha editado correctamente.',
-                    });
+
                 },
                 error: function(error) {
 
