@@ -153,7 +153,7 @@
                             <div class="col-lg-12 col-md-12">
                                 <h5 class="font-size-14 mb-3 text-info font-weight-bold"><i class="mdi mdi-arrow-right text-info me-1"></i>METODO DE PAGO</h5>
                                 <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="metodo_pago_V" id="contado" value="contado" checked>
+                                    <input class="form-check-input" type="radio" name="metodo_pago_V" id="contado" value="efectivo" checked>
                                     <label class="form-check-label" for="formRadios1">
                                         Efectivo:
                                     </label>
@@ -179,13 +179,31 @@
                             <input type="checkbox" id="switch3" switch="bool" name="switch3" checked />
                             <label for="switch3" data-on-label="Si" data-off-label="No"></label>
 
+                            <input type="hidden" id="detalle_V" name="detalle_V">
 
                             <div class="mb-3">
                                 <input type="hidden" step="any" class="form-control" id="importe_V" name="importe_V">
                             </div>
-                            <input type="hidden" id="detalle_V" name="detalle_V">
-                            <input type="hidden" id="transferencia_V" name="transferencia_V">
-                            <input type="hidden" id="efectivo_V" name="efectivo_V">
+
+
+                            <div>
+                                <label for="switch3">Efectivo:</label>
+                                <input type="number" class="form-control" id="efectivo_V" name="efectivo_V">
+                            </div>
+
+                            <div>
+                                <label for="switch3">Transferencia:</label>
+                                <input type="number" class="form-control" id="transferencia_V" name="transferencia_V">
+                            </div>
+                            <br>
+                            <div>
+                                <h6>Saldo: <span id="saldo_V">0.00</span></h6>
+                            </div>
+
+                            <div>
+                                <h6>Cambio: <span id="cambio_V">0.00</span></h6>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -277,6 +295,11 @@
                                         </div>
                                     </div>
                                     <div class="d-print-none mt-3">
+                                        <div class="float-start">
+                                            <input type="number" class="form-control" placeholder="Efectivo">
+                                            <input type="number" class="form-control" placeholder="Saldo">
+                                        </div>
+
                                         <div class="float-end">
                                             <a href="#" class="btn btn-success w-md waves-effect waves-light" id="crearVenta"> Guardar</a>
                                         </div>
@@ -706,6 +729,12 @@
 </script>
 
 <script>
+    $('input[name="metodo_pago_V"]').change(function() {
+        var radioSeleccionado = $('input[name="metodo_pago_V"]:checked').val();
+        console.log('El radio seleccionado es: ' + radioSeleccionado);
+    });
+
+
     var nombre = <?php echo json_encode($_SESSION['nombre_U']); ?>;
     var fkIdSucursal = <?php echo json_encode($_SESSION['fk_id_sucursal']); ?>;
     var rol = <?php echo json_encode($_SESSION['area_U']); ?>;
@@ -739,8 +768,22 @@
             $("#contado").parent().hide();
             $("#transferencia").parent().hide();
             $("#E_T").parent().hide();
+            var cabeceraTabla = $('#tabla-ventas thead tr');
+            cabeceraTabla.empty();
+
+            // Agregar las columnas comunes
+            cabeceraTabla.append(`<th style="width: 70px;">No.</th> <th style="width: 70px;">ID.</th>  <th>Item</th>  <th class="text-end" style="width: 120px;">Precio</th>,<th class="text-end" style="width: 120px;">Cantidad</th>`);
+
+            cabeceraTabla.append('<th class="text-end" style="width: 120px;">Entrega</th>');
+
+            // Agregar las columnas restantes
+            cabeceraTabla.append(`
+                                    <th class="text-end" style="width: 120px;">Sub Total</th>
+                                    <th class="text-end" style="width: 120px;"></th>Eliminar
+                                `);
 
         });
+
         $("#venta").change(function() {
             $("#cancelado").parent().show();
             $("#por_pagar").parent().show();
@@ -759,9 +802,63 @@
             }
         });
 
-        //ANCHOR - data tables de articulos
+        ///=========================METODOS DE PAGO
+        $("#transferencia_V").parent().hide();
+
+        $("#contado").change(function() {
+            $("#efectivo_V").parent().show();
+            $("#transferencia_V").parent().hide();
+            $('#efectivo_V').val(0);
+            $('#transferencia_V').val(0);
+        });
+
+        $("#transferencia").change(function() {
+            $("#efectivo_V").parent().hide();
+            $("#transferencia_V").parent().show();
+            $('#efectivo_V').val(0);
+            $('#transferencia_V').val(0);
+        });
+
+        $("#E_T").change(function() {
+            $("#efectivo_V").parent().show();
+            $("#transferencia_V").parent().show();
+            $('#efectivo_V').val(0);
+            $('#transferencia_V').val(0);
+        });
+
+        //=================CALCULANDO CAMBIOS Y SALDOS 
+        $('#efectivo_V').val(0);
+        $('#transferencia_V').val(0);
+
+        $('#efectivo_V, #transferencia_V').on('input', function() {
+
+
+            var efectivo = $('#efectivo_V').val();
+            var transferencia = $('#transferencia_V').val();
+            var importe = $('#importe_V').val();
+            var pago = parseFloat(efectivo) + parseFloat(transferencia);
+            var saldo = importe - pago;
+            var cambio = pago - importe;
+            console.log(pago)
+
+
+            if (pago > importe) {
+                $('#cambio_V').text(cambio.toFixed(2));
+                $('#saldo_V').text(0);
+            }
+
+            if (pago <= importe) {
+                $('#saldo_V').text(saldo.toFixed(2));
+                $('#cambio_V').text(0);
+            }
+        })
+
+
+
+        //ANCHOR - data tables de articulos ============================================================
         var tableArticulos = $('#datatable-articulos').DataTable({
             lengthChange: false,
+            cache: false,
             ajax: {
                 url: './controllers/ArticulosControllers.php?action=obtenerArticulos',
                 dataSrc: ''
@@ -934,7 +1031,7 @@
 
 
 
-        //NOTE - llamada a las ventas
+        //NOTE - llamada a las ventas =================================================
         var tableVentas = $('#datatable-ventas').DataTable({
             lengthChange: false,
             order: [
@@ -1023,7 +1120,9 @@
                     data: null,
                     render: function(data, type, row) {
 
-                        return `<div>
+
+                        if (data.tipo_V == "venta") {
+                            return `<div>
                                         <a href="pdfs/nota_venta.php?id_venta=${data.id_venta}" target="_blank">
                                           <button type="button" class="btn
                                                     btn-soft-light btn-sm w-xs
@@ -1034,6 +1133,21 @@
                                             </button>
                                         </a>
                                     </div>`;
+
+                        } else {
+                            return `<div>
+                                        <a href="pdfs/proforma.php?id_venta=${data.id_venta}" target="_blank">
+                                          <button type="button" class="btn
+                                                    btn-soft-light btn-sm w-xs
+                                                    waves-effect btn-label
+                                                    waves-light"><i class="bx
+                                                        bx-download label-icon"></i> 
+                                                Pdf ${data.impreso_V}
+                                            </button>
+                                        </a>
+                                    </div>`;
+
+                        }
                     }
                 },
 
@@ -1068,7 +1182,8 @@
         var descripcion = data.descripcion_A;
         var precio_neto = data.precio_neto_A;
         var precio_venta = 0;
-        var cantidad_venta = 1;
+        var cantidad_venta = 1
+        var entrega = "inmediata"
 
         var facturado = $("#switch3").prop("checked");
         console.log('esta facturado ' + facturado);
@@ -1096,9 +1211,12 @@
         if ('cantidad_venta' in data) {
             cantidad_venta = data.cantidad_venta;
         }
+        if ('entrega' in data) {
+            entrega = data.entrega;
+        }
         var precio_unitario = precio_venta / data.cantidad_A;
         precio_unitario = parseFloat(precio_unitario.toFixed(2));
-
+        var entrega = "inmediata"
         var producto = {
             id_articulo: id,
             codigo_A: codigo,
@@ -1113,11 +1231,12 @@
             precio_venta: precio_unitario,
             cantidad_venta: cantidad_venta,
             sub_total: precio_unitario * cantidad_venta,
+            entrega: entrega
         }
 
         console.log(producto)
         carrito.push(producto)
-
+        var proforma = $('#proforma').prop('checked')
         let nuevaFila = `
                 <tr>
                   <style>
@@ -1130,17 +1249,22 @@
                     </style>
                         <th scope="row">${carrito.length}</th>
                         <td style="display: none;">
-                            <p class="font-size-13 text-muted mb-0 id" value="">${producto.id_articulo}</p>
+                            <p class="font-size-11 text-muted mb-0 id" value="">${producto.id_articulo}</p>
                         </td>
                         <td>
-                            <p class="font-size-13 text-muted mb-0 codigo" value="">${producto.codigo_A}</p>
+                            <p class="font-size-11 text-muted mb-0 codigo" value="">${producto.codigo_A}</p>
                         </td>
                         <td class="descripcion-cell ">
-                            <p class="font-size-13 text-muted mb-0" value="">${descripcion.detalle} </p>
+                            <p class="font-size-11 text-muted mb-0" value="">${descripcion.detalle} </p>
                         </td>
                         <td > <input type="number" step="any" class="form-control price" step="0.01" value="${producto.precio_venta}"></td>
-                        <td > <input type="number" class="form-control quantity"  value="${cantidad_venta}" min="1" max="${producto.stock_A}">  </td>
-                        <td class="text-end subtotal" value="">${producto.sub_total}</td>
+                        <td > <input type="number" class="form-control quantity"  value="${cantidad_venta}" min="1" max="${producto.stock_A}">  </td>`
+        if (proforma) {
+
+            nuevaFila += `<td > <input type="text"  class="form-control entrega" value="${producto.entrega}"></td>`
+        }
+
+        nuevaFila += `<td class="text-end subtotal" value="">${producto.sub_total}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" step="0.01" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
         $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
@@ -1190,7 +1314,7 @@
 
 
     // Escuchar cambios en los campos de precio y cantidad
-    $('#tabla-ventas').on('input', '.price, .quantity', function() {
+    $('#tabla-ventas').on('input', '.price, .quantity, .entrega', function() {
         var facturado = $('#switch3').prop("checked");
         var tipo_V = $('input[name="tipo_V"]:checked').val();
         console.log(tipo_V)
@@ -1199,6 +1323,8 @@
         let price = parseFloat(row.find('.price').val());
         let quantity = parseFloat(row.find('.quantity').val());
         var sub_total = quantity * price;
+        var entrega = row.find('.entrega').val();
+
         sub_total = parseFloat(sub_total.toFixed(3));
         var productoExistente = carrito.find(item => item.id_articulo == id);
 
@@ -1206,6 +1332,7 @@
             // Actualizar el producto existente
             productoExistente.precio_venta = price;
             productoExistente.cantidad_venta = quantity;
+            productoExistente.entrega = entrega
             productoExistente.sub_total = sub_total;
             row.find('.subtotal').text(sub_total);
         }
@@ -1225,7 +1352,7 @@
             }
 
         }
-        //console.log(carrito);
+        console.log(carrito);
         calcularTotal();
     });
 
@@ -1381,7 +1508,7 @@
             dataType: 'json',
             cache: false,
             success: function(response) {
-                var detalle_V = JSON.parse(response.detalle_V) 
+                var detalle_V = JSON.parse(response.detalle_V)
                 detalle_V.forEach(function(producto) {
                     $.ajax({
                         type: 'POST',
@@ -1498,42 +1625,7 @@
 
 
 
-    $(document).ready(function() {
-        $('input[name="metodo_pago_V"]').change(function() {
-            if ($(this).val() === 'E_T') {
-                Swal.fire({
-                    title: '¿Monto de Transferencia?',
-                    html: '<input type="number" step="0.01" id="montoTranferencia" class="swal2-input" placeholder="Transferencia"><input type="number" step="0.01" id="montoEfectivo" class="swal2-input" placeholder="Efectivo">',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Sí, Pagar',
-                    cancelButtonText: 'Cancelar',
-                    preConfirm: function() {
-                        return new Promise(function(resolve) {
-                            resolve({
-                                montoTransferencia: $('#montoTranferencia').val(),
-                                montoEfectivo: $('#montoEfectivo').val()
 
-                            });
-                        });
-                    }
-                }).then(function(result) {
-                    if (result.isConfirmed) {
-                        console.log(result.value.montoTransferencia)
-                        console.log(result.value.montoEfectivo)
-                        $('#transferencia_V').val(result.value.montoTransferencia),
-                            $('#efectivo_V').val(result.value.montoEfectivo)
-
-                    }
-                });
-            } else {
-                // Ocultar el modal si se selecciona otra opción
-                $('#etModal').modal('hide');
-            }
-        });
-    });
 
 
 
@@ -1644,10 +1736,7 @@
         e.preventDefault();
 
         var formData = new FormData($("#formCrearCliente")[0]);
-        var imageFiles = $(".dropzone")[0].dropzone.getAcceptedFiles();
-        for (var i = 0; i < imageFiles.length; i++) {
-            formData.append("imagenes[]", imageFiles[i]);
-        }
+
 
         $.ajax({
             type: "POST",

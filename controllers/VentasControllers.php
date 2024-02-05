@@ -19,19 +19,34 @@ class VentaController
       // echo '<pre>';
       // print_r($_POST);
       // echo '</pre>';
-
+      // exit();
       $detalle_V = json_decode($_POST['detalle_V'], true);
-      if($_POST['tipo_V'] == "pedido" || $_POST['tipo_V'] == "proforma"){
-         $_POST['estado_V'] = 'por pagar';
-      }else{
-         $_POST['monto_V'] =   $_POST['importe_V'];
+      $estado_V = $_POST['estado_V'];
+      $metodo_pago_V = $_POST['metodo_pago_V'];
+      $importe_V = $_POST['importe_V'];
+      $efectivo_V = $_POST['efectivo_V'];
+      $transferencia_V = $_POST['transferencia_V'];
+
+
+      if( $_POST['tipo_V'] == "venta" ){
+         $pago = $efectivo_V + $transferencia_V;
+         
+         if($pago < $importe_V){
+            
+            $_POST['estado_V'] = 'por pagar';
+            $_POST['monto_V'] =   $pago;
+         }else {
+            $_POST['estado_V'] = 'cancelado';
+            $_POST['monto_V'] =   $_POST['importe_V'];
+         }
+         
       }
 
-      if( $_POST['estado_V'] == "cancelado"){
-         $_POST['monto_V'] =   $_POST['importe_V'];
-      }else{
-         $_POST['monto_V'] =   0;
+      if( $_POST['tipo_V'] == "proforma"){
+
+         $_POST['estado_V'] = 'por pagar';
       }
+
 
       if($_POST['metodo_pago_V'] == 'trasnferencia' || $_POST['metodo_pago_V'] == "E_T"){
         $_POST['verificado_V'] = "NO";

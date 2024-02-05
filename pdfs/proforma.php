@@ -37,16 +37,16 @@ class imprimirFactura
 
 
 		$bloque1 = <<<EOF
-						<table style="border-collapse: collapse;">
+						<table style="border-collapse: collapse;  ">
 							<tr style="font-size: 10px;">
 								<td  style=" width: 120px;height: 90px;  background-color: white; padding: 3px; text-align: center; vertical-align: middle">
 									<img src="logo.png"  style="margin-top: 1000px; display: inline-line;">
 								</td>
 								<td style="font-size: 13px; background-color: white; width: 300px; ">
 									<div style="font-size: 8.5px; text-align: center;  font-size: 11px;">
-										<h5 style=" line-height: 5px;">Direccion: $sucursal[direccion_S]</h5>
-										<h5 style=" line-height: 5px;">Telefono: $sucursal[telefono_S]-67200205</h5>
-										<h5 style=" line-height: 5px;">NIT: 3099512</h5>
+										<h5 style=" line-height: 5px;"> Direccion: $sucursal[direccion_S]</h5>
+										<h5 style=" line-height: 5px;"> Telefono: $sucursal[telefono_S]-67200205</h5>
+								        <h5 style=" line-height: 5px;"> NIT: 3099512</h5>
 								        <h5 style=" line-height: 5px;">Correo: adolfoblacutt@hotmail.com</h5>
 									</div>
 								</td>
@@ -66,15 +66,14 @@ class imprimirFactura
 		if (is_array($venta)) {
 			$titulo = '';
 			$validez = '';
-			if ($tipo_V == 'venta') {
-				if ($estado_V == 'por pagar') {
-					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTA (por pagar)</td>';
-					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"> Hora: $hora </td>';
-				} else {
-					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTA (cancelado)</td>';
-					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px">  Hora: ' . $hora . ' </td>';
-				}
+
+			if ($tipo_V == 'proforma') {
+				$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">PROFORMA</td>';
+				$validez = '<td style="border: 1px solid #666; background-color:white; width:150px">Validez: 15 dias Calendario</td>';
 			}
+
+			
+
 
 			$bloque2 = <<<EOF
 
@@ -100,7 +99,7 @@ class imprimirFactura
 
 								</td>
 
-								<td style="border: 1px solid #666; background-color:white; width:150px; ">
+								<td style="border: 1px solid #666; background-color:white; width:150px; text-align:right">
 								
 									Fecha: $fecha
 
@@ -138,12 +137,13 @@ class imprimirFactura
 					<table style="font-size:10px; padding:5px 10px;">
 
 						<tr>
-						<td style="border: 1px solid #666; background-color:white; width:90px; text-align:center">Codigo</td>
-						<td style="border: 1px solid #666; background-color:white; width:190px; text-align:center">Producto</td>
-						<td style="border: 1px solid #666; background-color:white; width:80px; text-align:center">Imagen</td>
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Cantidad</td>
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Valor Unit.</td>
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Valor Total</td>
+						<td style="border: 1px solid #666; background-color:white; width:80px; text-align:center">Codigo</td>
+						<td style="border: 1px solid #666; background-color:white; width:180px; text-align:center">Producto</td>
+						<td style="border: 1px solid #666; background-color:white; width:70px; text-align:center">Imagen</td>
+						<td style="border: 1px solid #666; background-color:white; width:50px; text-align:center">Cantidad</td>
+						<td style="border: 1px solid #666; background-color:white; width:50px; text-align:center">Valor Unit.</td>
+						<td style="border: 1px solid #666; background-color:white; width:50px; text-align:center">Valor Total</td>
+						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Entrega</td>
 						</tr>
 
 					</table>
@@ -161,7 +161,7 @@ class imprimirFactura
 			$des = json_decode($cc['descripcion_A'], true);
 			$img = json_decode($cc['imagenes_A'], true);
 			$imgNombre = urlencode($img[0]);
-			$urlImg = '../controllers/uploads/products/' . $img[0];
+			$urlImg = '../controllers/uploads/products/'.$img[0];
 
 			$valorUnitario = number_format($item["precio_venta"], 2);
 			$precioTotal = number_format($item["sub_total"], 2);
@@ -171,34 +171,38 @@ class imprimirFactura
 				<table style="font-size:9px; padding:5px 10px;">
 
 					<tr>
-						<td style="border: 1px solid #666; background-color:white; width:90px; text-align:center">
+						<td style="border: 1px solid #666; background-color:white; width:80px; text-align:center">
 							$cc[codigo_A]
 						</td>
 
-						<td style="border: 1px solid #666; background-color: white; width: 190px; text-align: center; display: flex; align-items: flex-start;">
+						<td style="border: 1px solid #666; background-color: white; width: 180px; text-align: center; display: flex; align-items: flex-start;">
 							
 								$des[detalle]
 							
 						</td>
 
-						<td style="border: 1px solid #666; background-color: white; width: 80px; text-align: center; display: flex; align-items: flex-start;">
+						<td style="border: 1px solid #666; background-color: white; width: 70px; text-align: center; display: flex; align-items: flex-start;">
 							
 								<img height="50px" src="$urlImg" style="display: block;">
 						</td>
 
 
-						<td style="border: 1px solid #666;  background-color:white; width:60px; text-align:center">
+						<td style="border: 1px solid #666;  background-color:white; width:50px; text-align:center">
 							$item[cantidad_venta]
 						</td>
 
-						<td style="border: 1px solid #666;  background-color:white; width:60px; text-align:center">Bs
+						<td style="border: 1px solid #666;  background-color:white; width:50px; text-align:center">Bs
 							$valorUnitario
 						</td>
 						
 						
 
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Bs 
+						<td style="border: 1px solid #666; background-color:white; width:50px; text-align:center">Bs 
 							$precioTotal
+						</td>
+						
+						<td style="border: 1px solid #666;  background-color:white; width:60px; text-align:center">
+							$item[entrega]
 						</td>
 
 
@@ -213,73 +217,6 @@ class imprimirFactura
 		}
 
 		// ---------------------------------------------------------
-		$bloque5 = <<<EOF
-
-		<table style="font-size:13px; padding:5px 10px;">
-
-			<tr>
-
-				<td style="background-color:white; width:340px; text-align:center"></td>
-
-				<td style="border-bottom: 1px solid #666; background-color:white; width:100px; text-align:center"></td>
-
-				<td style="border-bottom: 1px solid #666;  background-color:white; width:100px; text-align:center"></td>
-
-			</tr>
-			
-
-
-			<tr>
-			
-				<td style="border-right: 1px solid #666;  background-color:white; width:340px; text-align:center"></td>
-
-				<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">
-					Total:
-				</td>
-				
-				<td style="border: 1px solid #666;  background-color:white; width:100px; text-align:center">
-					Bs $costo
-				</td>
-
-			</tr>
-			<tr>
-			
-				<td style="width:140px"><img src="images/back.jpg"></td>
-				<td style="width:140px"><img src="images/back.jpg"></td>
-			
-			
-			</tr>
-			<tr>
-			
-			<td style="width:140px"><img src="images/back.jpg"></td>
-			<td style="width:140px"><img src="images/back.jpg"></td>
-		
-		
-		</tr>
-		<tr>
-			
-		<td style="width:140px"><img src="images/back.jpg"></td>
-		<td style="width:140px"><img src="images/back.jpg"></td>
-
-
-	</tr>
-			
-			<tr>
-			
-				<td style="width:140px"><img src="images/back.jpg"></td>
-				<td style="width:140px"><img src="images/back.jpg"></td>
-				<td style="width:340px; color:#153959; font-size: 15px; font-weight: bold;">   !Gracias por su preferencia!!!!!</td>
-			
-			</tr>
-
-			
-
-
-		</table>
-
-	EOF;
-
-		$pdf->writeHTML($bloque5, false, false, false, false, '');
 
 
 
@@ -290,22 +227,28 @@ class imprimirFactura
 						<table style="font-size:11px; padding:5px 10px;">
 							
 									<tr>
-									
-										<td style="width:140px"><img src="images/back.jpg"></td>
-										<td style="width:140px"><img src="images/back.jpg"></td>
-		
+							
+										<td style="background-color:white; width:340px; text-align:center"></td>
+							
+										<td style="border-bottom: 1px solid #666; background-color:white; width:100px; text-align:center"></td>
+							
+										<td style="border-bottom: 1px solid #666;  background-color:white; width:100px; text-align:center"></td>
+							
 									</tr>
-
 									
 									<tr>
 									
 										<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
 						
-										<td style="border: 1px solid #666;  background-color:white; width:400px; text-align:center">
+										<td style="border: 1px solid #666;  background-color:white; width:200px; text-align:center">
 											Metodo de Pago:
 										</td>
+							
+										<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
+										$metodepago
+										</td>
+							
 									</tr>
-									
 									<tr>
 									
 										<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
@@ -339,61 +282,73 @@ class imprimirFactura
 		$pdf->writeHTML($bloque55, false, false, false, false, '');
 
 
+		$bloque5 = <<<EOF
+
+					<table style="font-size:13px; padding:5px 10px;">
+
+						<tr>
+
+							<td style="background-color:white; width:340px; text-align:center"></td>
+
+							<td style="border-bottom: 1px solid #666; background-color:white; width:100px; text-align:center"></td>
+
+							<td style="border-bottom: 1px solid #666;  background-color:white; width:100px; text-align:center"></td>
+
+						</tr>
+						
 
 
-		$saldo = $venta['importe_V'] - $venta['monto_V'];
-		$bloque555 = <<<EOF
+						<tr>
+						
+							<td style="border-right: 1px solid #666;  background-color:white; width:340px; text-align:center"></td>
 
-						<table style="font-size:11px; padding:5px 10px;">
+							<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">
+								Total:
+							</td>
 							
-									<tr>
-									
-										<td style="width:140px"><img src="images/back.jpg"></td>
-										<td style="width:140px"><img src="images/back.jpg"></td>
-		
-									</tr>
+							<td style="border: 1px solid #666;  background-color:white; width:100px; text-align:center">
+								Bs $costo
+							</td>
 
-									
-									<tr>
-									
-										<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
+						</tr>
+						<tr>
 						
-										<td style="border: 1px solid #666;  background-color:white; width:400px; text-align:center">
-											Pagos
-										</td>
-									</tr>
-									
-									<tr>
-									
-										<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
+							<td style="width:140px"><img src="images/back.jpg"></td>
+							<td style="width:140px"><img src="images/back.jpg"></td>
 						
-										<td style="border: 1px solid #666;  background-color:white; width:200px; text-align:center">
-											A cuenta:
-										</td>
-							
-										<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-										$venta[monto_V]
-										</td>
-							
-									</tr>
-									<tr>
-									
-										<td style="border-right: 1px solid #666;  background-color:white; width:140px; text-align:center"></td>
 						
-										<td style="border: 1px solid #666;  background-color:white; width:200px; text-align:center">
-											Saldo:
-										</td>
-							
-										<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-										$saldo
-										</td>
-							
-									</tr>
+						</tr>
+						<tr>
 						
-							</table> 
+						<td style="width:140px"><img src="images/back.jpg"></td>
+						<td style="width:140px"><img src="images/back.jpg"></td>
+					
+					
+					</tr>
+					<tr>
+						
+					<td style="width:140px"><img src="images/back.jpg"></td>
+					<td style="width:140px"><img src="images/back.jpg"></td>
+
+
+				</tr>
+						
+						<tr>
+						
+							<td style="width:140px"><img src="images/back.jpg"></td>
+							<td style="width:140px"><img src="images/back.jpg"></td>
+							<td style="width:340px; color:#153959; font-size: 15px; font-weight: bold;">   !Gracias por su preferencia!!!!!</td>
+						
+						</tr>
+
+						
+
+
+					</table>
+
 				EOF;
 
-		$pdf->writeHTML($bloque555, false, false, false, false, '');
+		$pdf->writeHTML($bloque5, false, false, false, false, '');
 
 
 
