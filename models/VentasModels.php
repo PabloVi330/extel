@@ -34,7 +34,7 @@ class VentaModel
             $stmt->bindParam(':facturado_V', $data['facturado_V'], PDO::PARAM_INT);
             $stmt->bindParam(':tipo_V', $data['tipo_V'], PDO::PARAM_STR);
             $stmt->bindParam(':estado_V', $data['estado_V'], PDO::PARAM_STR);
-            $stmt->bindParam(':monto_V', $data['monto_V'], PDO::PARAM_INT);
+            $stmt->bindParam(':monto_V', $data['monto_V'], PDO::PARAM_STR);
 
             $stmt->execute();
 
@@ -69,8 +69,9 @@ class VentaModel
                            ORDER BY v.id_venta DESC";
                 $stmt = $this->conn->query($query);
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
             } catch (PDOException $e) {
-                return false;
+                return $e->getMessage();
             }
         } else {
             try {

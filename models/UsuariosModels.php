@@ -100,6 +100,7 @@ class UsuarioModel
                     fk_id_sucursal = :fk_id_sucursal,
                     usuario_U = :usuario_U,
                     nombre_U = :nombre_U,
+                    ci_U = :ci_U,
                     area_U = :area_U,
                     tipo_U = :tipo_U,
                     correo_U = :correo_U,
@@ -113,6 +114,7 @@ class UsuarioModel
             $stmt->bindParam(':fk_id_sucursal', $data['Esucursal_U']);
             $stmt->bindParam(':usuario_U', $data['Eusuario_U']);
             $stmt->bindParam(':nombre_U', $data['Enombre_U']);
+            $stmt->bindParam(':ci_U', $data['Eci_U']);
             $stmt->bindParam(':area_U', $data['Earea_U']);
             $stmt->bindParam(':tipo_U', $data['Etipo_U']);
             $stmt->bindParam(':correo_U', $data['Ecorreo_U']);

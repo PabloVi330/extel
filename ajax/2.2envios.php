@@ -35,17 +35,24 @@ session_start();
 </style>
 
 <style>
-    /* Estilos para la impresión */
-    @media print {
-        .detalles {
-            visibility: hidden;
-            width: 0
-        }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-        .compras {
-            margin-left: 0;
-        }
+    input[type=number] {
+        -moz-appearance: textfield;
+        /* Firefox */
+    }
 
+    .compatibilidad-cell {
+        max-height: 40px;
+        /* Establece la altura máxima deseada */
+        overflow: hidden;
+        /* Oculta el texto que se desborda */
+        word-wrap: break-word;
+        /* Permite que el texto se envuelva dentro de la caja si es necesario */
     }
 </style>
 <div class="page-content">
@@ -58,13 +65,13 @@ session_start();
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center
                     justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">Envios</h4>
+                    <h4 class="mb-sm-0 font-size-18">Traspasos</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript:
                                     void(0);">Movimientos</a></li>
-                            <li class="breadcrumb-item active">Envios</li>
+                            <li class="breadcrumb-item active">Traspasos</li>
                         </ol>
                     </div>
 
@@ -81,7 +88,7 @@ session_start();
 
                     <div class="mail-list mt-4">
                         <form action="" class="form-control" id="formEnvios">
-                             <h5>Datos de Envio</h5>
+                            <h5>Datos de Traspasos</h5>
                             <div class="mb-3">
                                 <div class="mb-3">
                                     <label for="fk_id_sucursal1" class="form-label font-size-13 text-muted">Almacen Origen</label>
@@ -138,7 +145,7 @@ session_start();
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <div class="mb-4">
-                                                    <h4 class="float-end font-size-16">Envio # <span id="numeroEnvio">123</span></h4>
+                                                    <h4 class="float-end font-size-16">Traspasos # <span id="numeroEnvio">123</span></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -319,7 +326,6 @@ session_start();
                                     <th>Responsable</th>
                                     <th>Fecha</th>
                                     <th>Total</th>
-                                    <th>tipo</th>
                                     <th>Estado</th>
                                     <th>Responder</th>
                                     <th>Impreso</th>
@@ -638,17 +644,6 @@ session_start();
                 {
                     data: null,
                     render: function(data, type, row) {
-                        if (data.tipo_E == 0) {
-                            return `<div class="badge badge-soft-info font-size-12">Sin Costo</div>`;
-                        } else {
-                            return `<div class="badge badge-soft-success ont-size-12">Costo</div>`
-                        }
-
-                    }
-                },
-                {
-                    data: null,
-                    render: function(data, type, row) {
                         if (data.estado_E == 0) {
                             return `<div class="badge badge-soft-warning font-size-12">Enviado</div>`;
                         } else {
@@ -735,6 +730,9 @@ session_start();
         }
         $('#total').text(total);
         $('#total_E').val(total);
+        $('input[type="number"]').on('wheel', function(e) {
+            e.preventDefault();
+        });
     }
     // Función para agregar una nueva fila de producto al carrito
     function agregarFila(data) {
@@ -941,7 +939,7 @@ session_start();
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
+            confirmButtonText: 'Sí, ',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {

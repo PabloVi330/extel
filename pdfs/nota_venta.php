@@ -21,7 +21,7 @@ class imprimirFactura
 		$ventasModels->imprimirVenta($id_venta);
 		$detalle = json_decode($venta['detalle_V'], true);
 		$tipo_V = $venta['tipo_V'];
-		$costo = $venta['importe_V'];
+		$total_V = number_format($venta['importe_V'], 2 , ',', '.');
 		$estado_V = $venta['estado_V'];
 
 		$timestamp = strtotime($venta['fecha_V']);
@@ -69,7 +69,7 @@ class imprimirFactura
 			if ($tipo_V == 'venta') {
 				if ($estado_V == 'por pagar') {
 					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTA (por pagar)</td>';
-					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"> Hora: $hora </td>';
+					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px"> Hora: ' . $hora . ' </td>';
 				} else {
 					$titulo = '<td style="width:340px; color:#153959; font-size: 20px; font-weight: bold;">NOTA DE VENTA (cancelado)</td>';
 					$validez = '<td style="border: 1px solid #666; background-color:white; width:150px">  Hora: ' . $hora . ' </td>';
@@ -138,12 +138,11 @@ class imprimirFactura
 					<table style="font-size:10px; padding:5px 10px;">
 
 						<tr>
-						<td style="border: 1px solid #666; background-color:white; width:90px; text-align:center">Codigo</td>
-						<td style="border: 1px solid #666; background-color:white; width:190px; text-align:center">Producto</td>
-						<td style="border: 1px solid #666; background-color:white; width:80px; text-align:center">Imagen</td>
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Cantidad</td>
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Valor Unit.</td>
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Valor Total</td>
+						<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">Codigo</td>
+						<td style="border: 1px solid #666; background-color:white; width:230px; text-align:center">Producto</td>
+						<td style="border: 1px solid #666; background-color:white; width:70px; text-align:center">Cantidad</td>
+						<td style="border: 1px solid #666; background-color:white; width:70px; text-align:center">Valor Unit.</td>
+						<td style="border: 1px solid #666; background-color:white; width:70px; text-align:center">Valor Total</td>
 						</tr>
 
 					</table>
@@ -163,41 +162,39 @@ class imprimirFactura
 			$imgNombre = urlencode($img[0]);
 			$urlImg = '../controllers/uploads/products/' . $img[0];
 
-			$valorUnitario = number_format($item["precio_venta"], 2);
-			$precioTotal = number_format($item["sub_total"], 2);
+			$valorUnitario = number_format($item["precio_venta"], 2, ',', '.');
+			$precioTotal = number_format($item["sub_total"], 2 , ',', '.');
+			
 
 			$bloque4 = <<<EOF
 			
 				<table style="font-size:9px; padding:5px 10px;">
 
 					<tr>
-						<td style="border: 1px solid #666; background-color:white; width:90px; text-align:center">
+						<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">
 							$cc[codigo_A]
 						</td>
 
-						<td style="border: 1px solid #666; background-color: white; width: 190px; text-align: center; display: flex; align-items: flex-start;">
+						<td style="border: 1px solid #666; background-color: white; width: 230px; text-align: center; display: flex; align-items: flex-start;">
 							
 								$des[detalle]
 							
 						</td>
 
-						<td style="border: 1px solid #666; background-color: white; width: 80px; text-align: center; display: flex; align-items: flex-start;">
-							
-								<img height="50px" src="$urlImg" style="display: block;">
-						</td>
+					
 
 
-						<td style="border: 1px solid #666;  background-color:white; width:60px; text-align:center">
+						<td style="border: 1px solid #666;  background-color:white; width:70px; text-align:center">
 							$item[cantidad_venta]
 						</td>
 
-						<td style="border: 1px solid #666;  background-color:white; width:60px; text-align:center">Bs
+						<td style="border: 1px solid #666;  background-color:white; width:70px; text-align:center">Bs
 							$valorUnitario
 						</td>
 						
 						
 
-						<td style="border: 1px solid #666; background-color:white; width:60px; text-align:center">Bs 
+						<td style="border: 1px solid #666; background-color:white; width:70px; text-align:center">Bs 
 							$precioTotal
 						</td>
 
@@ -238,42 +235,10 @@ class imprimirFactura
 				</td>
 				
 				<td style="border: 1px solid #666;  background-color:white; width:100px; text-align:center">
-					Bs $costo
+					Bs $total_V
 				</td>
 
 			</tr>
-			<tr>
-			
-				<td style="width:140px"><img src="images/back.jpg"></td>
-				<td style="width:140px"><img src="images/back.jpg"></td>
-			
-			
-			</tr>
-			<tr>
-			
-			<td style="width:140px"><img src="images/back.jpg"></td>
-			<td style="width:140px"><img src="images/back.jpg"></td>
-		
-		
-		</tr>
-		<tr>
-			
-		<td style="width:140px"><img src="images/back.jpg"></td>
-		<td style="width:140px"><img src="images/back.jpg"></td>
-
-
-	</tr>
-			
-			<tr>
-			
-				<td style="width:140px"><img src="images/back.jpg"></td>
-				<td style="width:140px"><img src="images/back.jpg"></td>
-				<td style="width:340px; color:#153959; font-size: 15px; font-weight: bold;">   !Gracias por su preferencia!!!!!</td>
-			
-			</tr>
-
-			
-
 
 		</table>
 
@@ -285,6 +250,8 @@ class imprimirFactura
 
 		// ---------------------------------------------------------
 		$metodepago =  $venta['metodo_pago_V'];
+		$efectivo_V = number_format($venta['efectivo_V'], 2 , ',', '.');
+		$transferencia_V = number_format($venta['transferencia_V'], 2 , ',', '.');
 		$bloque55 = <<<EOF
 
 						<table style="font-size:11px; padding:5px 10px;">
@@ -315,7 +282,7 @@ class imprimirFactura
 										</td>
 							
 										<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-										$venta[efectivo_V]
+										$efectivo_V
 										</td>
 							
 									</tr>
@@ -328,7 +295,7 @@ class imprimirFactura
 										</td>
 							
 										<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-										$venta[transferencia_V]
+										$transferencia_V
 										</td>
 							
 									</tr>
@@ -342,6 +309,7 @@ class imprimirFactura
 
 
 		$saldo = $venta['importe_V'] - $venta['monto_V'];
+		$monto_V = number_format($venta['monto_V'], 2 , ',', '.');
 		$bloque555 = <<<EOF
 
 						<table style="font-size:11px; padding:5px 10px;">
@@ -372,7 +340,7 @@ class imprimirFactura
 										</td>
 							
 										<td style="border: 1px solid #666; background-color:white; width:200px; text-align:center">
-										$venta[monto_V]
+										$monto_V
 										</td>
 							
 									</tr>
@@ -389,6 +357,8 @@ class imprimirFactura
 										</td>
 							
 									</tr>
+
+									
 						
 							</table> 
 				EOF;

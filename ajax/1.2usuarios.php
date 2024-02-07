@@ -671,7 +671,7 @@
 
         $('#editarUsuario').click(function() {
             var estado_U = $('#switch3').prop('checked') ? 1 : 0;
-            $('#Eestado_U').val(estado_U);
+            $('#Eestado_U').val(estado_U); 
 
             var formData = new FormData($("#formEditarUsuario")[0]);
 

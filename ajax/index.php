@@ -59,6 +59,28 @@
         /* Cambia el color del texto */
     }
 </style>
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+        /* Firefox */
+    }
+
+    .compatibilidad-cell {
+        max-height: 40px;
+        /* Establece la altura máxima deseada */
+        overflow: hidden;
+        /* Oculta el texto que se desborda */
+        word-wrap: break-word;
+        /* Permite que el texto se envuelva dentro de la caja si es necesario */
+    }
+</style>
 <div class="page-content">
     <div class="container-fluid">
 
@@ -193,7 +215,7 @@
 
                             <div>
                                 <label for="switch3">Transferencia:</label>
-                                <input type="number" class="form-control" id="transferencia_V" name="transferencia_V">
+                                <input type="number" class="form-control" id="transferencia_V" step="0.00" name="transferencia_V">
                             </div>
                             <br>
                             <div>
@@ -280,25 +302,27 @@
                                                 <tbody>
 
 
+                                                    <tr>
+                                                        <th scope="row" colspan="6" class="border-0 text-end"></th>
+                                                        <td class="border-0 text-end">
 
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+
+                                                <tfoot>
                                                     <tr>
                                                         <th scope="row" colspan="6" class="border-0 text-end">Total</th>
                                                         <td class="border-0 text-end">
                                                             <h4 class="m-0" id="total">Bs 0.00</h4>
                                                         </td>
                                                     </tr>
-                                                </tbody>
-                                                <tfoot>
-
                                                 </tfoot>
                                             </table>
                                         </div>
                                     </div>
                                     <div class="d-print-none mt-3">
-                                        <div class="float-start">
-                                            <input type="number" class="form-control" placeholder="Efectivo">
-                                            <input type="number" class="form-control" placeholder="Saldo">
-                                        </div>
 
                                         <div class="float-end">
                                             <a href="#" class="btn btn-success w-md waves-effect waves-light" id="crearVenta"> Guardar</a>
@@ -758,9 +782,11 @@
     $(document).ready(function() {
 
 
+
         $("#cancelado").parent().show();
         $("#por_pagar").parent().show();
         $("#pedido").parent().hide();
+        $("#crearVenta").text('Guardar Venta');
 
         $("#proforma").change(function() {
             $("#cancelado").parent().hide();
@@ -768,6 +794,8 @@
             $("#contado").parent().hide();
             $("#transferencia").parent().hide();
             $("#E_T").parent().hide();
+            $("#crearVenta").text('Guardar Proforma');
+
             var cabeceraTabla = $('#tabla-ventas thead tr');
             cabeceraTabla.empty();
 
@@ -790,6 +818,7 @@
             $("#contado").parent().show();
             $("#transferencia").parent().show();
             $("#E_T").parent().show();
+            $("#crearVenta").text('Guardar Venta');
         });
 
         $('input[type="radio"]').change(function() {
@@ -1084,7 +1113,8 @@
                 {
                     data: null,
                     render: function(data, type, row) {
-                        var montoPagar = data.importe_V - data.monto_V
+                        var montoPagar = data.importe_V - data.monto_V;
+                        montoPagar = montoPagar.toFixed(2);
                         if (data.estado_V == 'cancelado') {
                             return `<div class="badge badge-soft-success font-size-12 " ><i class="fas fa-times"></i> Cancelado</div>`;
                         } else {
@@ -1164,6 +1194,10 @@
 
     var carrito = [];
 
+    function formatNumber(number) {
+        return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+
     function calcularTotal() {
         console.log('se esta sumando las ')
         let total = 0;
@@ -1171,9 +1205,14 @@
         for (var i = 0; i < carrito.length; i++) {
             total = total + parseFloat(carrito[i].sub_total);
         }
-        total = parseFloat(total.toFixed(2));
-        $('#total').text(total);
+
+        let formattedNumber = formatNumber(total);
+
+        $('#total').text(formattedNumber);
         $('#importe_V').val(total);
+        $('input[type="number"]').on('wheel', function(e) {
+            e.preventDefault();
+        });
     }
     // Función para agregar una nueva fila de producto al carrito
     function agregarFila(data) {
@@ -1249,7 +1288,7 @@
                     </style>
                         <th scope="row">${carrito.length}</th>
                         <td style="display: none;">
-                            <p class="font-size-11 text-muted mb-0 id" value="">${producto.id_articulo}</p>
+                            <p class="font-size-11 text-muted mb-0 id"  id="${producto.id_articulo}" value="">${producto.id_articulo}</p>
                         </td>
                         <td>
                             <p class="font-size-11 text-muted mb-0 codigo" value="">${producto.codigo_A}</p>
@@ -1359,13 +1398,15 @@
     // eliminar un producto del detalle de envio
     $('#tabla-ventas').on('click', '.btn-eliminar', function() {
         var id = $(this).attr('id');
+        console.log(id);
         $(this).closest('tr').remove();
         var btnAdd = $('#add' + id);
         btnAdd.prop('disabled', false);
         carrito = carrito.filter(function(producto) {
-            return producto.id != id;
+            return producto.id_articulo != id;
         })
         calcularTotal();
+        console.log(carrito);
     })
 
 
@@ -1383,18 +1424,19 @@
         $('#detalle_V').val(JSON.stringify(carrito));
         var formData = $('#formVentas').serialize();
         var detalleVenta = $('#detalle_V').val();
+        let selectedValue = $('input[name="tipo_V"]:checked').val();
         $.ajax({
             type: 'POST',
             url: './controllers/VentasControllers.php?action=crearVenta',
             data: formData,
             success: function(response) {
-
+                console.log(response);
                 if (response == '"ok"') {
 
                     Swal.fire({
                         icon: 'success',
                         title: 'Éxito',
-                        text: 'La venta se realizó con éxito',
+                        text: 'La ' + selectedValue + ' se guardo  con éxito',
                         confirmButtonText: 'Ok'
                     }).then((result) => {
                         if (result.isConfirmed) {
@@ -1483,10 +1525,13 @@
 
 
 
+
     //CONVERTIR PROFORMA A VENTA
     $("#datatable-ventas").on("click", ".convertirProforma", function(e) {
         e.preventDefault();
         var idVenta = $(this).attr('id');
+        carrito = [];
+        $('#tabla-ventas tbody tr').empty();
 
         Swal.fire({
             title: '¿Convertir a venta?',
@@ -1496,68 +1541,75 @@
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Sí',
             cancelButtonText: 'Cancelar',
-
-        })
-
-        $.ajax({
-            type: 'POST',
-            url: './controllers/VentasControllers.php?action=obtenerVentasPorId',
-            data: {
-                id_venta: idVenta,
-            },
-            dataType: 'json',
-            cache: false,
-            success: function(response) {
-                var detalle_V = JSON.parse(response.detalle_V)
-                detalle_V.forEach(function(producto) {
-                    $.ajax({
-                        type: 'POST',
-                        url: './controllers/ArticulosControllers.php?action=obtenerArticuloPorId',
-                        data: {
-                            id_articulo: producto.id_articulo
-                        },
-                        dataType: 'json',
-                        cache: false,
-                        success: function(response) {
-
-                            console.log('datos parseados' + response);
-                            producto.stock_A = response.stock_A
-                            agregarFila(producto);
-                        }
-                    })
-
-                });
-                detalle_V = [];
-                $(`#fk_id_cliente option[value=""]`).val(response.fk_id_cliente);
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
                     type: 'POST',
-                    url: './controllers/ClientesControllers.php?action=obtenerClientePorId',
+                    url: './controllers/VentasControllers.php?action=obtenerVentasPorId',
                     data: {
-                        id_cliente: response.fk_id_cliente
+                        id_venta: idVenta,
                     },
                     dataType: 'json',
                     cache: false,
                     success: function(response) {
-                        console.log('datos usuario' + response);
-                        $('#clasificacionCliente').val(response.clasificacion_Cl);
-                        $('#razonSocialNota').text(response.razon_social_Cl);
-                        $('#nitNota').text(response.nit_Cl);
-                        $('#codigoClienteNota').text(response.codigo_Cl);
+                        var detalle_V = JSON.parse(response.detalle_V)
+                        detalle_V.forEach(function(producto) {
+                            $.ajax({
+                                type: 'POST',
+                                url: './controllers/ArticulosControllers.php?action=obtenerArticuloPorId',
+                                data: {
+                                    id_articulo: producto.id_articulo
+                                },
+                                dataType: 'json',
+                                cache: false,
+                                success: function(response) {
+
+                                    console.log('datos parseados' + response);
+                                    producto.stock_A = response.stock_A
+                                    agregarFila(producto);
+                                }
+                            })
+
+                        });
+                        detalle_V = [];
+                        $(`#fk_id_cliente option[value=""]`).val(response.fk_id_cliente);
+                        $.ajax({
+                            type: 'POST',
+                            url: './controllers/ClientesControllers.php?action=obtenerClientePorId',
+                            data: {
+                                id_cliente: response.fk_id_cliente
+                            },
+                            dataType: 'json',
+                            cache: false,
+                            success: function(response) {
+                                console.log('datos usuario' + response);
+                                $('#clasificacionCliente').val(response.clasificacion_Cl);
+                                $('#razonSocialNota').text(response.razon_social_Cl);
+                                $('#nitNota').text(response.nit_Cl);
+                                $('#codigoClienteNota').text(response.codigo_Cl);
+                            },
+                            error: function(error) {
+                                console.log('Error en la petición AJAX usuarios por id:', error);
+                            }
+                        })
+
+
+
+
+
                     },
                     error: function(error) {
-                        console.log('Error en la petición AJAX usuarios por id:', error);
+                        console.log('Error en la petición AJAX:', error);
                     }
-                })
-
-
-
-
-
-            },
-            error: function(error) {
-                console.log('Error en la petición AJAX:', error);
+                });
+            } else {
+                // Aquí colocas el código que quieres ejecutar cuando el usuario cancela
+                console.log('El usuario canceló');
             }
         });
+
+
+
     });
 
     $("#datatable-ventas").on("click", ".btn-eliminar", function(e) {

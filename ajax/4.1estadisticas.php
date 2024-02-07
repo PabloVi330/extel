@@ -1,6 +1,6 @@
  <!-- plugin css -->
  <link href="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
-
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <div class="page-content">
      <div class="container-fluid">
 
@@ -9,13 +9,13 @@
              <div class="col-12">
                  <div class="page-title-box d-sm-flex align-items-center
                     justify-content-between">
-                     <h4 class="mb-sm-0 font-size-18">Dashboard</h4>
+                     <h4 class="mb-sm-0 font-size-18">Reportes</h4>
 
                      <div class="page-title-right">
                          <ol class="breadcrumb m-0">
                              <li class="breadcrumb-item"><a href="javascript:
-                                    void(0);">Minia</a></li>
-                             <li class="breadcrumb-item active">Dashboard</li>
+                                    void(0);">Red Extel </a></li>
+                             <li class="breadcrumb-item active">Reportes</li>
                          </ol>
                      </div>
 
@@ -224,6 +224,78 @@
          </div>
          <!-- end row-->
 
+
+
+         <div class="row">
+
+             <div class="col-xl-6">
+                 <!-- card -->
+                 <div class="card">
+                     <div class="card-body">
+                         <div class="d-flex flex-wrap align-items-center mb-4">
+                             <h5 class="card-title me-2">Productos mas vendidos segun cantidad</h5>
+                             <div class="ms-auto">
+                                 <div class="dropdown">
+                                     <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                         <span class="text-muted font-size-12">Sort By:</span> <span class="fw-medium">World<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                     </a>
+
+                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                         <a class="dropdown-item" href="" onclick="changeLocation('USA')">USA</a>
+                                         <a class="dropdown-item" href="" onclick="changeLocation('Russia')">Russia</a>
+                                         <a class="dropdown-item" href="" onclick="changeLocation('Australia')">Australia</a>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+
+                         <div>
+                             <!-- Contenedor del gráfico -->
+                             <canvas id="category-bar-chart" width="200" height="200"></canvas>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- end card -->
+             </div>
+
+
+             <div class="col-xl-6">
+                 <!-- card -->
+                 <div class="card">
+                     <div class="card-body">
+                         <div class="d-flex flex-wrap align-items-center mb-4">
+                             <h5 class="card-title me-2">Productos mas vendidos segun cantidad</h5>
+                             <div class="ms-auto">
+                                 <div class="dropdown">
+                                     <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                         <span class="text-muted font-size-12">Sort By:</span> <span class="fw-medium">World<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                     </a>
+
+                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                         <a class="dropdown-item" href="" onclick="changeLocation('USA')">USA</a>
+                                         <a class="dropdown-item" href="" onclick="changeLocation('Russia')">Russia</a>
+                                         <a class="dropdown-item" href="" onclick="changeLocation('Australia')">Australia</a>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+
+                         <div>
+                             <!-- Contenedor del gráfico -->
+                             <canvas id="vertical-bar-chart" width="200" height="200"></canvas>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- end card -->
+             </div>
+             <!-- end col -->
+         </div>
+
+
+
+
          <div class="row">
              <div class="col-xl-4">
                  <div class="card">
@@ -351,913 +423,7 @@
              </div>
              <!-- end col -->
 
-             <div class="col-xl-4">
-                 <div class="card">
-                     <div class="card-header align-items-center d-flex">
-                         <h4 class="card-title mb-0 flex-grow-1">Transactions</h4>
-                         <div class="flex-shrink-0">
-                             <ul class="nav justify-content-end nav-tabs-custom
-                                rounded card-header-tabs" role="tablist">
-                                 <li class="nav-item">
-                                     <a class="nav-link active" data-bs-toggle="tab" href="#transactions-all-tab" role="tab">
-                                         All
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a class="nav-link" data-bs-toggle="tab" href="#transactions-buy-tab" role="tab">
-                                         Buy
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a class="nav-link" data-bs-toggle="tab" href="#transactions-sell-tab" role="tab">
-                                         Sell
-                                     </a>
-                                 </li>
-                             </ul>
-                             <!-- end nav tabs -->
-                         </div>
-                     </div><!-- end card header -->
 
-                     <div class="card-body px-0">
-                         <div class="tab-content">
-                             <div class="tab-pane active" id="transactions-all-tab" role="tabpanel">
-                                 <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
-                                     <table class="table align-middle
-                                        table-nowrap table-borderless">
-                                         <tbody>
-                                             <tr>
-                                                 <td style="width: 50px;">
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">14
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.016 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$125.20</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">15
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.56 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$112.34</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy LTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">16
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">1.88 LTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$94.22</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">17
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.42 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$84.32</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">18
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.018 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$145.80</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td style="width: 50px;">
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">14
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.016 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$125.20</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">15
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.56 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$112.34</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-                                         </tbody>
-                                     </table>
-                                 </div>
-                             </div>
-                             <!-- end tab pane -->
-                             <div class="tab-pane" id="transactions-buy-tab" role="tabpanel">
-                                 <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
-                                     <table class="table align-middle
-                                        table-nowrap table-borderless">
-                                         <tbody>
-                                             <tr>
-                                                 <td style="width: 50px;">
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">14
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.016 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$125.20</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">18
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.018 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$145.80</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy LTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">16
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">1.88 LTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$94.22</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">15
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.56 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$112.34</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">17
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.42 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$84.32</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">15
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.56 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$112.34</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td style="width: 50px;">
-                                                     <div class="font-size-22
-                                                        text-success">
-                                                         <i class="bx
-                                                            bx-down-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Buy BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">14
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.016 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$125.20</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-
-                                         </tbody>
-                                     </table>
-                                 </div>
-                             </div>
-                             <!-- end tab pane -->
-                             <div class="tab-pane" id="transactions-sell-tab" role="tabpanel">
-                                 <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
-                                     <table class="table align-middle
-                                        table-nowrap table-borderless">
-                                         <tbody>
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">15
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.56 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$112.34</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td style="width: 50px;">
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">14
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.016 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$125.20</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">18
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.018 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$145.80</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">15
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.56 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$112.34</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell LTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">16
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">1.88 LTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$94.22</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-                                             <tr>
-                                                 <td>
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">17
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.42 ETH</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$84.32</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-
-
-
-                                             <tr>
-                                                 <td style="width: 50px;">
-                                                     <div class="font-size-22
-                                                        text-danger">
-                                                         <i class="bx
-                                                            bx-up-arrow-circle
-                                                            d-block"></i>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div>
-                                                         <h5 class="font-size-14
-                                                            mb-1">Sell BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">14
-                                                             Mar, 2021</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            mb-0">0.016 BTC</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Coin
-                                                             Value</p>
-                                                     </div>
-                                                 </td>
-
-                                                 <td>
-                                                     <div class="text-end">
-                                                         <h5 class="font-size-14
-                                                            text-muted mb-0">$125.20</h5>
-                                                         <p class="text-muted
-                                                            mb-0 font-size-12">Amount</p>
-                                                     </div>
-                                                 </td>
-                                             </tr>
-                                         </tbody>
-                                     </table>
-                                 </div>
-                             </div>
-                             <!-- end tab pane -->
-                         </div>
-                         <!-- end tab content -->
-                     </div>
-                     <!-- end card body -->
-                 </div>
-                 <!-- end card -->
-             </div>
              <!-- end col -->
 
              <div class="col-xl-4">
@@ -1632,20 +798,65 @@
      $(document).ready(function() {
          initCounterNumber();
      });
- </script>
- <script>
 
-    $.ajax({
-        method: "POST",
-        url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
-        data:{sql:'SELECT COUNT(*) AS cantidad_usuarios FROM usuario'},
-        dataType: 'json',
-        success: function(data){
-            console.log(data)
-            $('#usuarios').attr('data-target',data[0].cantidad_usuarios);
-            $('#usuarios').text(data[0].cantidad_usuarios);
-        }
-    });
+     $.ajax({
+         method: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT COUNT(*) AS cantidad_usuarios FROM usuario'
+         },
+         dataType: 'json',
+         success: function(data) {
+             console.log(data)
+             $('#usuarios').attr('data-target', data[0].cantidad_usuarios);
+             $('#usuarios').text(data[0].cantidad_usuarios);
+         }
+     });
+
+     $.ajax({
+         method: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT COUNT(*) AS cantidad_grupos FROM categoria'
+         },
+         dataType: 'json',
+         success: function(data) {
+             console.log(data)
+             $('#grupos').attr('data-target', data[0].cantidad_grupos);
+             $('#grupos').text(data[0].cantidad_grupos);
+         }
+     });
+
+     $.ajax({
+         method: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT COUNT(*) AS cantidad_clientes FROM clientes'
+         },
+         dataType: 'json',
+         success: function(data) {
+             console.log(data)
+             $('#clientes').attr('data-target', data[0].cantidad_clientes);
+             $('#clientes').text(data[0].cantidad_clientes);
+         }
+     });
+
+     $.ajax({
+         method: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT COUNT(*) AS cantidad_proveedor FROM proveedores'
+         },
+         dataType: 'json',
+         success: function(data) {
+             console.log(data)
+             $('#proveedores').attr('data-target', data[0].cantidad_proveedor);
+             $('#proveedores').text(data[0].cantidad_proveedor);
+         }
+     });
+
+
+
      function crearGrafico(datosCategoria) {
          // Mapea los datos recibidos para obtener las etiquetas (labels) y las series
          var etiquetas = datosCategoria.map(function(categoria) {
@@ -1693,26 +904,16 @@
      // Llama a la función para realizar la solicitud AJAX al cargar la página
      realizarSolicitudAjax();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
      $.ajax({
-         url: './controllers/VentasControllers.php?action=obtenerVentas',
+         type: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT * FROM ventas WHERE MONTH(fecha_V) = MONTH(CURRENT_DATE()) AND YEAR(fecha_V) = YEAR(CURRENT_DATE()); '
+         },
          dataType: 'json',
          success(response) {
+             console.log(' ventas');
+             console.log(response);
              const fechas = response.map(venta => venta.fecha_V);
              const cantidades = response.map(venta => venta.importe_V);
 
@@ -1736,19 +937,16 @@
          }
      });
 
-
-
-
- </script>
-
-
- <script>
      $.ajax({
-         url: './controllers/VentasControllers.php?action=obtenerVentas',
+         type: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT * FROM ventas;'
+         },
          dataType: 'json',
          success: function(response) {
              const productos_mas_vendidos = obtenerProductosMasVendidos(response, 10);
-             console.log(productos_mas_vendidos);
+
              updateProgressBars(productos_mas_vendidos);
          },
          error: function(error) {
@@ -1757,13 +955,13 @@
      });
 
 
-    
+
 
      function updateProgressBars(data) {
          const progressContainer = document.getElementById('progress-container');
          progressContainer.innerHTML = '';
          let totalProductos = 0
-         data.forEach(item=>{
+         data.forEach(item => {
              totalProductos += item.cantidad
          })
 
@@ -1829,5 +1027,252 @@
          const productosMasVendidos = productosOrdenados.slice(0, numProductos);
 
          return productosMasVendidos;
+     }
+
+     // Función para actualizar el gráfico de barras verticales
+     function updateVerticalBarChart(data) {
+         const canvas = document.getElementById('vertical-bar-chart');
+
+         const labels = Object.keys(data);
+         const values = Object.values(data);
+
+         new Chart(canvas, {
+             type: 'bar',
+             data: {
+                 labels: labels,
+                 datasets: [{
+                     label: 'Total Vendido',
+                     data: values,
+                     backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                     borderColor: 'rgba(54, 162, 235, 1)',
+                     borderWidth: 1
+                 }]
+             },
+             options: {
+                 scales: {
+                     y: {
+                         beginAtZero: true
+                     }
+                 }
+             }
+         });
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     // Ejemplo de uso
+     // Suponiendo que obtienes los datos de ventas mediante una solicitud AJAX
+     $.ajax({
+         type: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT  v.*, s.nombreS AS nombre_sucursal, u.nombre_U AS nombre_usuario, c.nombre_Cl AS nombre_cliente FROM ventas AS v LEFT JOIN  sucursal AS s ON v.fk_id_sucursal = s.id_sucursal LEFT JOIN usuario AS u ON v.fk_id_usuario = u.id_usuario LEFT JOIN clientes AS c ON v.fk_id_cliente = c.id_cliente;'
+         },
+         dataType: 'json',
+         success: function(response) {
+             const estadisticas_por_usuario = obtenerEstadisticasPorUsuario(response);
+
+             updateVerticalBarChart(estadisticas_por_usuario);
+         },
+         error: function(error) {
+             console.error('Error en la solicitud AJAX: ', error);
+         }
+     });
+
+     // Esta función debe ser similar a la que has implementado en tu código
+     function obtenerEstadisticasPorUsuario(ventasData) {
+         const estadisticasPorUsuario = {};
+
+         ventasData.forEach(venta => {
+             const {
+                 nombre_usuario
+             } = venta;
+
+             if (!estadisticasPorUsuario[nombre_usuario]) {
+                 estadisticasPorUsuario[nombre_usuario] = {
+                     totalVendido: parseFloat(venta.importe_V),
+                     cantidadVentas: 1 // Inicializar la cantidad de ventas en 1
+                 };
+             } else {
+                 estadisticasPorUsuario[nombre_usuario].totalVendido += parseFloat(venta.importe_V);
+                 estadisticasPorUsuario[nombre_usuario].cantidadVentas++; // Incrementar la cantidad de ventas
+             }
+         });
+
+         return estadisticasPorUsuario;
+     }
+
+     // Función para actualizar el gráfico de barras verticales
+     function updateVerticalBarChart(data) {
+         const canvas = document.getElementById('vertical-bar-chart');
+         console.log(data)
+         const labels = Object.keys(data);
+         const totalVendido = Object.values(data).map(usuario => usuario.totalVendido); // Obtener el total vendido por usuario
+         const cantidadVentas = Object.values(data).map(usuario => usuario.cantidadVentas); // Obtener la cantidad de ventas por usuario
+
+         new Chart(canvas, {
+             type: 'bar',
+             data: {
+                 labels: labels,
+                 datasets: [{
+                     label: 'Total Vendido',
+                     data: totalVendido,
+                     backgroundColor: 'rgba(54, 162, 235, 0.6)', // Color azul para las barras del total vendido
+                     borderColor: 'rgba(54, 162, 235, 1)',
+                     borderWidth: 1
+                 }, {
+                     label: 'Cantidad de Ventas',
+                     data: cantidadVentas,
+                     backgroundColor: 'rgba(255, 99, 132, 0.6)', // Color rosa para las barras de la cantidad de ventas
+                     borderColor: 'rgba(255, 99, 132, 1)',
+                     borderWidth: 1
+                 }]
+             },
+             options: {
+                 scales: {
+                     y: {
+                         beginAtZero: true
+                     }
+                 }
+             }
+         });
+     }
+
+
+
+
+
+
+
+
+
+     // Ejemplo de uso
+     $.ajax({
+         type: "POST",
+         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+         data: {
+             sql: 'SELECT  v.*, s.nombreS AS nombre_sucursal, u.nombre_U AS nombre_usuario, c.nombre_Cl AS nombre_cliente FROM ventas AS v LEFT JOIN  sucursal AS s ON v.fk_id_sucursal = s.id_sucursal LEFT JOIN usuario AS u ON v.fk_id_usuario = u.id_usuario LEFT JOIN clientes AS c ON v.fk_id_cliente = c.id_cliente;'
+         },
+         dataType: 'json',
+         success: function(response) {
+             obtenerCategoriasMasVendidas(response).then(categorias_mas_vendidas => {
+                 updateCategoryBarChart1(categorias_mas_vendidas); // Llamar a la función para actualizar el gráfico de barras por categorías
+             }).catch(error => {
+                 console.error('Error al obtener las categorías más vendidas: ', error);
+             });
+         },
+         error: function(error) {
+             console.error('Error en la solicitud AJAX: ', error);
+         }
+     });
+
+
+     // Función para actualizar el gráfico de barras por categorías
+     function updateCategoryBarChart1(categorias) {
+         const canvas1 = document.getElementById('category-bar-chart');
+         console.log('categorias');
+         console.log(categorias);
+         const labels1 = Object.keys(categorias);
+         const totalVendido = Object.values(categorias).map(categoria => categoria.totalVendido); // Obtener el total vendido por usuario
+         const cantidadVentas = Object.values(categorias).map(categoria => categoria.cantidadVentas); // Obtener la cantidad de ventas por usuario
+
+         new Chart(canvas1, {
+             type: 'bar',
+             data: {
+                 labels: labels1,
+                 datasets: [{
+                         label: 'Precio Total',
+                         data: totalVendido,
+                         backgroundColor: 'rgba(255, 255, 132, 0.6)', // Color rosa para las barras de la cantidad vendida por categoría
+                         borderColor: 'rgba(255, 255, 132, 1)',
+                         borderWidth: 1
+                     },
+                     {
+                         label: 'Cantidad Total',
+                         data: cantidadVentas,
+                         backgroundColor: 'rgba(0, 0, 123, 0.6)', // Color rosa para las barras de la cantidad vendida por categoría
+                         borderColor: 'rgba(0, 0, 123, 0.6)',
+                         borderWidth: 1
+                     }
+                 ]
+             },
+             options: {
+                 scales: {
+                     y: {
+                         beginAtZero: true
+                     }
+                 }
+             }
+         });
+     }
+
+     // Función para obtener las categorías más vendidas y la cantidad de productos vendidos en cada categoría
+     function obtenerCategoriasMasVendidas(ventasData) {
+         const categorias = {};
+
+         const promises = ventasData.map(venta => {
+             const detalle = JSON.parse(venta.detalle_V);
+
+             // Mapear el detalle de cada venta a una lista de promesas AJAX
+             return Promise.all(detalle.map(producto => {
+                 const idArticulo = producto.id_articulo;
+
+                 // Devolver una promesa para cada solicitud AJAX
+                 return new Promise((resolve, reject) => {
+                     $.ajax({
+                         type: "POST",
+                         url: './controllers/VentasControllers.php?action=obtenerVentasPorCore',
+                         data: {
+                             sql: 'SELECT a.*, c.nombre_C FROM articulo a INNER JOIN categoria c ON a.fk_id_categoria =  c.id_categoria WHERE id_articulo = ' + idArticulo,
+                         },
+                         dataType: 'json',
+                         success: function(response) {
+                             const nombreCategoria = response[0].nombre_C;
+                             const cantidad = parseInt(producto.cantidad_venta);
+                             const sub_total = parseInt(producto.sub_total);
+
+                             if (!categorias[nombreCategoria]) {
+                                 categorias[nombreCategoria] = {
+                                     totalVendido: parseFloat(sub_total),
+                                     cantidadVentas: cantidad // Inicializar la cantidad de ventas en 1
+                                 };
+                             } else {
+                                 categorias[nombreCategoria].totalVendido += parseFloat(sub_total);
+                                 categorias[nombreCategoria].cantidadVentas += cantidad; // Incrementar la cantidad de ventas
+                             }
+                             resolve(); // Resuelve la promesa después de procesar los datos
+                         },
+                         error: function(error) {
+                             console.error('Error en la solicitud AJAX para obtener el ID de categoría: ', error);
+                             reject(error); // Rechaza la promesa en caso de error
+                         }
+                     });
+                 });
+             }));
+         });
+
+         // Devuelve una promesa que se resuelve cuando todas las solicitudes AJAX se completan
+         return Promise.all(promises).then(() => categorias);
      }
  </script>

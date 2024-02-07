@@ -9,38 +9,46 @@
 
 <!-- Responsive datatable examples -->
 <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-  <style>
-        @keyframes parpadeo {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .parpadeo {
-            animation: parpadeo 1s infinite;
-        }
-    </style>
 <style>
-    /* Estilos para la impresión */
-    @media print {
-        .detalles {
-            visibility: hidden;
-            width: 0
+    @keyframes parpadeo {
+        0% {
+            opacity: 1;
         }
 
-        .compras {
-            margin-left: 0;
+        50% {
+            opacity: 0;
         }
 
+        100% {
+            opacity: 1;
+        }
     }
+
+    .parpadeo {
+        animation: parpadeo 1s infinite;
+    }
+</style>
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+        /* Firefox */
+    }
+
+    .compatibilidad-cell {
+        max-height: 40px;
+        /* Establece la altura máxima deseada */
+        overflow: hidden;
+        /* Oculta el texto que se desborda */
+        word-wrap: break-word;
+        /* Permite que el texto se envuelva dentro de la caja si es necesario */
+    }
+</style>
 </style>
 <div class="page-content">
     <div class="container-fluid">
@@ -182,7 +190,7 @@
                                 </div>
                                 <div class="d-print-none mt-3">
                                     <div class="float-end">
-                                       <a href="#" class="btn btn-primary w-md waves-effect waves-light" id="crearCompra"> Guardar</a>
+                                        <a href="#" class="btn btn-primary w-md waves-effect waves-light" id="crearCompra"> Guardar</a>
                                     </div>
                                 </div>
                             </div>
@@ -489,7 +497,7 @@
                         </button>`;
                         }
                     }
-                ] 
+                ]
             });
 
         });
@@ -617,6 +625,9 @@
             console.log(total);
             $('#total').text(total);
             $('#costo_C').val(total);
+            $('input[type="number"]').on('wheel', function(e) {
+                e.preventDefault();
+            });
         }
         // Función para agregar una nueva fila de producto al carrito
         function agregarFila(data) {
@@ -728,9 +739,9 @@
             let subtotal = cantidad * precioNeto;
 
             // Calcular los nuevos precios
-             precioDist = (precioNeto / 0.92).toFixed(2); // Aumento del 5%
-             precioTec = (precioDist / 0.95).toFixed(2) // Aumento del 10%
-             precioPub = (precioDist / 0.8).toFixed(2) // Aumento del 15%
+            precioDist = (precioNeto / 0.92).toFixed(2); // Aumento del 5%
+            precioTec = (precioDist / 0.95).toFixed(2) // Aumento del 10%
+            precioPub = (precioDist / 0.8).toFixed(2) // Aumento del 15%
 
             var productoExistente = carrito.find(item => item.id == id);
 

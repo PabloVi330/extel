@@ -19,7 +19,7 @@ class VentaController
       // echo '<pre>';
       // print_r($_POST);
       // echo '</pre>';
-      // exit();
+   
       $detalle_V = json_decode($_POST['detalle_V'], true);
       $estado_V = $_POST['estado_V'];
       $metodo_pago_V = $_POST['metodo_pago_V'];
@@ -29,15 +29,16 @@ class VentaController
 
 
       if( $_POST['tipo_V'] == "venta" ){
-         $pago = $efectivo_V + $transferencia_V;
-         
+         $pago = floatval($efectivo_V + $transferencia_V);
          if($pago < $importe_V){
             
             $_POST['estado_V'] = 'por pagar';
             $_POST['monto_V'] =   $pago;
-         }else {
+         }
+         if($pago >= $importe_V){
             $_POST['estado_V'] = 'cancelado';
-            $_POST['monto_V'] =   $_POST['importe_V'];
+            $_POST['efectivo_V'] = $importe_V - $transferencia_V;
+            $_POST['monto_V'] =  floatval( $_POST['importe_V']);
          }
          
       }
@@ -45,6 +46,7 @@ class VentaController
       if( $_POST['tipo_V'] == "proforma"){
 
          $_POST['estado_V'] = 'por pagar';
+         $_POST['monto_V'] =   0;
       }
 
 
@@ -53,6 +55,9 @@ class VentaController
       }else{
          $_POST['verificado_V'] = "SI";
       }
+
+      
+
       $crearVenta = $this->venta->crearVenta($_POST);
 
       if ($crearVenta == "ok") {

@@ -463,6 +463,10 @@
 
         }
         $(document).ready(function() {
+
+            $('input[type="number"]').on('wheel', function(e) {
+                e.preventDefault();
+            });
             $("#limpiar").on("click", function(e) {
                 e.preventDefault();
                 resetForm();
@@ -942,7 +946,7 @@
                 success: function(response) {
                     if (response == '"ok"') {
                         $('#modalEditarArticulo').modal('hide');
-                       resetForm();
+                        resetForm();
                         Swal.fire({
                             icon: 'success',
                             title: 'Exito ',

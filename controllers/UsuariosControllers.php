@@ -77,7 +77,7 @@ class UsuarioController
     // Actualizar un usuario
     public function editarUsuario()
     {
-
+        echo '<pre>';print_r($_POST); echo '</pre>';
         $data = $_POST;
         if (!empty($_FILES['Eimagenes']['name'][0])) {
             $directorioDestino = 'uploads/users/';
