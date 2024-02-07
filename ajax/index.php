@@ -1303,7 +1303,7 @@
             nuevaFila += `<td > <input type="text"  class="form-control entrega" value="${producto.entrega}"></td>`
         }
 
-        nuevaFila += `<td class="text-end subtotal" value="">${producto.sub_total}</td>
+        nuevaFila += `<td class="text-end subtotal" value="">${producto.sub_total.toFixed(2)}</td>
                         <td> <button class="btn btn-sm btn-danger btn-eliminar" step="0.01" id="${id}"><i class="fas fa-trash-alt fa-2x"></i></button></td>
                 </tr>`;
         $(nuevaFila).insertBefore('#tabla-ventas tbody tr:last');
@@ -1552,26 +1552,7 @@
                     dataType: 'json',
                     cache: false,
                     success: function(response) {
-                        var detalle_V = JSON.parse(response.detalle_V)
-                        detalle_V.forEach(function(producto) {
-                            $.ajax({
-                                type: 'POST',
-                                url: './controllers/ArticulosControllers.php?action=obtenerArticuloPorId',
-                                data: {
-                                    id_articulo: producto.id_articulo
-                                },
-                                dataType: 'json',
-                                cache: false,
-                                success: function(response) {
 
-                                    console.log('datos parseados' + response);
-                                    producto.stock_A = response.stock_A
-                                    agregarFila(producto);
-                                }
-                            })
-
-                        });
-                        detalle_V = [];
                         $(`#fk_id_cliente option[value=""]`).val(response.fk_id_cliente);
                         $.ajax({
                             type: 'POST',
@@ -1593,10 +1574,26 @@
                             }
                         })
 
+                        var detalle_V = JSON.parse(response.detalle_V)
+                        detalle_V.forEach(function(producto) {
+                            $.ajax({
+                                type: 'POST',
+                                url: './controllers/ArticulosControllers.php?action=obtenerArticuloPorId',
+                                data: {
+                                    id_articulo: producto.id_articulo
+                                },
+                                dataType: 'json',
+                                cache: false,
+                                success: function(response) {
 
+                                    console.log('datos parseados' + response);
+                                    producto.stock_A = response.stock_A
+                                    agregarFila(producto);
+                                }
+                            })
 
-
-
+                        });
+                        detalle_V = [];
                     },
                     error: function(error) {
                         console.log('Error en la petición AJAX:', error);
